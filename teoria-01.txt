@@ -1,0 +1,11 @@
+************* GLOSARIO   ***********************
+
+HASH: Mezcla de cosas, comprime la informacion en un archivo de longitud fija no importa el tamaño
+
+ATBASH : Cifrado con el alfabeto al revés
+CÉSAR: Corrimiento del alfabeto dependiento de la clave y aritmética modular
+TRANSPOSICIÓN COLUMNAR: Se transpone el texto en columnas y la clave es el número de columnas
+SUSTITUCIÓN: Se reordena el alfabeto con un orden diferente y se reemplaza de acuerdo con el alfabeto ordenado
+
+**************CIFRADO SIMETRICO******************
+

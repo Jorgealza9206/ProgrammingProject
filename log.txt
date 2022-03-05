@@ -1,0 +1,125 @@
+Nombre del video / Youtuber o autor / URL / Comentarios
+
+------ CURSO DE CONTANDO BITS DE CRIPTOGRAFÍA  --------------
+
+Curso de CRIPTOGRAFÍA Informática Básica para Principiantes (desde CERO)🔐✅ / https://www.youtube.com/playlist?list=PLG1hKOHdoXkt1V51gyPMZqgQ8LjK3LfmJ
+
+1. Criptografía SIMÉTRICA: Definición y Características ➤[CIFRADO de Datos] 🔑 Tipos de Criptografía / Contando Bits / https://www.youtube.com/watch?v=SlSmI18T2Ns / Explica que es cifrado simétrico
+
+2. Criptografía ASIMÉTRICA ➤ (Clave Pública y Privada) 🔒 Tipos de Criptografía 🔑 / Contando Bits / https://www.youtube.com/watch?v=SIIqLgqRMCo  /  Explica el cifrado asimétrico
+
+3. Aprende Qué es la Función HASH en Criptografía + [Ejemplo con PYTHON🐍] 🔐 / Contando Bits / https://www.youtube.com/watch?v=it9suW1HN3Q / Explica cómo funciona el algoritmo HASH
+
+4. Qué es y Cómo Funciona el Navegador TOR y la DEEP WEB: El ONION ROUTING 🧅👨‍💻 / Contando Bits / https://www.youtube.com/watch?v=oaQO5uYTtwI&list=PLG1hKOHdoXkt1V51gyPMZqgQ8LjK3LfmJ&index=6 / Explica como funciona el navegador web TOR
+
+******Para este punto se abandona el tutorial porque no explica nada técnico de criptografía, solo los principios******
+
+17/11/2021
+
+5. Se ve el video de Cifrado Asimétrico con Python / https://www.youtube.com/watch?v=MkdlDwqvUHk&t=87s y se crean dos archivos en la carpeta ProgrammingDegreeProject:
+
+	1.cifradoAsimetricoRSA2ENC.py: Cifra y descifra el mensaje
+
+	2.cifradoAsimetricoRSA2ENC.py: Es un código que cree para poder descifrar con la llave privada creada en el primer archivo, sin embargo sale con error "Traceback (most recent call last):
+	  File "C:\Users\Alex\Dropbox\ProgrammingDegreeProject\cifradoAsimetricoRSA2DES.py", line 28, in <module>
+	    message = cipher.decrypt(encrypted_message) #descifrar
+	  File "C:\Users\Alex\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\Crypto\Cipher\PKCS1_OAEP.py", line 167, in decrypt
+	    raise ValueError("Ciphertext with incorrect length.")
+	ValueError: Ciphertext with incorrect length."
+
+6.Cifrado RSA - Programa en Python - Algoritmos - Cifrado y Descifrado de un mensaje / David Alejandro Nina Rojas /https://www.youtube.com/watch?v=kiowXySiuP8
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+INICIANDO CURSO DE UDEMY - Criptografía en Python
+
+Video 2. Instalando Sublime Text. Aquí descarga Sublime Text, varios paquetes para Anaconda  y Python, y prueba que no haya subrayado
+Video 3. Conceptos Básicos
+
+///////Me salto al video 7 de listas para saltar tema ya aprendido/////////
+
+Video 7.Listas
+Video 9.Diccionario
+Video 14. Cifrado Atbash: 2:32
+
+SE TERMINA EL CURSO Y SE PROCEDE A BUSCAR UN ALGORITMO PARA HACER CIFRADO SIMÉTRICO
+
+EN EL PROCESO DE ESCOGENCIA DEL CIFRADO SIMÉTRICO SE VEN LOS SIGUIENTES VIDEOS
+
+1. Algoritmos de Cifrado // https://www.youtube.com/watch?v=awLk3jES1l8&t=49s // 
+Jesús Domínguez Gutú // Describe los distuintos tipos de algoritmos de cifrado simétrico y asimétrico
+
+2. Algoritmo Cifrado BlowFish // https://www.youtube.com/watch?v=6cHwhqYv84I // 
+Eder Kinson // Describe el algoritmo Blowfish, se recomienda descargar Blowfish Advanced CS
+
+3.[Página web] Criptografía en Python - AES // https://pythondiario.com/2020/07/criptografia-en-python-aes.html // Joan Daemen // Explica cómo manejar la librería de Python de pycryptodome // 20/12/2021
+
+4.[Página web] Welcome to PyCryptodome’s documentation // https://pycryptodome.readthedocs.io/en/latest/ // Documentación de la librería PyCryptodome // 20-12-2021
+
+Se hace un esquema de orden de trabajo:
+
+	1. Se estudiará el algoritmo de Nina RSA https://www.youtube.com/watch?v=kiowXySiuP8
+	2. Se implementará por librerías el algoritmo AES citado en el inciso 4 de la numeración anterior
+	3. Se implementará un algoritmo de cifrado con modelos caóticos
+
+Para el (1), se estudia el algoritmo de Nina y se harán varios cambios, dentro del cual se pretende generar números primos de manera aleatoria, para ellos se ve este informe de la documentación de Python:
+
+	1. [Página web]: random —Generar números pseudoaleatorios // https://docs.python.org/es/3/library/random.html // Se lee la documentación para generar números aleatorios.
+
+Por recomendación de la página anterior se dispone a leer la siguiente documentación ya que trabaja para criptografía seguridad.
+
+	2. [Página web]: secrets — Genera números aleatorios seguros para trabajar con secretos criptográficos // https://docs.python.org/es/3/library/secrets.html#module-secrets // Se lee la documentación para generar números aleatorios
+
+Se decide trabajar en generar un número aleatorio de primos cualquiera con la librería secrets del RSA_Nina
+
+Se logra crear el código RSA_NinaDES y RSA_NinaENC que se encarga de dividir el emisor y el receptor
+
+Se retoma para trabajar con la libreria de AES  de Python: [Página web] Welcome to PyCryptodome’s documentation // https://pycryptodome.readthedocs.io/en/latest/ // Documentación de la librería PyCryptodome // 20-12-2021
+
+Se crea un script de Python con el código propuesto
+
+Se ven turotiales para hacer una capa, la cual cifrara la llave simétrica del algoritmo AES, con el algoritmo de Diff-Heltman https://www.youtube.com/watch?v=bMO59atm8yc y https://www.youtube.com/watch?v=vZToAM4kwjM
+
+Después de probar el código ejemplo de cifrado híbrido RSA-AES se dispone mirar las librerías propuestas por esta página https://www.lawebdelprogramador.com/foros/Python/1668838-como-enviar-datos-por-una-red-local.html, bajo las librerías de Python "Sockets"
+
+	1. https://docs.python.org/3.5/library/socket.html
+	2. https://docs.python.org/3.5/library/socket.html#example
+
+Se deja planteado el primer ejemplo
+
+Se inicia viendo un video como segundo ejemplo al anterior de hacer sockets en python https://www.youtube.com/watch?v=nJYp3_X_p6c // codigofacilito
+
+cd Documents/"Jorge Alza"/ProgrammingDegreeProject
+python socket_ejm2ServerYoutube.py
+python socket_ejm2ClientYoutube.py
+
+Video se deja obsoleto por usar Python 2.x
+
+Se hace el video para ejecutar los siguientes scripts:
+
+https://www.youtube.com/watch?v=FTdii0o5vBM // Video con el que se hace un chat en sockets
+
+python Documents/"Jorge Alza"/ProgrammingDegreeProject/socket_ejm3ServerYoutube.py
+python Documents/"Jorge Alza"/ProgrammingDegreeProject/socket_ejm3ClientYoutube.py
+
+python Dropbox/ProgrammingDegreeProject/socket_ejm3ServerYoutube.py
+python Dropbox/ProgrammingDegreeProject/socket_ejm3ClientYoutube.py
+
+python Dropbox/ProgrammingDegreeProject/socket_ejm3ServerYoutubeCasa.py
+python Dropbox/ProgrammingDegreeProject/socket_ejm3ClientYoutubeCasa.py
+
+Se crea un programa para cifrar el socket ya creado
+
+python Dropbox/ProgrammingDegreeProject/cifradoEmisorAES_RSA.py
+python Documents/"Jorge Alza"/ProgrammingDegreeProject/cifradoEmisorAES_RSA.py
+python Documents/"Jorge Alza"/ProgrammingDegreeProject/cifradoReceptorAES_RSA.py
+
+Ayuda en GIT:
+
+https://es.stackoverflow.com/questions/41489/volver-a-commit-anterior/41497
+
+Se comienza a hacer el curso de Platzi de Python a la vez que se va a comenzar a investigar a cerca de GNU Radio
+
+Curso de Platzi:
+
+Video 4. Aquí es importante consultar la documentación para instalarlo en Ubuntu

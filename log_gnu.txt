@@ -1,0 +1,41 @@
+SE inicia viendo el siguiente video:
+
+https://www.youtube.com/watch?v=KCtcHaPr7Ug
+
+Minuto 46:52 habla de implementar labels en interfaz gráfica
+
+Se ve el segundo video: https://youtu.be/IimrefIITd8
+
+Minuto 2:00 osmocom: driver del RTL-SDR
+
+Minuto 30:15 habla sobre el posisionamiento de los cuadros dentro del GUI
+
+Video 3: https://www.youtube.com/watch?v=Bb8_UxOUaaY&t=801s
+
+Minuto 17:32 para descargar el osmocom en Linux
+
+Trabajo referencia Cifrado SDR:
+http://repositorio.espe.edu.ec/bitstream/21000/15538/1/T-ESPE-040614.pdf
+
+Busqueda Google Scholar: "cifrado"+"gnu radio"
+
+Video en donde se muestra el bloque para montar código Minuto 3:14:
+https://www.youtube.com/watch?v=wwhebAODG1M
+
+Manual de GNU Radio:
+https://ia800808.us.archive.org/19/items/ManualGnuRadio/ManualGnuRadio.pdf
+
+Pendiente por ver: Objetivo. Buscar cómo se genera una trama de bits de un archivo o entrada de audio
+https://www.youtube.com/watch?v=_0xF_eQoSGA
+
+Fuente: http://www.scielo.org.co/scielo.php?script=sci_arttext&pid=S1692-17982020000100019
+R. Anand et al., “GNU Radio Based Control System,” In Advances in Computing and Communications (ICACC), International Conference on, págs. 259-262, 2012. [ Links ]
+
+19. J. Demel, S. Koslowski y F.K. Jondral, “A LTE Receiver Framework Implementation in GNU Radio”. [ Links ]
+Objetivo: Ver como hicieron el trabajo en GNU Radio, buscar alguna trama de bits
+
+Fuente: Leer y escribir archivos en Python:
+https://unipython.com/archivos-en-python-lectura-y-escritura/
+
+Fuente: Ejecutar script de python, dentro de otro script de python:
+https://www.delftstack.com/es/howto/python/python-run-another-python-script/
