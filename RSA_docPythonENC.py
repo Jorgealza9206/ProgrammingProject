@@ -2,8 +2,8 @@ from Crypto.PublicKey import RSA
 from Crypto.Random import get_random_bytes
 from Crypto.Cipher import AES, PKCS1_OAEP
 
-data = open("sample_1.bin", "rb")
-#data = open("archivo1.txt", "r")
+#data = open("sample_1.bin", "rb")
+data = open("labrador-barking-daniel_simon.wav", "rb")
 datos = data.read()
 print(data)
 file_out = open("encrypted_data.bin", "wb") #Exporta un archivo ¿encriptado?
