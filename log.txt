@@ -120,6 +120,4 @@ https://es.stackoverflow.com/questions/41489/volver-a-commit-anterior/41497
 
 Se comienza a hacer el curso de Platzi de Python a la vez que se va a comenzar a investigar a cerca de GNU Radio
 
-Curso de Platzi:
-
-Video 4. Aquí es importante consultar la documentación para instalarlo en Ubuntu
+7. Como instalar RTL-SDR 👌 y prepárate, para escuchar todas las frecuencias de radio😱 (SDR-SHARP) // https://www.youtube.com/watch?v=t-7UbumWofk // Video con el que instale el controlador rtl a windows
