@@ -88,8 +88,7 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: /home/alex/Documents/ProgrammingProject/Melendi - Destino o Casualidad ft.
-      Ha Ash VDownloader.wav
+    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/encrypted_data.bin
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -104,6 +103,28 @@ blocks:
     coordinate: [38, 234]
     rotation: 0
     state: enabled
+- name: blocks_file_source_1
+  id: blocks_file_source
+  parameters:
+    affinity: ''
+    alias: ''
+    begin_tag: pmt.PMT_NIL
+    comment: ''
+    file: ''
+    length: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    repeat: 'True'
+    type: short
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [40, 108.0]
+    rotation: 0
+    state: disabled
 - name: blocks_multiply_const_vxx_0
   id: blocks_multiply_const_vxx
   parameters:
@@ -157,25 +178,6 @@ blocks:
     coordinate: [303, 285]
     rotation: 0
     state: enabled
-- name: blocks_wavfile_source_0
-  id: blocks_wavfile_source
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    file: /home/alex/Documents/ProgrammingProject/Melendi - Destino o Casualidad ft.
-      Ha Ash VDownloader.wav
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    nchan: '1'
-    repeat: 'True'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [28, 140]
-    rotation: 0
-    state: disabled
 - name: uhd_usrp_sink_0
   id: uhd_usrp_sink
   parameters:
@@ -460,7 +462,6 @@ connections:
 - [blocks_multiply_const_vxx_0, '0', analog_wfm_tx_0, '0']
 - [blocks_multiply_const_vxx_1, '0', uhd_usrp_sink_0, '0']
 - [blocks_short_to_float_0, '0', blocks_multiply_const_vxx_0, '0']
-- [blocks_wavfile_source_0, '0', blocks_multiply_const_vxx_0, '0']
 
 metadata:
   file_format: 1
