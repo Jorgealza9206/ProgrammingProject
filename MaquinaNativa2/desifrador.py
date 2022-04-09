@@ -6,7 +6,6 @@
 #
 # GNU Radio Python Flow Graph
 # Title: Not titled yet
-# Author: Alex
 # GNU Radio version: v3.8.2.0-57-gd71cd177
 
 from distutils.version import StrictVersion
@@ -25,21 +24,20 @@ from PyQt5 import Qt
 from gnuradio import qtgui
 from gnuradio.filter import firdes
 import sip
-from gnuradio import analog
 from gnuradio import audio
-from gnuradio import filter
+from gnuradio import blocks
+import pmt
 from gnuradio import gr
 import sys
 import signal
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
-import osmosdr
-import time
+from gnuradio.qtgui import Range, RangeWidget
 
 from gnuradio import qtgui
 
-class Receptor(gr.top_block, Qt.QWidget):
+class desifrador(gr.top_block, Qt.QWidget):
 
     def __init__(self):
         gr.top_block.__init__(self, "Not titled yet")
@@ -62,7 +60,7 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "Receptor")
+        self.settings = Qt.QSettings("GNU Radio", "desifrador")
 
         try:
             if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
@@ -75,36 +73,15 @@ class Receptor(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.samp_rate = samp_rate = 2e6
+        self.volumen = volumen = 0.2
+        self.samp_rate = samp_rate = 44100
 
         ##################################################
         # Blocks
         ##################################################
-        self.rtlsdr_source_0 = osmosdr.source(
-            args="numchan=" + str(1) + " " + ""
-        )
-        self.rtlsdr_source_0.set_time_unknown_pps(osmosdr.time_spec_t())
-        self.rtlsdr_source_0.set_sample_rate(samp_rate)
-        self.rtlsdr_source_0.set_center_freq(87.5e6, 0)
-        self.rtlsdr_source_0.set_freq_corr(0, 0)
-        self.rtlsdr_source_0.set_dc_offset_mode(0, 0)
-        self.rtlsdr_source_0.set_iq_balance_mode(0, 0)
-        self.rtlsdr_source_0.set_gain_mode(False, 0)
-        self.rtlsdr_source_0.set_gain(10, 0)
-        self.rtlsdr_source_0.set_if_gain(20, 0)
-        self.rtlsdr_source_0.set_bb_gain(20, 0)
-        self.rtlsdr_source_0.set_antenna('', 0)
-        self.rtlsdr_source_0.set_bandwidth(200e3, 0)
-        self.rational_resampler_xxx_1 = filter.rational_resampler_fff(
-                interpolation=48,
-                decimation=50,
-                taps=None,
-                fractional_bw=None)
-        self.rational_resampler_xxx_0 = filter.rational_resampler_ccc(
-                interpolation=1,
-                decimation=4,
-                taps=None,
-                fractional_bw=None)
+        self._volumen_range = Range(0, 1, 0.1, 0.2, 200)
+        self._volumen_win = RangeWidget(self._volumen_range, self.set_volumen, 'volumen', "counter_slider", float)
+        self.top_grid_layout.addWidget(self._volumen_win)
         self.qtgui_freq_sink_x_0 = qtgui.freq_sink_f(
             1024, #size
             firdes.WIN_BLACKMAN_hARRIS, #wintype
@@ -146,53 +123,45 @@ class Receptor(gr.top_block, Qt.QWidget):
 
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_freq_sink_x_0_win)
-        self.low_pass_filter_0 = filter.fir_filter_ccf(
-            1,
-            firdes.low_pass(
-                1,
-                samp_rate,
-                100e3,
-                1e6,
-                firdes.WIN_HAMMING,
-                6.76))
-        self.audio_sink_0 = audio.sink(48000, '', True)
-        self.analog_wfm_rcv_0 = analog.wfm_rcv(
-        	quad_rate=500e3,
-        	audio_decimation=10,
-        )
+        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(volumen)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_float*1, 'C:\\Users\\Usuario\\OneDrive\\Escritorio\\ProgrammingProject\\MaquinaNativa2\\sample_2.bin', True, 0, 0)
+        self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
+        self.audio_sink_0 = audio.sink(44100, '', True)
 
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.analog_wfm_rcv_0, 0), (self.qtgui_freq_sink_x_0, 0))
-        self.connect((self.analog_wfm_rcv_0, 0), (self.rational_resampler_xxx_1, 0))
-        self.connect((self.low_pass_filter_0, 0), (self.analog_wfm_rcv_0, 0))
-        self.connect((self.rational_resampler_xxx_0, 0), (self.low_pass_filter_0, 0))
-        self.connect((self.rational_resampler_xxx_1, 0), (self.audio_sink_0, 0))
-        self.connect((self.rtlsdr_source_0, 0), (self.rational_resampler_xxx_0, 0))
+        self.connect((self.blocks_file_source_0, 0), (self.blocks_multiply_const_vxx_0, 0))
+        self.connect((self.blocks_file_source_0, 0), (self.qtgui_freq_sink_x_0, 0))
+        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.audio_sink_0, 0))
 
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "Receptor")
+        self.settings = Qt.QSettings("GNU Radio", "desifrador")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
+
+    def get_volumen(self):
+        return self.volumen
+
+    def set_volumen(self, volumen):
+        self.volumen = volumen
+        self.blocks_multiply_const_vxx_0.set_k(self.volumen)
 
     def get_samp_rate(self):
         return self.samp_rate
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.low_pass_filter_0.set_taps(firdes.low_pass(1, self.samp_rate, 100e3, 1e6, firdes.WIN_HAMMING, 6.76))
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
-        self.rtlsdr_source_0.set_sample_rate(self.samp_rate)
 
 
 
 
 
-def main(top_block_cls=Receptor, options=None):
+def main(top_block_cls=desifrador, options=None):
 
     if StrictVersion("4.5.0") <= StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
         style = gr.prefs().get_string('qtgui', 'style', 'raster')
