@@ -78,6 +78,24 @@ blocks:
     coordinate: [949, 222]
     rotation: 0
     state: true
+- name: blocks_file_sink_0
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: C:\Users\Usuario\OneDrive\Escritorio\ProgrammingProject\MaquinaNativa2\encrypted_data.bin
+    type: float
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [834, 404]
+    rotation: 0
+    state: true
 - name: low_pass_filter_0
   id: low_pass_filter
   parameters:
@@ -581,6 +599,7 @@ blocks:
     state: true
 
 connections:
+- [analog_wfm_rcv_0, '0', blocks_file_sink_0, '0']
 - [analog_wfm_rcv_0, '0', qtgui_freq_sink_x_0, '0']
 - [analog_wfm_rcv_0, '0', rational_resampler_xxx_1, '0']
 - [low_pass_filter_0, '0', analog_wfm_rcv_0, '0']
