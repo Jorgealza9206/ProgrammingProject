@@ -88,8 +88,7 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/Melendi - Destino
-      o Casualidad ft. Ha Ash VDownloader.wav
+    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/sample_1.bin
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
