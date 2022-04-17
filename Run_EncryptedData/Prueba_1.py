@@ -182,7 +182,7 @@ class Prueba_1(gr.top_block, Qt.QWidget):
         self._freq_win = RangeWidget(self._freq_range, self.set_freq, "'freq'", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._freq_win)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(volumen)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_float*1, '/home/alex/Documents/ProgrammingProject/encrypted_data.bin', False, 0, 0)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_float*1, '/home/alex/Documents/ProgrammingProject/MaquinaNativa1/encrypted_data.wav', False, 0, 0)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
         self.audio_sink_0 = audio.sink(samp_rate, '', True)
 

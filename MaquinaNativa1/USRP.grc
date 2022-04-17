@@ -88,7 +88,7 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/encrypted_data.bin
+    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/encrypted_data.wav
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -110,7 +110,8 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: ''
+    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/Melendi - Destino
+      o Casualidad ft. Ha Ash VDownloader.wav
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -459,6 +460,7 @@ blocks:
 connections:
 - [analog_wfm_tx_0, '0', blocks_multiply_const_vxx_1, '0']
 - [blocks_file_source_0, '0', blocks_short_to_float_0, '0']
+- [blocks_file_source_1, '0', blocks_short_to_float_0, '0']
 - [blocks_multiply_const_vxx_0, '0', analog_wfm_tx_0, '0']
 - [blocks_multiply_const_vxx_1, '0', uhd_usrp_sink_0, '0']
 - [blocks_short_to_float_0, '0', blocks_multiply_const_vxx_0, '0']

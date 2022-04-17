@@ -100,6 +100,28 @@ blocks:
     bus_structure: null
     coordinate: [416, 220.0]
     rotation: 0
+    state: disabled
+- name: blocks_file_source_0
+  id: blocks_file_source
+  parameters:
+    affinity: ''
+    alias: ''
+    begin_tag: pmt.PMT_NIL
+    comment: ''
+    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/sample_1.bin
+    length: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    repeat: 'False'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [144, 236.0]
+    rotation: 0
     state: true
 - name: blocks_multiply_const_vxx_0
   id: blocks_multiply_const_vxx
@@ -137,7 +159,7 @@ blocks:
     bus_structure: null
     coordinate: [120, 152.0]
     rotation: 0
-    state: true
+    state: disabled
 - name: qtgui_freq_sink_x_0
   id: qtgui_freq_sink_x
   parameters:
@@ -318,6 +340,9 @@ blocks:
     state: enabled
 
 connections:
+- [blocks_file_source_0, '0', blocks_multiply_const_vxx_0, '0']
+- [blocks_file_source_0, '0', qtgui_freq_sink_x_0, '0']
+- [blocks_file_source_0, '0', qtgui_time_sink_x_0, '0']
 - [blocks_multiply_const_vxx_0, '0', audio_sink_0, '0']
 - [blocks_wavfile_source_0, '0', blocks_file_sink_0, '0']
 - [blocks_wavfile_source_0, '0', blocks_multiply_const_vxx_0, '0']
