@@ -44,6 +44,18 @@ blocks:
     coordinate: [184, 12]
     rotation: 0
     state: enabled
+- name: samp_rate_2
+  id: variable
+  parameters:
+    comment: ''
+    value: '48000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [471, 24]
+    rotation: 0
+    state: enabled
 - name: volumen
   id: variable_qtgui_range
   parameters:
@@ -106,7 +118,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: C:\Users\Julian\Desktop\ProgrammingProject\MaquinaNativa2\encrypted_data.bin
+    file: C:\Users\Julian\Desktop\ProgrammingProject\MaquinaNativa2\encrypted_data.wav
     type: float
     unbuffered: 'False'
     vlen: '1'
@@ -114,7 +126,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [834, 403]
+    coordinate: [835, 405]
     rotation: 0
     state: enabled
 - name: blocks_multiply_const_vxx_0
@@ -133,6 +145,24 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [1020, 183]
+    rotation: 0
+    state: true
+- name: blocks_wavfile_sink_0
+  id: blocks_wavfile_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    bits_per_sample: '8'
+    comment: ''
+    file: C:\Users\Julian\Desktop\ProgrammingProject\MaquinaNativa2\Melendi - Destino
+      o Casualidad ft. Ha Ash VDownloader.wav
+    nchan: '1'
+    samp_rate: samp_rate_2
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1074, 376]
     rotation: 0
     state: true
 - name: low_pass_filter_0
@@ -743,6 +773,7 @@ connections:
 - [low_pass_filter_0, '0', analog_wfm_rcv_0, '0']
 - [rational_resampler_xxx_0, '0', low_pass_filter_0, '0']
 - [rational_resampler_xxx_1, '0', blocks_multiply_const_vxx_0, '0']
+- [rational_resampler_xxx_1, '0', blocks_wavfile_sink_0, '0']
 - [rtlsdr_source_0, '0', rational_resampler_xxx_0, '0']
 
 metadata:
