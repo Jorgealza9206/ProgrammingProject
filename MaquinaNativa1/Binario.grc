@@ -100,7 +100,7 @@ blocks:
     bus_structure: null
     coordinate: [416, 220.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_file_source_0
   id: blocks_file_source
   parameters:
@@ -122,7 +122,7 @@ blocks:
     bus_structure: null
     coordinate: [144, 236.0]
     rotation: 0
-    state: true
+    state: disabled
 - name: blocks_multiply_const_vxx_0
   id: blocks_multiply_const_vxx
   parameters:
@@ -159,7 +159,7 @@ blocks:
     bus_structure: null
     coordinate: [120, 152.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: qtgui_freq_sink_x_0
   id: qtgui_freq_sink_x
   parameters:
