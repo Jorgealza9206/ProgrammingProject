@@ -48,7 +48,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '48000'
+    value: '44100'
   states:
     bus_sink: false
     bus_source: false
@@ -103,12 +103,12 @@ blocks:
     device_name: ''
     num_inputs: '1'
     ok_to_block: 'True'
-    samp_rate: '48000'
+    samp_rate: samp_rate_2
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1178, 271]
+    coordinate: [1179, 271]
     rotation: 0
     state: true
 - name: blocks_file_sink_0
@@ -118,7 +118,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: C:\Users\Julian\Desktop\ProgrammingProject\MaquinaNativa2\encrypted_data.wav
+    file: C:\Users\Julian\Desktop\ProgrammingProject\MaquinaNativa2\encrypted_data.bin
     type: float
     unbuffered: 'False'
     vlen: '1'
@@ -126,7 +126,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [835, 405]
+    coordinate: [1011, 405]
     rotation: 0
     state: enabled
 - name: blocks_multiply_const_vxx_0
@@ -154,17 +154,16 @@ blocks:
     alias: ''
     bits_per_sample: '8'
     comment: ''
-    file: C:\Users\Julian\Desktop\ProgrammingProject\MaquinaNativa2\Melendi - Destino
-      o Casualidad ft. Ha Ash VDownloader.wav
+    file: C:\Users\Julian\Desktop\ProgrammingProject\MaquinaNativa2\sample_2.wav
     nchan: '1'
     samp_rate: samp_rate_2
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1074, 376]
+    coordinate: [1074, 330]
     rotation: 0
-    state: true
+    state: disabled
 - name: low_pass_filter_0
   id: low_pass_filter
   parameters:
@@ -403,7 +402,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [876, 252]
+    coordinate: [874, 252]
     rotation: 0
     state: true
 - name: rtlsdr_source_0

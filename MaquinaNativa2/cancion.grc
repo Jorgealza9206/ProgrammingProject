@@ -36,7 +36,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '48000'
+    value: '44100'
   states:
     bus_sink: false
     bus_source: false
@@ -74,7 +74,7 @@ blocks:
     device_name: ''
     num_inputs: '1'
     ok_to_block: 'True'
-    samp_rate: '48000'
+    samp_rate: samp_rate
   states:
     bus_sink: false
     bus_source: false
@@ -106,8 +106,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    file: C:\Users\Julian\Desktop\ProgrammingProject\MaquinaNativa2\Melendi - Destino
-      o Casualidad ft. Ha Ash VDownloader.wav
+    file: C:\Users\Julian\Desktop\ProgrammingProject\MaquinaNativa2\sample_2.wav
     maxoutbuf: '0'
     minoutbuf: '0'
     nchan: '1'
@@ -116,7 +115,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [62, 161]
+    coordinate: [61, 161]
     rotation: 0
     state: true
 - name: qtgui_freq_sink_x_0

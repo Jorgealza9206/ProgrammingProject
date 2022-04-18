@@ -78,7 +78,7 @@ class Receptor(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.volumen = volumen = 0.2
-        self.samp_rate_2 = samp_rate_2 = 48000
+        self.samp_rate_2 = samp_rate_2 = 44100
         self.samp_rate = samp_rate = 2e6
 
         ##################################################
@@ -209,11 +209,10 @@ class Receptor(gr.top_block, Qt.QWidget):
                 1e6,
                 firdes.WIN_HAMMING,
                 6.76))
-        self.blocks_wavfile_sink_0 = blocks.wavfile_sink('C:\\Users\\Julian\\Desktop\\ProgrammingProject\\MaquinaNativa2\\Melendi - Destino o Casualidad ft. Ha Ash VDownloader.wav', 1, samp_rate_2, 8)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(volumen)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_float*1, 'C:\\Users\\Julian\\Desktop\\ProgrammingProject\\MaquinaNativa2\\encrypted_data.wav', False)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_float*1, 'C:\\Users\\Julian\\Desktop\\ProgrammingProject\\MaquinaNativa2\\encrypted_data.bin', False)
         self.blocks_file_sink_0.set_unbuffered(False)
-        self.audio_sink_0 = audio.sink(48000, '', True)
+        self.audio_sink_0 = audio.sink(samp_rate_2, '', True)
         self.analog_wfm_rcv_0 = analog.wfm_rcv(
         	quad_rate=500e3,
         	audio_decimation=10,
@@ -232,7 +231,6 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.connect((self.low_pass_filter_0, 0), (self.analog_wfm_rcv_0, 0))
         self.connect((self.rational_resampler_xxx_0, 0), (self.low_pass_filter_0, 0))
         self.connect((self.rational_resampler_xxx_1, 0), (self.blocks_multiply_const_vxx_0, 0))
-        self.connect((self.rational_resampler_xxx_1, 0), (self.blocks_wavfile_sink_0, 0))
         self.connect((self.rtlsdr_source_0, 0), (self.rational_resampler_xxx_0, 0))
 
 
