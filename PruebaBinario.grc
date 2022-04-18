@@ -10,7 +10,7 @@ options:
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: Prueba_1
+    id: PruebaBinario
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -27,7 +27,7 @@ options:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 8]
+    coordinate: [8, 7]
     rotation: 0
     state: enabled
 
@@ -50,19 +50,19 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [278, 16]
+    coordinate: [286, 16]
     rotation: 0
     state: true
 - name: samp_rate
   id: variable
   parameters:
     comment: ''
-    value: '48000'
+    value: '44100'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [183, 11]
+    coordinate: [181, 12]
     rotation: 0
     state: enabled
 - name: volumen
@@ -83,7 +83,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [881, 24]
+    coordinate: [458, 19]
     rotation: 0
     state: true
 - name: audio_sink_0
@@ -100,25 +100,29 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [951, 203]
+    coordinate: [652, 171]
     rotation: 0
     state: enabled
-- name: blocks_file_sink_0
-  id: blocks_file_sink
+- name: blocks_file_source_0
+  id: blocks_file_source
   parameters:
     affinity: ''
     alias: ''
-    append: 'False'
+    begin_tag: pmt.PMT_NIL
     comment: ''
     file: C:\Users\Julian\Desktop\ProgrammingProject\sample_1.bin
+    length: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    repeat: 'False'
     type: float
-    unbuffered: 'False'
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [542, 411]
+    coordinate: [166, 168]
     rotation: 0
     state: true
 - name: blocks_multiply_const_vxx_0
@@ -136,28 +140,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [727, 212]
+    coordinate: [428, 180]
     rotation: 0
     state: enabled
-- name: blocks_wavfile_source_0
-  id: blocks_wavfile_source
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    file: C:\Users\Julian\Desktop\ProgrammingProject\Melendi - Destino o Casualidad
-      ft. Ha Ash VDownloader.wav
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    nchan: '1'
-    repeat: 'False'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [357, 276]
-    rotation: 0
-    state: true
 - name: qtgui_freq_sink_x_0
   id: qtgui_freq_sink_x
   parameters:
@@ -235,7 +220,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [805, 391]
+    coordinate: [506, 359]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0
@@ -332,16 +317,15 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [807, 296]
+    coordinate: [508, 264]
     rotation: 0
     state: enabled
 
 connections:
+- [blocks_file_source_0, '0', blocks_multiply_const_vxx_0, '0']
+- [blocks_file_source_0, '0', qtgui_freq_sink_x_0, '0']
+- [blocks_file_source_0, '0', qtgui_time_sink_x_0, '0']
 - [blocks_multiply_const_vxx_0, '0', audio_sink_0, '0']
-- [blocks_wavfile_source_0, '0', blocks_file_sink_0, '0']
-- [blocks_wavfile_source_0, '0', blocks_multiply_const_vxx_0, '0']
-- [blocks_wavfile_source_0, '0', qtgui_freq_sink_x_0, '0']
-- [blocks_wavfile_source_0, '0', qtgui_time_sink_x_0, '0']
 
 metadata:
   file_format: 1
