@@ -1,7 +1,6 @@
 options:
   parameters:
     author: ''
-    catch_exceptions: 'True'
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
     comment: ''
@@ -40,7 +39,7 @@ blocks:
     gui_hint: ''
     label: ''
     min_len: '200'
-    orient: QtCore.Qt.Horizontal
+    orient: Qt.Horizontal
     rangeType: float
     start: '20'
     step: '10'
@@ -73,7 +72,7 @@ blocks:
     gui_hint: ''
     label: ''
     min_len: '200'
-    orient: QtCore.Qt.Horizontal
+    orient: Qt.Horizontal
     rangeType: float
     start: '0'
     step: '0.05'
@@ -111,7 +110,7 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/encrypted_data.wav
+    file: C:\Users\Julian\Desktop\ProgrammingProject\encrypted_data.bin
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -123,7 +122,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [456, 193]
+    coordinate: [457, 195]
     rotation: 0
     state: true
 - name: blocks_multiply_const_vxx_0
@@ -196,7 +195,6 @@ blocks:
     minoutbuf: '0'
     name: '""'
     nconnections: '1'
-    norm_window: 'False'
     showports: 'False'
     tr_chan: '0'
     tr_level: '0.0'
@@ -215,7 +213,7 @@ blocks:
     width7: '1'
     width8: '1'
     width9: '1'
-    wintype: window.WIN_BLACKMAN_hARRIS
+    wintype: firdes.WIN_BLACKMAN_hARRIS
     ymax: '10'
     ymin: '-140'
   states:
