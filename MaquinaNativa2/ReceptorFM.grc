@@ -103,14 +103,39 @@ blocks:
     device_name: ''
     num_inputs: '1'
     ok_to_block: 'True'
-    samp_rate: samp_rate_2
+    samp_rate: '44100'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1179, 271]
+    coordinate: [1178, 271]
     rotation: 0
     state: true
+- name: band_pass_filter_0
+  id: band_pass_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    beta: '6.76'
+    comment: ''
+    decim: '1'
+    gain: '1'
+    high_cutoff_freq: 1.527683e9
+    interp: '1'
+    low_cutoff_freq: 1.327483e9
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+    type: fir_filter_ccf
+    width: 1e6
+    win: firdes.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [510, 341]
+    rotation: 0
+    state: disabled
 - name: blocks_file_sink_0
   id: blocks_file_sink
   parameters:
@@ -118,7 +143,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: C:\Users\Julian\Desktop\ProgrammingProject\MaquinaNativa2\encrypted_data.bin
+    file: C:\Users\Julian\Desktop\ProgrammingProject\MaquinaNativa2\cancion.wav
     type: float
     unbuffered: 'False'
     vlen: '1'
@@ -126,7 +151,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1011, 405]
+    coordinate: [1077, 464]
     rotation: 0
     state: enabled
 - name: blocks_multiply_const_vxx_0
@@ -154,16 +179,16 @@ blocks:
     alias: ''
     bits_per_sample: '8'
     comment: ''
-    file: C:\Users\Julian\Desktop\ProgrammingProject\MaquinaNativa2\sample_2.wav
+    file: C:\Users\Julian\Desktop\ProgrammingProject\MaquinaNativa2\cancion_2.wav
     nchan: '1'
     samp_rate: samp_rate_2
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1074, 330]
+    coordinate: [1074, 376]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: low_pass_filter_0
   id: low_pass_filter
   parameters:
@@ -187,7 +212,7 @@ blocks:
     bus_structure: null
     coordinate: [521, 184]
     rotation: 0
-    state: true
+    state: enabled
 - name: qtgui_freq_sink_x_0
   id: qtgui_freq_sink_x
   parameters:
@@ -402,7 +427,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [874, 252]
+    coordinate: [876, 252]
     rotation: 0
     state: true
 - name: rtlsdr_source_0
@@ -580,7 +605,7 @@ blocks:
     dc_offset_mode7: '0'
     dc_offset_mode8: '0'
     dc_offset_mode9: '0'
-    freq0: 87.5e6
+    freq0: 1.e9
     freq1: 100e6
     freq10: 100e6
     freq11: 100e6
@@ -764,13 +789,15 @@ blocks:
     state: true
 
 connections:
-- [analog_wfm_rcv_0, '0', blocks_file_sink_0, '0']
 - [analog_wfm_rcv_0, '0', qtgui_freq_sink_x_0, '0']
 - [analog_wfm_rcv_0, '0', qtgui_time_sink_x_0, '0']
 - [analog_wfm_rcv_0, '0', rational_resampler_xxx_1, '0']
+- [band_pass_filter_0, '0', analog_wfm_rcv_0, '0']
 - [blocks_multiply_const_vxx_0, '0', audio_sink_0, '0']
 - [low_pass_filter_0, '0', analog_wfm_rcv_0, '0']
+- [rational_resampler_xxx_0, '0', band_pass_filter_0, '0']
 - [rational_resampler_xxx_0, '0', low_pass_filter_0, '0']
+- [rational_resampler_xxx_1, '0', blocks_file_sink_0, '0']
 - [rational_resampler_xxx_1, '0', blocks_multiply_const_vxx_0, '0']
 - [rational_resampler_xxx_1, '0', blocks_wavfile_sink_0, '0']
 - [rtlsdr_source_0, '0', rational_resampler_xxx_0, '0']

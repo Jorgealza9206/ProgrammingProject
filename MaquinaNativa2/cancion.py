@@ -170,9 +170,9 @@ class cancion(gr.top_block, Qt.QWidget):
 
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_freq_sink_x_0_win)
-        self.blocks_wavfile_source_0 = blocks.wavfile_source('C:\\Users\\Julian\\Desktop\\ProgrammingProject\\MaquinaNativa2\\sample_2.wav', True)
+        self.blocks_wavfile_source_0 = blocks.wavfile_source('C:\\Users\\Julian\\Desktop\\ProgrammingProject\\MaquinaNativa2\\cancion.wav', True)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(volumen)
-        self.audio_sink_0 = audio.sink(samp_rate, '', True)
+        self.audio_sink_0 = audio.sink(44100, '', True)
 
 
 

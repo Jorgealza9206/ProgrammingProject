@@ -74,12 +74,12 @@ blocks:
     device_name: ''
     num_inputs: '1'
     ok_to_block: 'True'
-    samp_rate: samp_rate
+    samp_rate: '44100'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [564, 153]
+    coordinate: [564, 151]
     rotation: 0
     state: true
 - name: blocks_multiply_const_vxx_0
@@ -106,7 +106,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    file: C:\Users\Julian\Desktop\ProgrammingProject\MaquinaNativa2\sample_2.wav
+    file: C:\Users\Julian\Desktop\ProgrammingProject\MaquinaNativa2\cancion.wav
     maxoutbuf: '0'
     minoutbuf: '0'
     nchan: '1'
@@ -115,7 +115,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [61, 161]
+    coordinate: [59, 161]
     rotation: 0
     state: true
 - name: qtgui_freq_sink_x_0
