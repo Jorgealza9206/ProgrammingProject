@@ -176,10 +176,8 @@ class cifrador(gr.top_block, Qt.QWidget):
 
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
-        self.blocks_wavfile_source_0 = blocks.wavfile_source('/home/alex/Documents/ProgrammingProject/MaquinaNativa1/Melendi - Destino o Casualidad ft. Ha Ash VDownloader.wav', False)
+        self.blocks_wavfile_source_0 = blocks.wavfile_source('/home/alex/Documents/ProgrammingProject/sample_2.bin', False)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(volumen)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_float*1, '/home/alex/Documents/ProgrammingProject/sample_1.bin', False)
-        self.blocks_file_sink_0.set_unbuffered(False)
         self.audio_sink_0 = audio.sink(samp_rate, '', True)
 
 
@@ -187,7 +185,6 @@ class cifrador(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.audio_sink_0, 0))
-        self.connect((self.blocks_wavfile_source_0, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.blocks_wavfile_source_0, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.blocks_wavfile_source_0, 0), (self.qtgui_freq_sink_x_0, 0))
         self.connect((self.blocks_wavfile_source_0, 0), (self.qtgui_time_sink_x_0, 0))

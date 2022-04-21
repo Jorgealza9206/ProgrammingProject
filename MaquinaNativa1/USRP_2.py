@@ -20,9 +20,9 @@ if __name__ == '__main__':
         except:
             print("Warning: failed to XInitThreads()")
 
-from gnuradio import analog
 from gnuradio import blocks
 import pmt
+from gnuradio import digital
 from gnuradio import gr
 from gnuradio.filter import firdes
 from gnuradio.fft import window
@@ -92,26 +92,27 @@ class USRP_2(gr.top_block, Qt.QWidget):
         self.uhd_usrp_sink_0.set_samp_rate(samp_rate)
         # No synchronization enforced.
 
-        self.uhd_usrp_sink_0.set_center_freq(87.5e6, 0)
+        self.uhd_usrp_sink_0.set_center_freq(1e9, 0)
         self.uhd_usrp_sink_0.set_antenna("TX/RX", 0)
         self.uhd_usrp_sink_0.set_bandwidth(200e3, 0)
         self.uhd_usrp_sink_0.set_gain(0, 0)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_float*1, '/home/alex/Documents/ProgrammingProject/MaquinaNativa1/Melendi - Destino o Casualidad ft. Ha Ash VDownloader.wav', True, 0, 0)
+        self.digital_psk_mod_0 = digital.psk.psk_mod(
+            constellation_points=8,
+            mod_code="gray",
+            differential=True,
+            samples_per_symbol=2,
+            excess_bw=0.35,
+            verbose=False,
+            log=False)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/alex/Documents/ProgrammingProject/MaquinaNativa1/Melendi - Destino o Casualidad ft. Ha Ash VDownloader.wav', True, 0, 0)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
-        self.analog_wfm_tx_0 = analog.wfm_tx(
-        	audio_rate=96000,
-        	quad_rate=1920000,
-        	tau=75e-6,
-        	max_dev=75e3,
-        	fh=-1.0,
-        )
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.analog_wfm_tx_0, 0), (self.uhd_usrp_sink_0, 0))
-        self.connect((self.blocks_file_source_0, 0), (self.analog_wfm_tx_0, 0))
+        self.connect((self.blocks_file_source_0, 0), (self.digital_psk_mod_0, 0))
+        self.connect((self.digital_psk_mod_0, 0), (self.uhd_usrp_sink_0, 0))
 
 
     def closeEvent(self, event):

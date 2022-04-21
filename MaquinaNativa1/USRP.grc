@@ -80,30 +80,8 @@ blocks:
     bus_structure: null
     coordinate: [479, 89]
     rotation: 0
-    state: true
-- name: blocks_file_source_0
-  id: blocks_file_source
-  parameters:
-    affinity: ''
-    alias: ''
-    begin_tag: pmt.PMT_NIL
-    comment: ''
-    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/encrypted_data.bin
-    length: '0'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    offset: '0'
-    repeat: 'True'
-    type: short
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [38, 234]
-    rotation: 0
     state: enabled
-- name: blocks_file_source_1
+- name: blocks_file_source_0
   id: blocks_file_source
   parameters:
     affinity: ''
@@ -123,9 +101,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [40, 108.0]
+    coordinate: [38, 234]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_multiply_const_vxx_0
   id: blocks_multiply_const_vxx
   parameters:
@@ -143,7 +121,7 @@ blocks:
     bus_structure: null
     coordinate: [312, 174]
     rotation: 0
-    state: true
+    state: enabled
 - name: blocks_multiply_const_vxx_1
   id: blocks_multiply_const_vxx
   parameters:
@@ -161,7 +139,7 @@ blocks:
     bus_structure: null
     coordinate: [640, 268.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: blocks_short_to_float_0
   id: blocks_short_to_float
   parameters:
@@ -248,7 +226,7 @@ blocks:
     bw7: '0'
     bw8: '0'
     bw9: '0'
-    center_freq0: 87.5e6
+    center_freq0: 1.e9
     center_freq1: '0'
     center_freq10: '0'
     center_freq11: '0'
@@ -455,12 +433,11 @@ blocks:
     bus_structure: null
     coordinate: [817, 96]
     rotation: 0
-    state: true
+    state: enabled
 
 connections:
 - [analog_wfm_tx_0, '0', blocks_multiply_const_vxx_1, '0']
 - [blocks_file_source_0, '0', blocks_short_to_float_0, '0']
-- [blocks_file_source_1, '0', blocks_short_to_float_0, '0']
 - [blocks_multiply_const_vxx_0, '0', analog_wfm_tx_0, '0']
 - [blocks_multiply_const_vxx_1, '0', uhd_usrp_sink_0, '0']
 - [blocks_short_to_float_0, '0', blocks_multiply_const_vxx_0, '0']
