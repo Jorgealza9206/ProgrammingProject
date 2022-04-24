@@ -26,7 +26,6 @@ from gnuradio.filter import firdes
 import sip
 from gnuradio import audio
 from gnuradio import blocks
-import pmt
 from gnuradio import gr
 import sys
 import signal
@@ -174,9 +173,10 @@ class Prueba_1(gr.top_block, Qt.QWidget):
         self._freq_range = Range(20, 20000, 10, 500, 200)
         self._freq_win = RangeWidget(self._freq_range, self.set_freq, 'freq', "counter_slider", float)
         self.top_grid_layout.addWidget(self._freq_win)
+        self.blocks_wavfile_source_0 = blocks.wavfile_source('C:\\Users\\Julian\\Desktop\\ProgrammingProject\\Melendi - Destino o Casualidad ft. Ha Ash VDownloader.wav', False)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(volumen)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_float*1, 'C:\\Users\\Julian\\Desktop\\ProgrammingProject\\Melendi - Destino o Casualidad ft. Ha Ash VDownloader.wav', True, 0, 0)
-        self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_float*1, 'C:\\Users\\Julian\\Desktop\\ProgrammingProject\\sample_1.bin', False)
+        self.blocks_file_sink_0.set_unbuffered(False)
         self.audio_sink_0 = audio.sink(samp_rate, '', True)
 
 
@@ -184,10 +184,11 @@ class Prueba_1(gr.top_block, Qt.QWidget):
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.blocks_file_source_0, 0), (self.blocks_multiply_const_vxx_0, 0))
-        self.connect((self.blocks_file_source_0, 0), (self.qtgui_freq_sink_x_0, 0))
-        self.connect((self.blocks_file_source_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.audio_sink_0, 0))
+        self.connect((self.blocks_wavfile_source_0, 0), (self.blocks_file_sink_0, 0))
+        self.connect((self.blocks_wavfile_source_0, 0), (self.blocks_multiply_const_vxx_0, 0))
+        self.connect((self.blocks_wavfile_source_0, 0), (self.qtgui_freq_sink_x_0, 0))
+        self.connect((self.blocks_wavfile_source_0, 0), (self.qtgui_time_sink_x_0, 0))
 
 
     def closeEvent(self, event):
