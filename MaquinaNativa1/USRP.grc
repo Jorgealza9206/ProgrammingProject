@@ -80,30 +80,80 @@ blocks:
     bus_structure: null
     coordinate: [479, 89]
     rotation: 0
-    state: true
-- name: blocks_file_source_0
-  id: blocks_file_source
+    state: enabled
+- name: blocks_file_sink_0
+  id: blocks_file_sink
   parameters:
     affinity: ''
     alias: ''
-    begin_tag: pmt.PMT_NIL
+    append: 'False'
     comment: ''
-    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/encrypted_data.wav
-    length: '0'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    offset: '0'
-    repeat: 'True'
-    type: short
+    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/test_1.bin
+    type: float
+    unbuffered: 'False'
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [38, 234]
+    coordinate: [448, 324.0]
     rotation: 0
-    state: enabled
-- name: blocks_file_source_1
+    state: disabled
+- name: blocks_file_sink_0_0
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: ''
+    type: complex
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [840, 308.0]
+    rotation: 0
+    state: disabled
+- name: blocks_file_sink_0_1
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/test_2.bin
+    type: float
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [440, 220.0]
+    rotation: 0
+    state: disabled
+- name: blocks_file_sink_0_1_0
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/test_0.bin
+    type: short
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [232, 356.0]
+    rotation: 0
+    state: disabled
+- name: blocks_file_source_0
   id: blocks_file_source
   parameters:
     affinity: ''
@@ -123,9 +173,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [40, 108.0]
+    coordinate: [38, 234]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_multiply_const_vxx_0
   id: blocks_multiply_const_vxx
   parameters:
@@ -143,7 +193,7 @@ blocks:
     bus_structure: null
     coordinate: [312, 174]
     rotation: 0
-    state: true
+    state: enabled
 - name: blocks_multiply_const_vxx_1
   id: blocks_multiply_const_vxx
   parameters:
@@ -159,9 +209,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [640, 268.0]
+    coordinate: [640, 276.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: blocks_short_to_float_0
   id: blocks_short_to_float
   parameters:
@@ -248,7 +298,7 @@ blocks:
     bw7: '0'
     bw8: '0'
     bw9: '0'
-    center_freq0: 87.5e6
+    center_freq0: 1.e9
     center_freq1: '0'
     center_freq10: '0'
     center_freq11: '0'
@@ -455,14 +505,16 @@ blocks:
     bus_structure: null
     coordinate: [817, 96]
     rotation: 0
-    state: true
+    state: enabled
 
 connections:
 - [analog_wfm_tx_0, '0', blocks_multiply_const_vxx_1, '0']
+- [blocks_file_source_0, '0', blocks_file_sink_0_1_0, '0']
 - [blocks_file_source_0, '0', blocks_short_to_float_0, '0']
-- [blocks_file_source_1, '0', blocks_short_to_float_0, '0']
 - [blocks_multiply_const_vxx_0, '0', analog_wfm_tx_0, '0']
+- [blocks_multiply_const_vxx_0, '0', blocks_file_sink_0_1, '0']
 - [blocks_multiply_const_vxx_1, '0', uhd_usrp_sink_0, '0']
+- [blocks_short_to_float_0, '0', blocks_file_sink_0, '0']
 - [blocks_short_to_float_0, '0', blocks_multiply_const_vxx_0, '0']
 
 metadata:

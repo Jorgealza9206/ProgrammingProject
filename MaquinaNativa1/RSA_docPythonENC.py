@@ -2,11 +2,11 @@ from Crypto.PublicKey import RSA
 from Crypto.Random import get_random_bytes
 from Crypto.Cipher import AES, PKCS1_OAEP
 
-data = open("sample_1.bin", "rb")
-#data = open("Melendi - Destino o Casualidad ft. Ha Ash VDownloader.wav", "rb")
+#data = open("sample_1.bin", "rb")
+data = open("Melendi - Destino o Casualidad ft. Ha Ash VDownloader.wav", "rb")
 datos = data.read()
 print(data)
-file_out = open("encrypted_data.wav", "wb") #Exporta un archivo ¿encriptado?
+file_out = open("encrypted_data.bin", "wb") #Exporta un archivo ¿encriptado?
 
 recipient_key = RSA.import_key(open("receiver.pem").read()) #Importa una llave del archivo receiver.pem
 session_key = get_random_bytes(16) #Genera una llave para la sesión cipher_aes 16 ¿bytes?
