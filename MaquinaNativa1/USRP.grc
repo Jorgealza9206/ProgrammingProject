@@ -81,6 +81,78 @@ blocks:
     coordinate: [479, 89]
     rotation: 0
     state: enabled
+- name: blocks_file_sink_0
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/test_1.bin
+    type: float
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [448, 324.0]
+    rotation: 0
+    state: disabled
+- name: blocks_file_sink_0_0
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: ''
+    type: complex
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [840, 308.0]
+    rotation: 0
+    state: disabled
+- name: blocks_file_sink_0_1
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/test_2.bin
+    type: float
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [440, 220.0]
+    rotation: 0
+    state: disabled
+- name: blocks_file_sink_0_1_0
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/test_0.bin
+    type: short
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [232, 356.0]
+    rotation: 0
+    state: disabled
 - name: blocks_file_source_0
   id: blocks_file_source
   parameters:
@@ -137,7 +209,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [640, 268.0]
+    coordinate: [640, 276.0]
     rotation: 0
     state: enabled
 - name: blocks_short_to_float_0
@@ -437,9 +509,12 @@ blocks:
 
 connections:
 - [analog_wfm_tx_0, '0', blocks_multiply_const_vxx_1, '0']
+- [blocks_file_source_0, '0', blocks_file_sink_0_1_0, '0']
 - [blocks_file_source_0, '0', blocks_short_to_float_0, '0']
 - [blocks_multiply_const_vxx_0, '0', analog_wfm_tx_0, '0']
+- [blocks_multiply_const_vxx_0, '0', blocks_file_sink_0_1, '0']
 - [blocks_multiply_const_vxx_1, '0', uhd_usrp_sink_0, '0']
+- [blocks_short_to_float_0, '0', blocks_file_sink_0, '0']
 - [blocks_short_to_float_0, '0', blocks_multiply_const_vxx_0, '0']
 
 metadata:
