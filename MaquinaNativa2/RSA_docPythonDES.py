@@ -1,15 +1,10 @@
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import AES, PKCS1_OAEP
 
-<<<<<<< HEAD
 while True:
    try:
       file_in = open("encrypted_data.bin", "rb")
       file_out = open("sample_2.bin", "wb")
-=======
-file_in = open("encrypted_data.bin", "rb")
-file_out = open("sample_2.wav", "wb")
->>>>>>> 4d6179b0a6d5fe4480fadef4a64ffc922edb2bd8
 
       private_key = RSA.import_key(open("private.pem").read()) #Importa la llave privada
 

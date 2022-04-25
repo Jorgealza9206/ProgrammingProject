@@ -40,5 +40,5 @@ https://unipython.com/archivos-en-python-lectura-y-escritura/
 Fuente: Ejecutar script de python, dentro de otro script de python:
 https://www.delftstack.com/es/howto/python/python-run-another-python-script/
 
-Revista sobre copnexion del USRP:
+Revista sobre conexion del USRP:
 https://revistas.uis.edu.co/index.php/revistagti/article/view/3848/4401
