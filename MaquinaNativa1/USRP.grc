@@ -46,9 +46,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [280, 25]
+    coordinate: [280, 12.0]
     rotation: 0
-    state: true
+    state: disabled
 - name: samp_rate
   id: variable
   parameters:
@@ -182,7 +182,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    const: 32e-6
+    const: '32.763e-6'
     maxoutbuf: '0'
     minoutbuf: '0'
     type: float
@@ -200,7 +200,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    const: 32.768e3
+    const: '1'
     maxoutbuf: '0'
     minoutbuf: '0'
     type: complex
@@ -226,7 +226,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [303, 285]
+    coordinate: [264, 276.0]
     rotation: 0
     state: enabled
 - name: uhd_usrp_sink_0
@@ -298,7 +298,7 @@ blocks:
     bw7: '0'
     bw8: '0'
     bw9: '0'
-    center_freq0: 1.e9
+    center_freq0: 70e6
     center_freq1: '0'
     center_freq10: '0'
     center_freq11: '0'

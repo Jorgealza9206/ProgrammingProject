@@ -34,7 +34,6 @@ from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
 from gnuradio import uhd
 import time
-import threading
 
 
 
@@ -77,7 +76,6 @@ class USRP(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.samp_rate = samp_rate = 96e3
-        self.FR_freq = FR_freq = 87.5e6
 
         ##################################################
         # Blocks
@@ -94,13 +92,13 @@ class USRP(gr.top_block, Qt.QWidget):
         self.uhd_usrp_sink_0.set_samp_rate(samp_rate)
         # No synchronization enforced.
 
-        self.uhd_usrp_sink_0.set_center_freq(1.e9, 0)
+        self.uhd_usrp_sink_0.set_center_freq(70e6, 0)
         self.uhd_usrp_sink_0.set_antenna('TX/RX', 0)
         self.uhd_usrp_sink_0.set_bandwidth(200e3, 0)
         self.uhd_usrp_sink_0.set_gain(0, 0)
         self.blocks_short_to_float_0 = blocks.short_to_float(1, 1)
-        self.blocks_multiply_const_vxx_1 = blocks.multiply_const_cc(32.768e3)
-        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(32e-6)
+        self.blocks_multiply_const_vxx_1 = blocks.multiply_const_cc(1)
+        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(32.763e-6)
         self.blocks_file_source_0 = blocks.file_source(gr.sizeof_short*1, '/home/alex/Documents/ProgrammingProject/MaquinaNativa1/Melendi - Destino o Casualidad ft. Ha Ash VDownloader.wav', True, 0, 0)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
         self.analog_wfm_tx_0 = analog.wfm_tx(
@@ -110,21 +108,6 @@ class USRP(gr.top_block, Qt.QWidget):
         	max_dev=75e3,
         	fh=-1.0,
         )
-        def _FR_freq_probe():
-          while True:
-
-            val = self.FR_freq.get_number()
-            try:
-              try:
-                self.doc.add_next_tick_callback(functools.partial(self.set_FR_freq,val))
-              except AttributeError:
-                self.set_FR_freq(val)
-            except AttributeError:
-              pass
-            time.sleep(1.0 / (10))
-        _FR_freq_thread = threading.Thread(target=_FR_freq_probe)
-        _FR_freq_thread.daemon = True
-        _FR_freq_thread.start()
 
 
         ##################################################
@@ -151,12 +134,6 @@ class USRP(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.uhd_usrp_sink_0.set_samp_rate(self.samp_rate)
-
-    def get_FR_freq(self):
-        return self.FR_freq
-
-    def set_FR_freq(self, FR_freq):
-        self.FR_freq = FR_freq
 
 
 
