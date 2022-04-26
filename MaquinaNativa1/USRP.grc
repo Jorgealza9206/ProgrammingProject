@@ -1,7 +1,6 @@
 options:
   parameters:
     author: ''
-    catch_exceptions: 'True'
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
     comment: ''
@@ -33,22 +32,36 @@ options:
     state: enabled
 
 blocks:
-- name: FR_freq
-  id: variable_function_probe
+- name: Selector
+  id: variable_qtgui_chooser
   parameters:
-    block_id: FR_freq
     comment: ''
-    function_args: ''
-    function_name: get_number
-    poll_rate: '10'
-    value: 87.5e6
+    gui_hint: 0,0,1,1,
+    label: Selector
+    label0: Ladridos
+    label1: Cancion
+    label2: ''
+    label3: ''
+    label4: ''
+    labels: '[]'
+    num_opts: '2'
+    option0: '0'
+    option1: '1'
+    option2: '2'
+    option3: '3'
+    option4: '4'
+    options: '[0, 1, 2]'
+    orient: Qt.QVBoxLayout
+    type: int
+    value: '0'
+    widget: combo_box
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [280, 12.0]
+    coordinate: [282, 17]
     rotation: 0
-    state: disabled
+    state: true
 - name: samp_rate
   id: variable
   parameters:
@@ -81,78 +94,6 @@ blocks:
     coordinate: [479, 89]
     rotation: 0
     state: enabled
-- name: blocks_file_sink_0
-  id: blocks_file_sink
-  parameters:
-    affinity: ''
-    alias: ''
-    append: 'False'
-    comment: ''
-    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/test_1.bin
-    type: float
-    unbuffered: 'False'
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [448, 324.0]
-    rotation: 0
-    state: disabled
-- name: blocks_file_sink_0_0
-  id: blocks_file_sink
-  parameters:
-    affinity: ''
-    alias: ''
-    append: 'False'
-    comment: ''
-    file: ''
-    type: complex
-    unbuffered: 'False'
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [840, 308.0]
-    rotation: 0
-    state: disabled
-- name: blocks_file_sink_0_1
-  id: blocks_file_sink
-  parameters:
-    affinity: ''
-    alias: ''
-    append: 'False'
-    comment: ''
-    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/test_2.bin
-    type: float
-    unbuffered: 'False'
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [440, 220.0]
-    rotation: 0
-    state: disabled
-- name: blocks_file_sink_0_1_0
-  id: blocks_file_sink
-  parameters:
-    affinity: ''
-    alias: ''
-    append: 'False'
-    comment: ''
-    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/test_0.bin
-    type: short
-    unbuffered: 'False'
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [232, 356.0]
-    rotation: 0
-    state: disabled
 - name: blocks_file_source_0
   id: blocks_file_source
   parameters:
@@ -160,8 +101,7 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/Melendi - Destino
-      o Casualidad ft. Ha Ash VDownloader.wav
+    file: C:\Users\Alex\Desktop\labrador-barking-daniel_simon.wav
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -173,7 +113,30 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [38, 234]
+    coordinate: [14, 120]
+    rotation: 0
+    state: enabled
+- name: blocks_file_source_0_0
+  id: blocks_file_source
+  parameters:
+    affinity: ''
+    alias: ''
+    begin_tag: pmt.PMT_NIL
+    comment: ''
+    file: D:\Mi unidad\ProgrammingProject\MaquinaNativa1\Melendi - Destino o Casualidad
+      ft. Ha Ash VDownloader.wav
+    length: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    repeat: 'True'
+    type: short
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [17, 297]
     rotation: 0
     state: enabled
 - name: blocks_multiply_const_vxx_0
@@ -191,7 +154,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [312, 174]
+    coordinate: [384, 190]
     rotation: 0
     state: enabled
 - name: blocks_multiply_const_vxx_1
@@ -212,6 +175,29 @@ blocks:
     coordinate: [640, 276.0]
     rotation: 0
     state: enabled
+- name: blocks_selector_0
+  id: blocks_selector
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    enabled: 'True'
+    input_index: Selector
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    num_outputs: '1'
+    output_index: '0'
+    showports: 'True'
+    type: short
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 214]
+    rotation: 0
+    state: true
 - name: blocks_short_to_float_0
   id: blocks_short_to_float
   parameters:
@@ -226,7 +212,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [264, 276.0]
+    coordinate: [378, 271]
     rotation: 0
     state: enabled
 - name: uhd_usrp_sink_0
@@ -374,38 +360,6 @@ blocks:
     gain7: '0'
     gain8: '0'
     gain9: '0'
-    gain_type0: default
-    gain_type1: default
-    gain_type10: default
-    gain_type11: default
-    gain_type12: default
-    gain_type13: default
-    gain_type14: default
-    gain_type15: default
-    gain_type16: default
-    gain_type17: default
-    gain_type18: default
-    gain_type19: default
-    gain_type2: default
-    gain_type20: default
-    gain_type21: default
-    gain_type22: default
-    gain_type23: default
-    gain_type24: default
-    gain_type25: default
-    gain_type26: default
-    gain_type27: default
-    gain_type28: default
-    gain_type29: default
-    gain_type3: default
-    gain_type30: default
-    gain_type31: default
-    gain_type4: default
-    gain_type5: default
-    gain_type6: default
-    gain_type7: default
-    gain_type8: default
-    gain_type9: default
     len_tag_name: ''
     lo_export0: 'False'
     lo_export1: 'False'
@@ -474,6 +428,38 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     nchan: '1'
+    norm_gain0: 'False'
+    norm_gain1: 'False'
+    norm_gain10: 'False'
+    norm_gain11: 'False'
+    norm_gain12: 'False'
+    norm_gain13: 'False'
+    norm_gain14: 'False'
+    norm_gain15: 'False'
+    norm_gain16: 'False'
+    norm_gain17: 'False'
+    norm_gain18: 'False'
+    norm_gain19: 'False'
+    norm_gain2: 'False'
+    norm_gain20: 'False'
+    norm_gain21: 'False'
+    norm_gain22: 'False'
+    norm_gain23: 'False'
+    norm_gain24: 'False'
+    norm_gain25: 'False'
+    norm_gain26: 'False'
+    norm_gain27: 'False'
+    norm_gain28: 'False'
+    norm_gain29: 'False'
+    norm_gain3: 'False'
+    norm_gain30: 'False'
+    norm_gain31: 'False'
+    norm_gain4: 'False'
+    norm_gain5: 'False'
+    norm_gain6: 'False'
+    norm_gain7: 'False'
+    norm_gain8: 'False'
+    norm_gain9: 'False'
     num_mboards: '1'
     otw: ''
     samp_rate: samp_rate
@@ -509,12 +495,11 @@ blocks:
 
 connections:
 - [analog_wfm_tx_0, '0', blocks_multiply_const_vxx_1, '0']
-- [blocks_file_source_0, '0', blocks_file_sink_0_1_0, '0']
-- [blocks_file_source_0, '0', blocks_short_to_float_0, '0']
+- [blocks_file_source_0, '0', blocks_selector_0, '0']
+- [blocks_file_source_0_0, '0', blocks_selector_0, '1']
 - [blocks_multiply_const_vxx_0, '0', analog_wfm_tx_0, '0']
-- [blocks_multiply_const_vxx_0, '0', blocks_file_sink_0_1, '0']
 - [blocks_multiply_const_vxx_1, '0', uhd_usrp_sink_0, '0']
-- [blocks_short_to_float_0, '0', blocks_file_sink_0, '0']
+- [blocks_selector_0, '0', blocks_short_to_float_0, '0']
 - [blocks_short_to_float_0, '0', blocks_multiply_const_vxx_0, '0']
 
 metadata:
