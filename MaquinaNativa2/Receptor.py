@@ -209,15 +209,9 @@ class Receptor(gr.top_block, Qt.QWidget):
                 1e6,
                 firdes.WIN_HAMMING,
                 6.76))
-        self.blocks_threshold_ff_0 = blocks.threshold_ff(-42, 40, 0)
-        self.blocks_probe_signal_x_0 = blocks.probe_signal_b()
-        self.blocks_nlog10_ff_0 = blocks.nlog10_ff(10, 1, 0)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(volumen)
-        self.blocks_moving_average_xx_0 = blocks.moving_average_ff(1, 1, 4000, 1)
-        self.blocks_float_to_char_0 = blocks.float_to_char(1, 1)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_float*1, 'C:\\Users\\Julian\\Desktop\\ProgrammingProject\\MaquinaNativa2\\sample_2.bin', False)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_float*1, 'C:\\Users\\Julian\\Desktop\\ProgrammingProject\\MaquinaNativa2\\encrypted_data.bin', False)
         self.blocks_file_sink_0.set_unbuffered(False)
-        self.blocks_complex_to_mag_squared_0 = blocks.complex_to_mag_squared(1)
         self.audio_sink_0 = audio.sink(44100, '', True)
         self.analog_wfm_rcv_0 = analog.wfm_rcv(
         	quad_rate=500e3,
@@ -232,14 +226,8 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.connect((self.analog_wfm_rcv_0, 0), (self.qtgui_freq_sink_x_0, 0))
         self.connect((self.analog_wfm_rcv_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.analog_wfm_rcv_0, 0), (self.rational_resampler_xxx_1, 0))
-        self.connect((self.blocks_complex_to_mag_squared_0, 0), (self.blocks_nlog10_ff_0, 0))
-        self.connect((self.blocks_float_to_char_0, 0), (self.blocks_probe_signal_x_0, 0))
-        self.connect((self.blocks_moving_average_xx_0, 0), (self.blocks_threshold_ff_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.audio_sink_0, 0))
-        self.connect((self.blocks_nlog10_ff_0, 0), (self.blocks_moving_average_xx_0, 0))
-        self.connect((self.blocks_threshold_ff_0, 0), (self.blocks_float_to_char_0, 0))
         self.connect((self.low_pass_filter_0, 0), (self.analog_wfm_rcv_0, 0))
-        self.connect((self.low_pass_filter_0, 0), (self.blocks_complex_to_mag_squared_0, 0))
         self.connect((self.rational_resampler_xxx_0, 0), (self.low_pass_filter_0, 0))
         self.connect((self.rational_resampler_xxx_1, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.rational_resampler_xxx_1, 0), (self.blocks_multiply_const_vxx_0, 0))
