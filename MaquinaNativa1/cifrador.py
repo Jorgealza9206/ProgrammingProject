@@ -6,7 +6,7 @@
 #
 # GNU Radio Python Flow Graph
 # Title: Not titled yet
-# GNU Radio version: 3.9.5.0
+# GNU Radio version: v3.8.2.0-57-gd71cd177
 
 from distutils.version import StrictVersion
 
@@ -21,29 +21,27 @@ if __name__ == '__main__':
             print("Warning: failed to XInitThreads()")
 
 from PyQt5 import Qt
+from PyQt5.QtCore import QObject, pyqtSlot
 from gnuradio import qtgui
 from gnuradio.filter import firdes
 import sip
 from gnuradio import audio
 from gnuradio import blocks
+import pmt
 from gnuradio import gr
-from gnuradio.fft import window
 import sys
 import signal
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
 from gnuradio.qtgui import Range, RangeWidget
-from PyQt5 import QtCore
-
-
 
 from gnuradio import qtgui
 
 class cifrador(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Not titled yet", catch_exceptions=True)
+        gr.top_block.__init__(self, "Not titled yet")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Not titled yet")
         qtgui.util.check_set_qss()
@@ -78,19 +76,43 @@ class cifrador(gr.top_block, Qt.QWidget):
         ##################################################
         self.volumen = volumen = 0.2
         self.samp_rate = samp_rate = 44100
+        self.Selector = Selector = 0
 
         ##################################################
         # Blocks
         ##################################################
         self._volumen_range = Range(0, 1, 0.05, 0.2, 200)
-        self._volumen_win = RangeWidget(self._volumen_range, self.set_volumen, "'volumen'", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_layout.addWidget(self._volumen_win)
+        self._volumen_win = RangeWidget(self._volumen_range, self.set_volumen, 'volumen', "counter_slider", float)
+        self.top_grid_layout.addWidget(self._volumen_win, 1, 0, 1, 1)
+        for r in range(1, 2):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(0, 1):
+            self.top_grid_layout.setColumnStretch(c, 1)
+        # Create the options list
+        self._Selector_options = (0, 1, )
+        # Create the labels list
+        self._Selector_labels = ('WAV', 'BIN', )
+        # Create the combo box
+        self._Selector_tool_bar = Qt.QToolBar(self)
+        self._Selector_tool_bar.addWidget(Qt.QLabel('Selector' + ": "))
+        self._Selector_combo_box = Qt.QComboBox()
+        self._Selector_tool_bar.addWidget(self._Selector_combo_box)
+        for _label in self._Selector_labels: self._Selector_combo_box.addItem(_label)
+        self._Selector_callback = lambda i: Qt.QMetaObject.invokeMethod(self._Selector_combo_box, "setCurrentIndex", Qt.Q_ARG("int", self._Selector_options.index(i)))
+        self._Selector_callback(self.Selector)
+        self._Selector_combo_box.currentIndexChanged.connect(
+            lambda i: self.set_Selector(self._Selector_options[i]))
+        # Create the radio buttons
+        self.top_grid_layout.addWidget(self._Selector_tool_bar, 0, 0, 1, 1)
+        for r in range(0, 1):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(0, 1):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
             1024, #size
             samp_rate, #samp_rate
             "", #name
-            1, #number of inputs
-            None # parent
+            1 #number of inputs
         )
         self.qtgui_time_sink_x_0.set_update_time(0.10)
         self.qtgui_time_sink_x_0.set_y_axis(-1, 1)
@@ -131,16 +153,15 @@ class cifrador(gr.top_block, Qt.QWidget):
             self.qtgui_time_sink_x_0.set_line_marker(i, markers[i])
             self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
 
-        self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.qwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_time_sink_x_0_win)
+        self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.pyqwidget(), Qt.QWidget)
+        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_win)
         self.qtgui_freq_sink_x_0 = qtgui.freq_sink_f(
             1024, #size
-            window.WIN_BLACKMAN_hARRIS, #wintype
+            firdes.WIN_BLACKMAN_hARRIS, #wintype
             1000, #fc
             samp_rate, #bw
             "", #name
-            1,
-            None # parent
+            1
         )
         self.qtgui_freq_sink_x_0.set_update_time(0.10)
         self.qtgui_freq_sink_x_0.set_y_axis(-140, 10)
@@ -151,7 +172,6 @@ class cifrador(gr.top_block, Qt.QWidget):
         self.qtgui_freq_sink_x_0.set_fft_average(1.0)
         self.qtgui_freq_sink_x_0.enable_axis_labels(True)
         self.qtgui_freq_sink_x_0.enable_control_panel(False)
-        self.qtgui_freq_sink_x_0.set_fft_window_normalized(False)
 
 
         self.qtgui_freq_sink_x_0.set_plot_pos_half(not True)
@@ -174,28 +194,32 @@ class cifrador(gr.top_block, Qt.QWidget):
             self.qtgui_freq_sink_x_0.set_line_color(i, colors[i])
             self.qtgui_freq_sink_x_0.set_line_alpha(i, alphas[i])
 
-        self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
-        self.blocks_wavfile_source_0 = blocks.wavfile_source('/home/alex/Documents/ProgrammingProject/sample_2.bin', False)
+        self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.pyqwidget(), Qt.QWidget)
+        self.top_grid_layout.addWidget(self._qtgui_freq_sink_x_0_win)
+        self.blocks_wavfile_source_0 = blocks.wavfile_source('C:\\Users\\Alex\\Desktop\\labrador-barking-daniel_simon.wav', True)
+        self.blocks_selector_0 = blocks.selector(gr.sizeof_float*1,Selector,0)
+        self.blocks_selector_0.set_enabled(True)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(volumen)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_float*1, 'D:\\Mi unidad\\ProgrammingProject\\MaquinaNativa1\\sample_2.bin', True, 0, 0)
+        self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
         self.audio_sink_0 = audio.sink(samp_rate, '', True)
+
 
 
         ##################################################
         # Connections
         ##################################################
+        self.connect((self.blocks_file_source_0, 0), (self.blocks_selector_0, 1))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.audio_sink_0, 0))
-        self.connect((self.blocks_wavfile_source_0, 0), (self.blocks_multiply_const_vxx_0, 0))
-        self.connect((self.blocks_wavfile_source_0, 0), (self.qtgui_freq_sink_x_0, 0))
-        self.connect((self.blocks_wavfile_source_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.blocks_selector_0, 0), (self.blocks_multiply_const_vxx_0, 0))
+        self.connect((self.blocks_selector_0, 0), (self.qtgui_freq_sink_x_0, 0))
+        self.connect((self.blocks_selector_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.blocks_wavfile_source_0, 0), (self.blocks_selector_0, 0))
 
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "cifrador")
         self.settings.setValue("geometry", self.saveGeometry())
-        self.stop()
-        self.wait()
-
         event.accept()
 
     def get_volumen(self):
@@ -212,6 +236,15 @@ class cifrador(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate
         self.qtgui_freq_sink_x_0.set_frequency_range(1000, self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
+
+    def get_Selector(self):
+        return self.Selector
+
+    def set_Selector(self, Selector):
+        self.Selector = Selector
+        self._Selector_callback(self.Selector)
+        self.blocks_selector_0.set_input_index(self.Selector)
+
 
 
 
@@ -230,9 +263,6 @@ def main(top_block_cls=cifrador, options=None):
     tb.show()
 
     def sig_handler(sig=None, frame=None):
-        tb.stop()
-        tb.wait()
-
         Qt.QApplication.quit()
 
     signal.signal(signal.SIGINT, sig_handler)
@@ -242,6 +272,11 @@ def main(top_block_cls=cifrador, options=None):
     timer.start(500)
     timer.timeout.connect(lambda: None)
 
+    def quitting():
+        tb.stop()
+        tb.wait()
+
+    qapp.aboutToQuit.connect(quitting)
     qapp.exec_()
 
 if __name__ == '__main__':
