@@ -6,7 +6,7 @@
 #
 # GNU Radio Python Flow Graph
 # Title: Not titled yet
-# GNU Radio version: 3.9.5.0
+# GNU Radio version: v3.8.2.0-57-gd71cd177
 
 from distutils.version import StrictVersion
 
@@ -25,7 +25,6 @@ import pmt
 from gnuradio import digital
 from gnuradio import gr
 from gnuradio.filter import firdes
-from gnuradio.fft import window
 import sys
 import signal
 from PyQt5 import Qt
@@ -34,15 +33,14 @@ from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
 from gnuradio import uhd
 import time
-
-
+from gnuradio import vocoder
 
 from gnuradio import qtgui
 
 class USRP_2(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Not titled yet", catch_exceptions=True)
+        gr.top_block.__init__(self, "Not titled yet")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Not titled yet")
         qtgui.util.check_set_qss()
@@ -75,11 +73,12 @@ class USRP_2(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.samp_rate = samp_rate = 1.92e6
+        self.samp_rate = samp_rate = 96000
 
         ##################################################
         # Blocks
         ##################################################
+        self.vocoder_cvsd_encode_fb_0 = vocoder.cvsd_encode_fb(8,0.5)
         self.uhd_usrp_sink_0 = uhd.usrp_sink(
             ",".join(("", '')),
             uhd.stream_args(
@@ -89,38 +88,38 @@ class USRP_2(gr.top_block, Qt.QWidget):
             ),
             "",
         )
-        self.uhd_usrp_sink_0.set_samp_rate(samp_rate)
-        # No synchronization enforced.
-
-        self.uhd_usrp_sink_0.set_center_freq(1e9, 0)
+        self.uhd_usrp_sink_0.set_center_freq(87.5e6, 0)
+        self.uhd_usrp_sink_0.set_gain(0, 0)
         self.uhd_usrp_sink_0.set_antenna("TX/RX", 0)
         self.uhd_usrp_sink_0.set_bandwidth(200e3, 0)
-        self.uhd_usrp_sink_0.set_gain(0, 0)
+        self.uhd_usrp_sink_0.set_samp_rate(samp_rate)
+        # No synchronization enforced.
         self.digital_psk_mod_0 = digital.psk.psk_mod(
-            constellation_points=8,
+            constellation_points=4,
             mod_code="gray",
             differential=True,
             samples_per_symbol=2,
             excess_bw=0.35,
             verbose=False,
             log=False)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/alex/Documents/ProgrammingProject/MaquinaNativa1/Melendi - Destino o Casualidad ft. Ha Ash VDownloader.wav', True, 0, 0)
+        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(100)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_float*1, 'D:\\Mi unidad\\ProgrammingProject\\MaquinaNativa1\\Melendi - Destino o Casualidad ft. Ha Ash VDownloader.wav', True, 0, 0)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
+
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.blocks_file_source_0, 0), (self.digital_psk_mod_0, 0))
-        self.connect((self.digital_psk_mod_0, 0), (self.uhd_usrp_sink_0, 0))
+        self.connect((self.blocks_file_source_0, 0), (self.vocoder_cvsd_encode_fb_0, 0))
+        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.uhd_usrp_sink_0, 0))
+        self.connect((self.digital_psk_mod_0, 0), (self.blocks_multiply_const_vxx_0, 0))
+        self.connect((self.vocoder_cvsd_encode_fb_0, 0), (self.digital_psk_mod_0, 0))
 
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "USRP_2")
         self.settings.setValue("geometry", self.saveGeometry())
-        self.stop()
-        self.wait()
-
         event.accept()
 
     def get_samp_rate(self):
@@ -129,6 +128,7 @@ class USRP_2(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.uhd_usrp_sink_0.set_samp_rate(self.samp_rate)
+
 
 
 
@@ -147,9 +147,6 @@ def main(top_block_cls=USRP_2, options=None):
     tb.show()
 
     def sig_handler(sig=None, frame=None):
-        tb.stop()
-        tb.wait()
-
         Qt.QApplication.quit()
 
     signal.signal(signal.SIGINT, sig_handler)
@@ -159,6 +156,11 @@ def main(top_block_cls=USRP_2, options=None):
     timer.start(500)
     timer.timeout.connect(lambda: None)
 
+    def quitting():
+        tb.stop()
+        tb.wait()
+
+    qapp.aboutToQuit.connect(quitting)
     qapp.exec_()
 
 if __name__ == '__main__':

@@ -1,7 +1,6 @@
 options:
   parameters:
     author: ''
-    catch_exceptions: 'True'
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
     comment: ''
@@ -37,7 +36,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 1.92e6
+    value: '96000'
   states:
     bus_sink: false
     bus_source: false
@@ -52,20 +51,38 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/Melendi - Destino
-      o Casualidad ft. Ha Ash VDownloader.wav
+    file: D:\Mi unidad\ProgrammingProject\MaquinaNativa1\Melendi - Destino o Casualidad
+      ft. Ha Ash VDownloader.wav
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
     offset: '0'
     repeat: 'True'
-    type: byte
+    type: float
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [24, 220.0]
+    coordinate: [15, 248]
+    rotation: 0
+    state: true
+- name: blocks_multiply_const_vxx_0
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: '100'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [625, 197]
     rotation: 0
     state: true
 - name: blocks_wavfile_source_0
@@ -92,7 +109,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    constellation_points: '8'
+    constellation_points: '4'
     differential: 'True'
     excess_bw: '0.35'
     log: 'False'
@@ -105,90 +122,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [312, 180.0]
+    coordinate: [403, 77]
     rotation: 0
     state: true
-- name: qtgui_freq_sink_x_0
-  id: qtgui_freq_sink_x
-  parameters:
-    affinity: ''
-    alias: ''
-    alpha1: '1.0'
-    alpha10: '1.0'
-    alpha2: '1.0'
-    alpha3: '1.0'
-    alpha4: '1.0'
-    alpha5: '1.0'
-    alpha6: '1.0'
-    alpha7: '1.0'
-    alpha8: '1.0'
-    alpha9: '1.0'
-    autoscale: 'False'
-    average: '1.0'
-    axislabels: 'True'
-    bw: samp_rate
-    color1: '"blue"'
-    color10: '"dark blue"'
-    color2: '"red"'
-    color3: '"green"'
-    color4: '"black"'
-    color5: '"cyan"'
-    color6: '"magenta"'
-    color7: '"yellow"'
-    color8: '"dark red"'
-    color9: '"dark green"'
-    comment: ''
-    ctrlpanel: 'False'
-    fc: '0'
-    fftsize: '1024'
-    freqhalf: 'True'
-    grid: 'False'
-    gui_hint: ''
-    label: Relative Gain
-    label1: ''
-    label10: ''''''
-    label2: ''''''
-    label3: ''''''
-    label4: ''''''
-    label5: ''''''
-    label6: ''''''
-    label7: ''''''
-    label8: ''''''
-    label9: ''''''
-    legend: 'True'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    name: '""'
-    nconnections: '1'
-    norm_window: 'False'
-    showports: 'False'
-    tr_chan: '0'
-    tr_level: '0.0'
-    tr_mode: qtgui.TRIG_MODE_FREE
-    tr_tag: '""'
-    type: complex
-    units: dB
-    update_time: '0.10'
-    width1: '1'
-    width10: '1'
-    width2: '1'
-    width3: '1'
-    width4: '1'
-    width5: '1'
-    width6: '1'
-    width7: '1'
-    width8: '1'
-    width9: '1'
-    wintype: window.WIN_BLACKMAN_hARRIS
-    ymax: '10'
-    ymin: '-140'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [672, 292.0]
-    rotation: 0
-    state: disabled
 - name: uhd_usrp_sink_0
   id: uhd_usrp_sink
   parameters:
@@ -258,7 +194,7 @@ blocks:
     bw7: '0'
     bw8: '0'
     bw9: '0'
-    center_freq0: 1e9
+    center_freq0: 87.5e6
     center_freq1: '0'
     center_freq10: '0'
     center_freq11: '0'
@@ -334,38 +270,6 @@ blocks:
     gain7: '0'
     gain8: '0'
     gain9: '0'
-    gain_type0: default
-    gain_type1: default
-    gain_type10: default
-    gain_type11: default
-    gain_type12: default
-    gain_type13: default
-    gain_type14: default
-    gain_type15: default
-    gain_type16: default
-    gain_type17: default
-    gain_type18: default
-    gain_type19: default
-    gain_type2: default
-    gain_type20: default
-    gain_type21: default
-    gain_type22: default
-    gain_type23: default
-    gain_type24: default
-    gain_type25: default
-    gain_type26: default
-    gain_type27: default
-    gain_type28: default
-    gain_type29: default
-    gain_type3: default
-    gain_type30: default
-    gain_type31: default
-    gain_type4: default
-    gain_type5: default
-    gain_type6: default
-    gain_type7: default
-    gain_type8: default
-    gain_type9: default
     len_tag_name: '""'
     lo_export0: 'False'
     lo_export1: 'False'
@@ -434,6 +338,38 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     nchan: '1'
+    norm_gain0: 'False'
+    norm_gain1: 'False'
+    norm_gain10: 'False'
+    norm_gain11: 'False'
+    norm_gain12: 'False'
+    norm_gain13: 'False'
+    norm_gain14: 'False'
+    norm_gain15: 'False'
+    norm_gain16: 'False'
+    norm_gain17: 'False'
+    norm_gain18: 'False'
+    norm_gain19: 'False'
+    norm_gain2: 'False'
+    norm_gain20: 'False'
+    norm_gain21: 'False'
+    norm_gain22: 'False'
+    norm_gain23: 'False'
+    norm_gain24: 'False'
+    norm_gain25: 'False'
+    norm_gain26: 'False'
+    norm_gain27: 'False'
+    norm_gain28: 'False'
+    norm_gain29: 'False'
+    norm_gain3: 'False'
+    norm_gain30: 'False'
+    norm_gain31: 'False'
+    norm_gain4: 'False'
+    norm_gain5: 'False'
+    norm_gain6: 'False'
+    norm_gain7: 'False'
+    norm_gain8: 'False'
+    norm_gain9: 'False'
     num_mboards: '1'
     otw: ''
     samp_rate: samp_rate
@@ -463,13 +399,32 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [704, 148.0]
+    coordinate: [847, 141]
+    rotation: 0
+    state: true
+- name: vocoder_cvsd_encode_fb_0
+  id: vocoder_cvsd_encode_fb
+  parameters:
+    affinity: ''
+    alias: ''
+    bw: '0.5'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    resample: '8'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [277, 268]
     rotation: 0
     state: true
 
 connections:
-- [blocks_file_source_0, '0', digital_psk_mod_0, '0']
-- [digital_psk_mod_0, '0', uhd_usrp_sink_0, '0']
+- [blocks_file_source_0, '0', vocoder_cvsd_encode_fb_0, '0']
+- [blocks_multiply_const_vxx_0, '0', uhd_usrp_sink_0, '0']
+- [digital_psk_mod_0, '0', blocks_multiply_const_vxx_0, '0']
+- [vocoder_cvsd_encode_fb_0, '0', digital_psk_mod_0, '0']
 
 metadata:
   file_format: 1
