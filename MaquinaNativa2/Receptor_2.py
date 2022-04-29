@@ -20,9 +20,9 @@ if __name__ == '__main__':
         except:
             print("Warning: failed to XInitThreads()")
 
-from gnuradio import analog
 from gnuradio import audio
 from gnuradio import blocks
+from gnuradio import digital
 from gnuradio import filter
 from gnuradio.filter import firdes
 from gnuradio import gr
@@ -32,6 +32,7 @@ from PyQt5 import Qt
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
+from gnuradio import vocoder
 from gnuradio.qtgui import Range, RangeWidget
 import osmosdr
 import time
@@ -76,7 +77,7 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         ##################################################
         self.volumen = volumen = 0.2
         self.samp_rate_2 = samp_rate_2 = 44100
-        self.samp_rate = samp_rate = 240000
+        self.samp_rate = samp_rate = 1920000
 
         ##################################################
         # Blocks
@@ -84,6 +85,7 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self._volumen_range = Range(0, 1, 0.1, 0.2, 200)
         self._volumen_win = RangeWidget(self._volumen_range, self.set_volumen, 'volumen', "counter_slider", float)
         self.top_grid_layout.addWidget(self._volumen_win)
+        self.vocoder_cvsd_decode_bf_0 = vocoder.cvsd_decode_bf(8,0.5)
         self.rtlsdr_source_0 = osmosdr.source(
             args="numchan=" + str(1) + " " + ""
         )
@@ -99,27 +101,34 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self.rtlsdr_source_0.set_bb_gain(20, 0)
         self.rtlsdr_source_0.set_antenna('', 0)
         self.rtlsdr_source_0.set_bandwidth(200e3, 0)
-        self.rational_resampler_xxx_0 = filter.rational_resampler_ccc(
-                interpolation=192000,
-                decimation=samp_rate,
+        self.rational_resampler_xxx_1 = filter.rational_resampler_ccc(
+                interpolation=1,
+                decimation=20,
                 taps=None,
                 fractional_bw=None)
-        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(1)
-        self.audio_sink_0 = audio.sink(samp_rate, '', True)
-        self.analog_wfm_rcv_0 = analog.wfm_rcv(
-        	quad_rate=192000,
-        	audio_decimation=4,
-        )
+        self.digital_psk_demod_0 = digital.psk.psk_demod(
+            constellation_points=4,
+            differential=True,
+            samples_per_symbol=2,
+            excess_bw=0.35,
+            phase_bw=6.28/100.0,
+            timing_bw=6.28/100.0,
+            mod_code="gray",
+            verbose=False,
+            log=False)
+        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(volumen)
+        self.audio_sink_0 = audio.sink(samp_rate_2, '', True)
 
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.analog_wfm_rcv_0, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.audio_sink_0, 0))
-        self.connect((self.rational_resampler_xxx_0, 0), (self.analog_wfm_rcv_0, 0))
-        self.connect((self.rtlsdr_source_0, 0), (self.rational_resampler_xxx_0, 0))
+        self.connect((self.digital_psk_demod_0, 0), (self.vocoder_cvsd_decode_bf_0, 0))
+        self.connect((self.rational_resampler_xxx_1, 0), (self.digital_psk_demod_0, 0))
+        self.connect((self.rtlsdr_source_0, 0), (self.rational_resampler_xxx_1, 0))
+        self.connect((self.vocoder_cvsd_decode_bf_0, 0), (self.blocks_multiply_const_vxx_0, 0))
 
 
     def closeEvent(self, event):
@@ -132,6 +141,7 @@ class Receptor_2(gr.top_block, Qt.QWidget):
 
     def set_volumen(self, volumen):
         self.volumen = volumen
+        self.blocks_multiply_const_vxx_0.set_k(self.volumen)
 
     def get_samp_rate_2(self):
         return self.samp_rate_2

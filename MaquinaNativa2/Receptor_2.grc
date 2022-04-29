@@ -36,7 +36,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '240000'
+    value: '1920000'
   states:
     bus_sink: false
     bus_source: false
@@ -77,23 +77,6 @@ blocks:
     coordinate: [332, 22]
     rotation: 0
     state: true
-- name: analog_wfm_rcv_0
-  id: analog_wfm_rcv
-  parameters:
-    affinity: ''
-    alias: ''
-    audio_decimation: '4'
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    quad_rate: '192000'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [576, 230]
-    rotation: 0
-    state: true
 - name: audio_sink_0
   id: audio_sink
   parameters:
@@ -103,21 +86,39 @@ blocks:
     device_name: ''
     num_inputs: '1'
     ok_to_block: 'True'
-    samp_rate: samp_rate
+    samp_rate: samp_rate_2
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [943, 238]
+    coordinate: [1215, 247]
     rotation: 0
     state: true
+- name: blocks_file_sink_0
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: ''
+    type: float
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1080, 124]
+    rotation: 0
+    state: disabled
 - name: blocks_multiply_const_vxx_0
   id: blocks_multiply_const_vxx
   parameters:
     affinity: ''
     alias: ''
     comment: ''
-    const: '1'
+    const: volumen
     maxoutbuf: '0'
     minoutbuf: '0'
     type: float
@@ -126,7 +127,32 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [778, 240]
+    coordinate: [1055, 248]
+    rotation: 0
+    state: true
+- name: digital_psk_demod_0
+  id: digital_psk_demod
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    constellation_points: '4'
+    differential: 'True'
+    excess_bw: '0.35'
+    freq_bw: 6.28/100.0
+    log: 'False'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mod_code: '"gray"'
+    phase_bw: 6.28/100.0
+    samples_per_symbol: '2'
+    timing_bw: 6.28/100.0
+    verbose: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [423, 162]
     rotation: 0
     state: true
 - name: rational_resampler_xxx_0
@@ -135,9 +161,29 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    decim: samp_rate
+    decim: '1'
     fbw: '0'
-    interp: '192000'
+    interp: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: ''
+    type: fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [872, 225]
+    rotation: 0
+    state: bypassed
+- name: rational_resampler_xxx_1
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '20'
+    fbw: '0'
+    interp: '1'
     maxoutbuf: '0'
     minoutbuf: '0'
     taps: ''
@@ -146,7 +192,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [368, 214]
+    coordinate: [315, 355]
     rotation: 0
     state: true
 - name: rtlsdr_source_0
@@ -506,12 +552,31 @@ blocks:
     coordinate: [78, 154]
     rotation: 0
     state: true
+- name: vocoder_cvsd_decode_bf_0
+  id: vocoder_cvsd_decode_bf
+  parameters:
+    affinity: ''
+    alias: ''
+    bw: '0.5'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    resample: '8'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [678, 191]
+    rotation: 0
+    state: true
 
 connections:
-- [analog_wfm_rcv_0, '0', blocks_multiply_const_vxx_0, '0']
 - [blocks_multiply_const_vxx_0, '0', audio_sink_0, '0']
-- [rational_resampler_xxx_0, '0', analog_wfm_rcv_0, '0']
-- [rtlsdr_source_0, '0', rational_resampler_xxx_0, '0']
+- [digital_psk_demod_0, '0', vocoder_cvsd_decode_bf_0, '0']
+- [rational_resampler_xxx_0, '0', blocks_multiply_const_vxx_0, '0']
+- [rational_resampler_xxx_1, '0', digital_psk_demod_0, '0']
+- [rtlsdr_source_0, '0', rational_resampler_xxx_1, '0']
+- [vocoder_cvsd_decode_bf_0, '0', rational_resampler_xxx_0, '0']
 
 metadata:
   file_format: 1
