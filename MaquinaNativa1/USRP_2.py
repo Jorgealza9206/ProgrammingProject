@@ -20,20 +20,23 @@ if __name__ == '__main__':
         except:
             print("Warning: failed to XInitThreads()")
 
+from PyQt5 import Qt
+from gnuradio import qtgui
+from gnuradio.filter import firdes
+import sip
 from gnuradio import blocks
 import pmt
 from gnuradio import digital
+from gnuradio import filter
 from gnuradio import gr
-from gnuradio.filter import firdes
 import sys
 import signal
-from PyQt5 import Qt
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
-from gnuradio import uhd
-import time
 from gnuradio import vocoder
+import osmosdr
+import time
 
 from gnuradio import qtgui
 
@@ -73,37 +76,83 @@ class USRP_2(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.samp_rate = samp_rate = 96000
+        self.samp_rate = samp_rate = 192000
 
         ##################################################
         # Blocks
         ##################################################
         self.vocoder_cvsd_encode_fb_0 = vocoder.cvsd_encode_fb(8,0.5)
-        self.uhd_usrp_sink_0 = uhd.usrp_sink(
-            ",".join(("", '')),
-            uhd.stream_args(
-                cpu_format="fc32",
-                args='',
-                channels=list(range(0,1)),
-            ),
-            "",
+        self.rational_resampler_xxx_0 = filter.rational_resampler_ccc(
+                interpolation=10,
+                decimation=1,
+                taps=None,
+                fractional_bw=None)
+        self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
+            1024, #size
+            samp_rate, #samp_rate
+            "", #name
+            1 #number of inputs
         )
-        self.uhd_usrp_sink_0.set_center_freq(87.5e6, 0)
-        self.uhd_usrp_sink_0.set_gain(0, 0)
-        self.uhd_usrp_sink_0.set_antenna("TX/RX", 0)
-        self.uhd_usrp_sink_0.set_bandwidth(200e3, 0)
-        self.uhd_usrp_sink_0.set_samp_rate(samp_rate)
-        # No synchronization enforced.
-        self.digital_psk_mod_0 = digital.psk.psk_mod(
-            constellation_points=4,
-            mod_code="gray",
-            differential=True,
-            samples_per_symbol=2,
-            excess_bw=0.35,
-            verbose=False,
-            log=False)
-        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(100)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_float*1, 'D:\\Mi unidad\\ProgrammingProject\\MaquinaNativa1\\Melendi - Destino o Casualidad ft. Ha Ash VDownloader.wav', True, 0, 0)
+        self.qtgui_time_sink_x_0.set_update_time(0.10)
+        self.qtgui_time_sink_x_0.set_y_axis(-1, 1)
+
+        self.qtgui_time_sink_x_0.set_y_label('Counts', "")
+
+        self.qtgui_time_sink_x_0.enable_tags(True)
+        self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_AUTO, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
+        self.qtgui_time_sink_x_0.enable_autoscale(False)
+        self.qtgui_time_sink_x_0.enable_grid(False)
+        self.qtgui_time_sink_x_0.enable_axis_labels(True)
+        self.qtgui_time_sink_x_0.enable_control_panel(False)
+        self.qtgui_time_sink_x_0.enable_stem_plot(False)
+
+
+        labels = ['Signal 1', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
+            'Signal 6', 'Signal 7', 'Signal 8', 'Signal 9', 'Signal 10']
+        widths = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        colors = ['blue', 'red', 'green', 'black', 'cyan',
+            'magenta', 'yellow', 'dark red', 'dark green', 'dark blue']
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+            1.0, 1.0, 1.0, 1.0, 1.0]
+        styles = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        markers = [-1, -1, -1, -1, -1,
+            -1, -1, -1, -1, -1]
+
+
+        for i in range(2):
+            if len(labels[i]) == 0:
+                if (i % 2 == 0):
+                    self.qtgui_time_sink_x_0.set_line_label(i, "Re{{Data {0}}}".format(i/2))
+                else:
+                    self.qtgui_time_sink_x_0.set_line_label(i, "Im{{Data {0}}}".format(i/2))
+            else:
+                self.qtgui_time_sink_x_0.set_line_label(i, labels[i])
+            self.qtgui_time_sink_x_0.set_line_width(i, widths[i])
+            self.qtgui_time_sink_x_0.set_line_color(i, colors[i])
+            self.qtgui_time_sink_x_0.set_line_style(i, styles[i])
+            self.qtgui_time_sink_x_0.set_line_marker(i, markers[i])
+            self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
+
+        self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.pyqwidget(), Qt.QWidget)
+        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_win)
+        self.osmosdr_sink_0 = osmosdr.sink(
+            args="numchan=" + str(1) + " " + ""
+        )
+        self.osmosdr_sink_0.set_sample_rate(1.92e6)
+        self.osmosdr_sink_0.set_center_freq(87.5e6, 0)
+        self.osmosdr_sink_0.set_freq_corr(0, 0)
+        self.osmosdr_sink_0.set_gain(25, 0)
+        self.osmosdr_sink_0.set_if_gain(20, 0)
+        self.osmosdr_sink_0.set_bb_gain(20, 0)
+        self.osmosdr_sink_0.set_antenna('', 0)
+        self.osmosdr_sink_0.set_bandwidth(0, 0)
+        self.interp_fir_filter_xxx_0 = filter.interp_fir_filter_ccc(20, )
+        self.interp_fir_filter_xxx_0.declare_sample_delay(0)
+        self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc(0,1, 1)
+        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(0.9)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_float*1, 'D:\\Mi unidad\\ProgrammingProject\\MaquinaNativa1\\Frailejon.txt', True, 0, 0)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
 
 
@@ -112,9 +161,12 @@ class USRP_2(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.connect((self.blocks_file_source_0, 0), (self.vocoder_cvsd_encode_fb_0, 0))
-        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.uhd_usrp_sink_0, 0))
-        self.connect((self.digital_psk_mod_0, 0), (self.blocks_multiply_const_vxx_0, 0))
-        self.connect((self.vocoder_cvsd_encode_fb_0, 0), (self.digital_psk_mod_0, 0))
+        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.rational_resampler_xxx_0, 0))
+        self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.interp_fir_filter_xxx_0, 0))
+        self.connect((self.interp_fir_filter_xxx_0, 0), (self.blocks_multiply_const_vxx_0, 0))
+        self.connect((self.rational_resampler_xxx_0, 0), (self.osmosdr_sink_0, 0))
+        self.connect((self.rational_resampler_xxx_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.vocoder_cvsd_encode_fb_0, 0), (self.digital_chunks_to_symbols_xx_0, 0))
 
 
     def closeEvent(self, event):
@@ -127,7 +179,7 @@ class USRP_2(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.uhd_usrp_sink_0.set_samp_rate(self.samp_rate)
+        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
 
 
 
