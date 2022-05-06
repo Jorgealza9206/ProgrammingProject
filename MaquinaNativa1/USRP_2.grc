@@ -63,7 +63,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [102, 141]
+    coordinate: [103, 142]
     rotation: 0
     state: true
 - name: blocks_multiply_const_vxx_0
@@ -109,12 +109,12 @@ blocks:
   parameters:
     alias: ''
     comment: ''
-    imports: numpy
+    imports: import numpy
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [295, 14]
+    coordinate: [295, 13]
     rotation: 0
     state: true
 - name: interp_fir_filter_xxx_0
@@ -135,7 +135,7 @@ blocks:
     bus_structure: null
     coordinate: [896, 142]
     rotation: 0
-    state: true
+    state: bypassed
 - name: osmosdr_sink_0
   id: osmosdr_sink
   parameters:

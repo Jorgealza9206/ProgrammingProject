@@ -35,6 +35,7 @@ from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
 from gnuradio import vocoder
+import numpy
 import osmosdr
 import time
 
@@ -148,8 +149,6 @@ class USRP_2(gr.top_block, Qt.QWidget):
         self.osmosdr_sink_0.set_bb_gain(20, 0)
         self.osmosdr_sink_0.set_antenna('', 0)
         self.osmosdr_sink_0.set_bandwidth(0, 0)
-        self.interp_fir_filter_xxx_0 = filter.interp_fir_filter_ccc(20, )
-        self.interp_fir_filter_xxx_0.declare_sample_delay(0)
         self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc(0,1, 1)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(0.9)
         self.blocks_file_source_0 = blocks.file_source(gr.sizeof_float*1, 'D:\\Mi unidad\\ProgrammingProject\\MaquinaNativa1\\Frailejon.txt', True, 0, 0)
@@ -162,8 +161,7 @@ class USRP_2(gr.top_block, Qt.QWidget):
         ##################################################
         self.connect((self.blocks_file_source_0, 0), (self.vocoder_cvsd_encode_fb_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.rational_resampler_xxx_0, 0))
-        self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.interp_fir_filter_xxx_0, 0))
-        self.connect((self.interp_fir_filter_xxx_0, 0), (self.blocks_multiply_const_vxx_0, 0))
+        self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.rational_resampler_xxx_0, 0), (self.osmosdr_sink_0, 0))
         self.connect((self.rational_resampler_xxx_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.vocoder_cvsd_encode_fb_0, 0), (self.digital_chunks_to_symbols_xx_0, 0))
