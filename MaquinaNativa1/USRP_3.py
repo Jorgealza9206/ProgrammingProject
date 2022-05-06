@@ -6,6 +6,7 @@
 #
 # GNU Radio Python Flow Graph
 # Title: USRP_3 ASK
+# Description: https://www.youtube.com/watch?v=qfOhnqlhmas FAIL
 # GNU Radio version: v3.8.2.0-57-gd71cd177
 
 from distutils.version import StrictVersion
@@ -25,7 +26,6 @@ from PyQt5.QtCore import QObject, pyqtSlot
 from gnuradio import qtgui
 from gnuradio.filter import firdes
 import sip
-from gnuradio import analog
 from gnuradio import blocks
 import pmt
 from gnuradio import gr
@@ -73,7 +73,7 @@ class USRP_3(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.selector = selector = 0
+        self.selector = selector = 1
         self.samp_rate_1 = samp_rate_1 = 32000
         self.samp_rate = samp_rate = 1920000
 
@@ -102,7 +102,7 @@ class USRP_3(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
             1024, #size
-            samp_rate_1, #samp_rate
+            samp_rate, #samp_rate
             "", #name
             1 #number of inputs
         )
@@ -146,7 +146,11 @@ class USRP_3(gr.top_block, Qt.QWidget):
             self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
 
         self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.pyqwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_win)
+        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_win, 0, 0, 1, 1)
+        for r in range(0, 1):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(0, 1):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_freq_sink_x_0 = qtgui.freq_sink_f(
             1024, #size
             firdes.WIN_BLACKMAN_hARRIS, #wintype
@@ -187,75 +191,31 @@ class USRP_3(gr.top_block, Qt.QWidget):
             self.qtgui_freq_sink_x_0.set_line_alpha(i, alphas[i])
 
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.pyqwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_freq_sink_x_0_win)
-        self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
-            2048, #size
-            "Diagrama de constelaciones", #name
-            1 #number of inputs
-        )
-        self.qtgui_const_sink_x_0.set_update_time(0.10)
-        self.qtgui_const_sink_x_0.set_y_axis(-2, 2)
-        self.qtgui_const_sink_x_0.set_x_axis(-2, 2)
-        self.qtgui_const_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
-        self.qtgui_const_sink_x_0.enable_autoscale(True)
-        self.qtgui_const_sink_x_0.enable_grid(True)
-        self.qtgui_const_sink_x_0.enable_axis_labels(True)
-
-
-        labels = ['', '', '', '', '',
-            '', '', '', '', '']
-        widths = [1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1]
-        colors = ["blue", "red", "red", "red", "red",
-            "red", "red", "red", "red", "red"]
-        styles = [0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0]
-        markers = [0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0]
-        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
-            1.0, 1.0, 1.0, 1.0, 1.0]
-
-        for i in range(1):
-            if len(labels[i]) == 0:
-                self.qtgui_const_sink_x_0.set_line_label(i, "Data {0}".format(i))
-            else:
-                self.qtgui_const_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_const_sink_x_0.set_line_width(i, widths[i])
-            self.qtgui_const_sink_x_0.set_line_color(i, colors[i])
-            self.qtgui_const_sink_x_0.set_line_style(i, styles[i])
-            self.qtgui_const_sink_x_0.set_line_marker(i, markers[i])
-            self.qtgui_const_sink_x_0.set_line_alpha(i, alphas[i])
-
-        self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.pyqwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_win)
-        self.blocks_vector_source_x_0 = blocks.vector_source_b((1,0,1, 0,1,1, 0,0), True, 1, [])
+        self.top_grid_layout.addWidget(self._qtgui_freq_sink_x_0_win, 0, 1, 1, 1)
+        for r in range(0, 1):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(1, 2):
+            self.top_grid_layout.setColumnStretch(c, 1)
+        self.blocks_vector_source_x_0 = blocks.vector_source_b((1, 1, 0, 0, 1, 0, 1, 0), True, 1, [])
         self.blocks_uchar_to_float_0 = blocks.uchar_to_float()
-        self.blocks_throttle_1 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate_1,True)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_float*1, samp_rate_1,True)
         self.blocks_selector_0 = blocks.selector(gr.sizeof_char*1,selector,0)
         self.blocks_selector_0.set_enabled(True)
-        self.blocks_multiply_xx_0 = blocks.multiply_vff(1)
-        self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
+        self.blocks_repeat_0 = blocks.repeat(gr.sizeof_char*1, 10)
         self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, 'D:\\Mi unidad\\ProgrammingProject\\MaquinaNativa1\\Frailejon.txt', True, 0, 0)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
-        self.analog_sig_source_x_0 = analog.sig_source_f(samp_rate_1, analog.GR_SIN_WAVE, 10e6, 2, 0, 0)
 
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.analog_sig_source_x_0, 0), (self.blocks_multiply_xx_0, 1))
         self.connect((self.blocks_file_source_0, 0), (self.blocks_selector_0, 0))
-        self.connect((self.blocks_float_to_complex_0, 0), (self.blocks_throttle_1, 0))
-        self.connect((self.blocks_multiply_xx_0, 0), (self.blocks_float_to_complex_0, 1))
-        self.connect((self.blocks_multiply_xx_0, 0), (self.blocks_float_to_complex_0, 0))
-        self.connect((self.blocks_multiply_xx_0, 0), (self.blocks_throttle_0, 0))
-        self.connect((self.blocks_selector_0, 0), (self.blocks_uchar_to_float_0, 0))
+        self.connect((self.blocks_repeat_0, 0), (self.blocks_uchar_to_float_0, 0))
+        self.connect((self.blocks_selector_0, 0), (self.blocks_repeat_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.qtgui_freq_sink_x_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.qtgui_time_sink_x_0, 0))
-        self.connect((self.blocks_throttle_1, 0), (self.qtgui_const_sink_x_0, 0))
-        self.connect((self.blocks_uchar_to_float_0, 0), (self.blocks_multiply_xx_0, 0))
+        self.connect((self.blocks_uchar_to_float_0, 0), (self.blocks_throttle_0, 0))
         self.connect((self.blocks_vector_source_x_0, 0), (self.blocks_selector_0, 1))
 
 
@@ -277,17 +237,15 @@ class USRP_3(gr.top_block, Qt.QWidget):
 
     def set_samp_rate_1(self, samp_rate_1):
         self.samp_rate_1 = samp_rate_1
-        self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate_1)
         self.blocks_throttle_0.set_sample_rate(self.samp_rate_1)
-        self.blocks_throttle_1.set_sample_rate(self.samp_rate_1)
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate_1)
-        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate_1)
 
     def get_samp_rate(self):
         return self.samp_rate
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
+        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
 
 
 
