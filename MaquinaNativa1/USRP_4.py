@@ -7,7 +7,7 @@
 # GNU Radio Python Flow Graph
 # Title: USRP_4 M-PSK
 # Description: https://www.youtube.com/watch?v=2rsu-c26Tqo
-# GNU Radio version: v3.8.2.0-57-gd71cd177
+# GNU Radio version: 3.9.5.0
 
 from distutils.version import StrictVersion
 
@@ -26,22 +26,29 @@ from gnuradio import qtgui
 from gnuradio.filter import firdes
 import sip
 from gnuradio import blocks
-import numpy
+import pmt
 from gnuradio import digital
+from gnuradio import filter
 from gnuradio import gr
+from gnuradio.fft import window
 import sys
 import signal
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
+from gnuradio import uhd
+import time
 import math
+import numpy
+
+
 
 from gnuradio import qtgui
 
 class USRP_4(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "USRP_4 M-PSK")
+        gr.top_block.__init__(self, "USRP_4 M-PSK", catch_exceptions=True)
         Qt.QWidget.__init__(self)
         self.setWindowTitle("USRP_4 M-PSK")
         qtgui.util.check_set_qss()
@@ -77,17 +84,36 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.TrueBoardConstellation = TrueBoardConstellation = (0.77+0.77j,-0.77+0.77j,-0.77-0.77j,0.77-0.77j)
         self.M = M = len(TrueBoardConstellation)
         self.bps = bps = int(math.log(M,2))
-        self.Rs = Rs = 32000
+        self.Sps = Sps = 8
+        self.Rs = Rs = 44100
+        self.samp_rate = samp_rate = Rs*Sps
+        self.h = h = [1]*Sps
         self.Rb = Rb = Rs*bps
 
         ##################################################
         # Blocks
         ##################################################
+        self.uhd_usrp_sink_0 = uhd.usrp_sink(
+            ",".join(("", '')),
+            uhd.stream_args(
+                cpu_format="fc32",
+                args='',
+                channels=list(range(0,1)),
+            ),
+            "",
+        )
+        self.uhd_usrp_sink_0.set_samp_rate(samp_rate)
+        # No synchronization enforced.
+
+        self.uhd_usrp_sink_0.set_center_freq(87.5e6, 0)
+        self.uhd_usrp_sink_0.set_antenna("TX/RX", 0)
+        self.uhd_usrp_sink_0.set_gain(0, 0)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
             1024, #size
-            Rs, #samp_rate
+            samp_rate, #samp_rate
             "", #name
-            1 #number of inputs
+            1, #number of inputs
+            None # parent
         )
         self.qtgui_time_sink_x_0.set_update_time(0.1)
         self.qtgui_time_sink_x_0.set_y_axis(-1, 1)
@@ -131,7 +157,7 @@ class USRP_4(gr.top_block, Qt.QWidget):
             self.qtgui_time_sink_x_0.set_line_marker(i, markers[i])
             self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
 
-        self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.pyqwidget(), Qt.QWidget)
+        self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.qwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_win, 0, 0, 1, 2)
         for r in range(0, 1):
             self.top_grid_layout.setRowStretch(r, 1)
@@ -140,7 +166,8 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
             2048, #size
             "Diagrama de constelaciones", #name
-            1 #number of inputs
+            1, #number of inputs
+            None # parent
         )
         self.qtgui_const_sink_x_0.set_update_time(0.10)
         self.qtgui_const_sink_x_0.set_y_axis(-2, 2)
@@ -175,32 +202,39 @@ class USRP_4(gr.top_block, Qt.QWidget):
             self.qtgui_const_sink_x_0.set_line_marker(i, markers[i])
             self.qtgui_const_sink_x_0.set_line_alpha(i, alphas[i])
 
-        self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.pyqwidget(), Qt.QWidget)
+        self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.qwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_win, 1, 1, 1, 1)
         for r in range(1, 2):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(1, 2):
             self.top_grid_layout.setColumnStretch(c, 1)
+        self.interp_fir_filter_xxx_0 = filter.interp_fir_filter_ccc(Sps, h)
+        self.interp_fir_filter_xxx_0.declare_sample_delay(0)
         self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc(TrueBoardConstellation, 1)
         self.blocks_packed_to_unpacked_xx_0 = blocks.packed_to_unpacked_bb(bps, gr.GR_MSB_FIRST)
         self.blocks_pack_k_bits_bb_0 = blocks.pack_k_bits_bb(8)
-        self.analog_random_source_x_0 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, 2, 1000))), True)
-
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/alex/Documents/ProgrammingProject/MaquinaNativa1/Frailejon.txt', True, 0, 0)
+        self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.analog_random_source_x_0, 0), (self.blocks_pack_k_bits_bb_0, 0))
+        self.connect((self.blocks_file_source_0, 0), (self.blocks_pack_k_bits_bb_0, 0))
         self.connect((self.blocks_pack_k_bits_bb_0, 0), (self.blocks_packed_to_unpacked_xx_0, 0))
         self.connect((self.blocks_packed_to_unpacked_xx_0, 0), (self.digital_chunks_to_symbols_xx_0, 0))
-        self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.qtgui_const_sink_x_0, 0))
-        self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.interp_fir_filter_xxx_0, 0))
+        self.connect((self.interp_fir_filter_xxx_0, 0), (self.qtgui_const_sink_x_0, 0))
+        self.connect((self.interp_fir_filter_xxx_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.interp_fir_filter_xxx_0, 0), (self.uhd_usrp_sink_0, 0))
 
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "USRP_4")
         self.settings.setValue("geometry", self.saveGeometry())
+        self.stop()
+        self.wait()
+
         event.accept()
 
     def get_TrueBoardConstellation(self):
@@ -225,20 +259,42 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.bps = bps
         self.set_Rb(self.Rs*self.bps)
 
+    def get_Sps(self):
+        return self.Sps
+
+    def set_Sps(self, Sps):
+        self.Sps = Sps
+        self.set_h([1]*self.Sps)
+        self.set_samp_rate(self.Rs*self.Sps)
+
     def get_Rs(self):
         return self.Rs
 
     def set_Rs(self, Rs):
         self.Rs = Rs
         self.set_Rb(self.Rs*self.bps)
-        self.qtgui_time_sink_x_0.set_samp_rate(self.Rs)
+        self.set_samp_rate(self.Rs*self.Sps)
+
+    def get_samp_rate(self):
+        return self.samp_rate
+
+    def set_samp_rate(self, samp_rate):
+        self.samp_rate = samp_rate
+        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
+        self.uhd_usrp_sink_0.set_samp_rate(self.samp_rate)
+
+    def get_h(self):
+        return self.h
+
+    def set_h(self, h):
+        self.h = h
+        self.interp_fir_filter_xxx_0.set_taps(self.h)
 
     def get_Rb(self):
         return self.Rb
 
     def set_Rb(self, Rb):
         self.Rb = Rb
-
 
 
 
@@ -257,6 +313,9 @@ def main(top_block_cls=USRP_4, options=None):
     tb.show()
 
     def sig_handler(sig=None, frame=None):
+        tb.stop()
+        tb.wait()
+
         Qt.QApplication.quit()
 
     signal.signal(signal.SIGINT, sig_handler)
@@ -266,11 +325,6 @@ def main(top_block_cls=USRP_4, options=None):
     timer.start(500)
     timer.timeout.connect(lambda: None)
 
-    def quitting():
-        tb.stop()
-        tb.wait()
-
-    qapp.aboutToQuit.connect(quitting)
     qapp.exec_()
 
 if __name__ == '__main__':
