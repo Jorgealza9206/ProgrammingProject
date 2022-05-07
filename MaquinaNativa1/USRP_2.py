@@ -27,15 +27,17 @@ import sip
 from gnuradio import blocks
 import numpy
 from gnuradio import digital
+from gnuradio import filter
 from gnuradio import gr
-from gnuradio.fft import window
 import sys
 import signal
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
-
-
+from gnuradio import vocoder
+import numpy
+import osmosdr
+import time
 
 from gnuradio import qtgui
 
@@ -75,72 +77,94 @@ class USRP_2(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.samp_rate = samp_rate = 32000
+        self.samp_rate = samp_rate = 192000
 
         ##################################################
         # Blocks
         ##################################################
-        self.qtgui_freq_sink_x_0 = qtgui.freq_sink_c(
+        self.vocoder_cvsd_encode_fb_0 = vocoder.cvsd_encode_fb(8,0.5)
+        self.rational_resampler_xxx_0 = filter.rational_resampler_ccc(
+                interpolation=10,
+                decimation=1,
+                taps=None,
+                fractional_bw=None)
+        self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
             1024, #size
-            window.WIN_BLACKMAN_hARRIS, #wintype
-            0, #fc
-            samp_rate, #bw
+            samp_rate, #samp_rate
             "", #name
-            1,
-            None # parent
+            1 #number of inputs
         )
-        self.qtgui_freq_sink_x_0.set_update_time(0.10)
-        self.qtgui_freq_sink_x_0.set_y_axis(-140, 10)
-        self.qtgui_freq_sink_x_0.set_y_label('Relative Gain', 'dB')
-        self.qtgui_freq_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
-        self.qtgui_freq_sink_x_0.enable_autoscale(False)
-        self.qtgui_freq_sink_x_0.enable_grid(False)
-        self.qtgui_freq_sink_x_0.set_fft_average(1.0)
-        self.qtgui_freq_sink_x_0.enable_axis_labels(True)
-        self.qtgui_freq_sink_x_0.enable_control_panel(False)
-        self.qtgui_freq_sink_x_0.set_fft_window_normalized(False)
+        self.qtgui_time_sink_x_0.set_update_time(0.10)
+        self.qtgui_time_sink_x_0.set_y_axis(-1, 1)
+
+        self.qtgui_time_sink_x_0.set_y_label('Counts', "")
+
+        self.qtgui_time_sink_x_0.enable_tags(True)
+        self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_AUTO, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
+        self.qtgui_time_sink_x_0.enable_autoscale(False)
+        self.qtgui_time_sink_x_0.enable_grid(False)
+        self.qtgui_time_sink_x_0.enable_axis_labels(True)
+        self.qtgui_time_sink_x_0.enable_control_panel(False)
+        self.qtgui_time_sink_x_0.enable_stem_plot(False)
 
 
-
-        labels = ['', '', '', '', '',
-            '', '', '', '', '']
+        labels = ['Signal 1', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
+            'Signal 6', 'Signal 7', 'Signal 8', 'Signal 9', 'Signal 10']
         widths = [1, 1, 1, 1, 1,
             1, 1, 1, 1, 1]
-        colors = ["blue", "red", "green", "black", "cyan",
-            "magenta", "yellow", "dark red", "dark green", "dark blue"]
+        colors = ['blue', 'red', 'green', 'black', 'cyan',
+            'magenta', 'yellow', 'dark red', 'dark green', 'dark blue']
         alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
             1.0, 1.0, 1.0, 1.0, 1.0]
+        styles = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        markers = [-1, -1, -1, -1, -1,
+            -1, -1, -1, -1, -1]
 
-        for i in range(1):
+
+        for i in range(2):
             if len(labels[i]) == 0:
-                self.qtgui_freq_sink_x_0.set_line_label(i, "Data {0}".format(i))
+                if (i % 2 == 0):
+                    self.qtgui_time_sink_x_0.set_line_label(i, "Re{{Data {0}}}".format(i/2))
+                else:
+                    self.qtgui_time_sink_x_0.set_line_label(i, "Im{{Data {0}}}".format(i/2))
             else:
-                self.qtgui_freq_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_freq_sink_x_0.set_line_width(i, widths[i])
-            self.qtgui_freq_sink_x_0.set_line_color(i, colors[i])
-            self.qtgui_freq_sink_x_0.set_line_alpha(i, alphas[i])
+                self.qtgui_time_sink_x_0.set_line_label(i, labels[i])
+            self.qtgui_time_sink_x_0.set_line_width(i, widths[i])
+            self.qtgui_time_sink_x_0.set_line_color(i, colors[i])
+            self.qtgui_time_sink_x_0.set_line_style(i, styles[i])
+            self.qtgui_time_sink_x_0.set_line_marker(i, markers[i])
+            self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
 
-        self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
-        self.digital_constellation_modulator_0 = digital.generic_mod(
-            constellation=,
-            differential=True,
-            samples_per_symbol=4,
-            pre_diff_code=True,
-            excess_bw=0.35,
-            verbose=False,
-            log=False,
-            truncate=False)
-        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
-        self.analog_random_source_x_0 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, 255, 1000))), True)
+        self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.pyqwidget(), Qt.QWidget)
+        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_win)
+        self.osmosdr_sink_0 = osmosdr.sink(
+            args="numchan=" + str(1) + " " + ""
+        )
+        self.osmosdr_sink_0.set_sample_rate(1.92e6)
+        self.osmosdr_sink_0.set_center_freq(87.5e6, 0)
+        self.osmosdr_sink_0.set_freq_corr(0, 0)
+        self.osmosdr_sink_0.set_gain(25, 0)
+        self.osmosdr_sink_0.set_if_gain(20, 0)
+        self.osmosdr_sink_0.set_bb_gain(20, 0)
+        self.osmosdr_sink_0.set_antenna('', 0)
+        self.osmosdr_sink_0.set_bandwidth(0, 0)
+        self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc(0,1, 1)
+        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(0.9)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_float*1, 'D:\\Mi unidad\\ProgrammingProject\\MaquinaNativa1\\Frailejon.txt', True, 0, 0)
+        self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
+
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.analog_random_source_x_0, 0), (self.digital_constellation_modulator_0, 0))
-        self.connect((self.blocks_throttle_0, 0), (self.qtgui_freq_sink_x_0, 0))
-        self.connect((self.digital_constellation_modulator_0, 0), (self.blocks_throttle_0, 0))
+        self.connect((self.blocks_file_source_0, 0), (self.vocoder_cvsd_encode_fb_0, 0))
+        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.rational_resampler_xxx_0, 0))
+        self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.blocks_multiply_const_vxx_0, 0))
+        self.connect((self.rational_resampler_xxx_0, 0), (self.osmosdr_sink_0, 0))
+        self.connect((self.rational_resampler_xxx_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.vocoder_cvsd_encode_fb_0, 0), (self.digital_chunks_to_symbols_xx_0, 0))
 
 
     def closeEvent(self, event):
@@ -156,8 +180,8 @@ class USRP_2(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
-        self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
+        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
+
 
 
 
