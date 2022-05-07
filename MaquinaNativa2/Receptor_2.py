@@ -20,19 +20,18 @@ if __name__ == '__main__':
         except:
             print("Warning: failed to XInitThreads()")
 
-from gnuradio import audio
-from gnuradio import blocks
-from gnuradio import digital
-from gnuradio import filter
+from PyQt5 import Qt
+from gnuradio import qtgui
 from gnuradio.filter import firdes
+import sip
+from gnuradio import blocks
+from gnuradio import filter
 from gnuradio import gr
 import sys
 import signal
-from PyQt5 import Qt
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
-from gnuradio import vocoder
 from gnuradio.qtgui import Range, RangeWidget
 import osmosdr
 import time
@@ -85,7 +84,6 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self._volumen_range = Range(0, 1, 0.1, 0.2, 200)
         self._volumen_win = RangeWidget(self._volumen_range, self.set_volumen, 'volumen', "counter_slider", float)
         self.top_grid_layout.addWidget(self._volumen_win)
-        self.vocoder_cvsd_decode_bf_0 = vocoder.cvsd_decode_bf(8,0.5)
         self.rtlsdr_source_0 = osmosdr.source(
             args="numchan=" + str(1) + " " + ""
         )
@@ -101,34 +99,114 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self.rtlsdr_source_0.set_bb_gain(20, 0)
         self.rtlsdr_source_0.set_antenna('', 0)
         self.rtlsdr_source_0.set_bandwidth(200e3, 0)
-        self.rational_resampler_xxx_1 = filter.rational_resampler_ccc(
-                interpolation=1,
-                decimation=20,
-                taps=None,
-                fractional_bw=None)
-        self.digital_psk_demod_0 = digital.psk.psk_demod(
-            constellation_points=4,
-            differential=True,
-            samples_per_symbol=2,
-            excess_bw=0.35,
-            phase_bw=6.28/100.0,
-            timing_bw=6.28/100.0,
-            mod_code="gray",
-            verbose=False,
-            log=False)
-        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(volumen)
-        self.audio_sink_0 = audio.sink(samp_rate_2, '', True)
+        self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
+            1024, #size
+            samp_rate, #samp_rate
+            "", #name
+            1 #number of inputs
+        )
+        self.qtgui_time_sink_x_0.set_update_time(0.10)
+        self.qtgui_time_sink_x_0.set_y_axis(-1, 1)
+
+        self.qtgui_time_sink_x_0.set_y_label('Amplitude', "")
+
+        self.qtgui_time_sink_x_0.enable_tags(True)
+        self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
+        self.qtgui_time_sink_x_0.enable_autoscale(False)
+        self.qtgui_time_sink_x_0.enable_grid(True)
+        self.qtgui_time_sink_x_0.enable_axis_labels(True)
+        self.qtgui_time_sink_x_0.enable_control_panel(True)
+        self.qtgui_time_sink_x_0.enable_stem_plot(False)
+
+
+        labels = ['Signal 1', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
+            'Signal 6', 'Signal 7', 'Signal 8', 'Signal 9', 'Signal 10']
+        widths = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        colors = ['blue', 'red', 'green', 'black', 'cyan',
+            'magenta', 'yellow', 'dark red', 'dark green', 'dark blue']
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+            1.0, 1.0, 1.0, 1.0, 1.0]
+        styles = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        markers = [-1, -1, -1, -1, -1,
+            -1, -1, -1, -1, -1]
+
+
+        for i in range(2):
+            if len(labels[i]) == 0:
+                if (i % 2 == 0):
+                    self.qtgui_time_sink_x_0.set_line_label(i, "Re{{Data {0}}}".format(i/2))
+                else:
+                    self.qtgui_time_sink_x_0.set_line_label(i, "Im{{Data {0}}}".format(i/2))
+            else:
+                self.qtgui_time_sink_x_0.set_line_label(i, labels[i])
+            self.qtgui_time_sink_x_0.set_line_width(i, widths[i])
+            self.qtgui_time_sink_x_0.set_line_color(i, colors[i])
+            self.qtgui_time_sink_x_0.set_line_style(i, styles[i])
+            self.qtgui_time_sink_x_0.set_line_marker(i, markers[i])
+            self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
+
+        self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.pyqwidget(), Qt.QWidget)
+        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_win)
+        self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
+            1024, #size
+            "", #name
+            1 #number of inputs
+        )
+        self.qtgui_const_sink_x_0.set_update_time(0.10)
+        self.qtgui_const_sink_x_0.set_y_axis(-2, 2)
+        self.qtgui_const_sink_x_0.set_x_axis(-2, 2)
+        self.qtgui_const_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
+        self.qtgui_const_sink_x_0.enable_autoscale(False)
+        self.qtgui_const_sink_x_0.enable_grid(False)
+        self.qtgui_const_sink_x_0.enable_axis_labels(True)
+
+
+        labels = ['', '', '', '', '',
+            '', '', '', '', '']
+        widths = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        colors = ["blue", "red", "red", "red", "red",
+            "red", "red", "red", "red", "red"]
+        styles = [0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0]
+        markers = [0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0]
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+            1.0, 1.0, 1.0, 1.0, 1.0]
+
+        for i in range(1):
+            if len(labels[i]) == 0:
+                self.qtgui_const_sink_x_0.set_line_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_const_sink_x_0.set_line_label(i, labels[i])
+            self.qtgui_const_sink_x_0.set_line_width(i, widths[i])
+            self.qtgui_const_sink_x_0.set_line_color(i, colors[i])
+            self.qtgui_const_sink_x_0.set_line_style(i, styles[i])
+            self.qtgui_const_sink_x_0.set_line_marker(i, markers[i])
+            self.qtgui_const_sink_x_0.set_line_alpha(i, alphas[i])
+
+        self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.pyqwidget(), Qt.QWidget)
+        self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_win)
+        self.low_pass_filter_0 = filter.fir_filter_ccf(
+            5,
+            firdes.low_pass(
+                1,
+                samp_rate,
+                96e3,
+                1e6,
+                firdes.WIN_HAMMING,
+                6.76))
 
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.audio_sink_0, 0))
-        self.connect((self.digital_psk_demod_0, 0), (self.vocoder_cvsd_decode_bf_0, 0))
-        self.connect((self.rational_resampler_xxx_1, 0), (self.digital_psk_demod_0, 0))
-        self.connect((self.rtlsdr_source_0, 0), (self.rational_resampler_xxx_1, 0))
-        self.connect((self.vocoder_cvsd_decode_bf_0, 0), (self.blocks_multiply_const_vxx_0, 0))
+        self.connect((self.low_pass_filter_0, 0), (self.qtgui_const_sink_x_0, 0))
+        self.connect((self.low_pass_filter_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.rtlsdr_source_0, 0), (self.low_pass_filter_0, 0))
 
 
     def closeEvent(self, event):
@@ -141,7 +219,6 @@ class Receptor_2(gr.top_block, Qt.QWidget):
 
     def set_volumen(self, volumen):
         self.volumen = volumen
-        self.blocks_multiply_const_vxx_0.set_k(self.volumen)
 
     def get_samp_rate_2(self):
         return self.samp_rate_2
@@ -154,6 +231,8 @@ class Receptor_2(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
+        self.low_pass_filter_0.set_taps(firdes.low_pass(1, self.samp_rate, 96e3, 1e6, firdes.WIN_HAMMING, 6.76))
+        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.rtlsdr_source_0.set_sample_rate(self.samp_rate)
 
 
