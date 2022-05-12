@@ -81,13 +81,15 @@ class USRP_4(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.TrueBoardConstellation = TrueBoardConstellation = (0.77+0.77j,-0.77+0.77j,-0.77-0.77j,0.77-0.77j)
-        self.M = M = len(TrueBoardConstellation)
+        self.constellation_2 = constellation_2 = (1,0)
+        self.M = M = len(constellation_2)
         self.bps = bps = int(math.log(M,2))
         self.Sps = Sps = 8
         self.Rs = Rs = 44100
         self.samp_rate = samp_rate = Rs*Sps
         self.h = h = [1]*Sps
+        self.button = button = 0
+        self.TrueBoardConstellation = TrueBoardConstellation = (0.77+0.77j,-0.77+0.77j,-0.77-0.77j,0.77-0.77j)
         self.Rb = Rb = Rs*bps
 
         ##################################################
@@ -108,6 +110,61 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.uhd_usrp_sink_0.set_center_freq(87.5e6, 0)
         self.uhd_usrp_sink_0.set_antenna("TX/RX", 0)
         self.uhd_usrp_sink_0.set_gain(0, 0)
+        self.qtgui_time_sink_x_0_0 = qtgui.time_sink_c(
+            1024, #size
+            samp_rate, #samp_rate
+            "", #name
+            1, #number of inputs
+            None # parent
+        )
+        self.qtgui_time_sink_x_0_0.set_update_time(0.1)
+        self.qtgui_time_sink_x_0_0.set_y_axis(-1, 1)
+
+        self.qtgui_time_sink_x_0_0.set_y_label('Amplitude', "")
+
+        self.qtgui_time_sink_x_0_0.enable_tags(True)
+        self.qtgui_time_sink_x_0_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
+        self.qtgui_time_sink_x_0_0.enable_autoscale(True)
+        self.qtgui_time_sink_x_0_0.enable_grid(True)
+        self.qtgui_time_sink_x_0_0.enable_axis_labels(True)
+        self.qtgui_time_sink_x_0_0.enable_control_panel(True)
+        self.qtgui_time_sink_x_0_0.enable_stem_plot(False)
+
+
+        labels = ['Signal 1', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
+            'Signal 6', 'Signal 7', 'Signal 8', 'Signal 9', 'Signal 10']
+        widths = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        colors = ['blue', 'red', 'green', 'black', 'cyan',
+            'magenta', 'yellow', 'dark red', 'dark green', 'dark blue']
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+            1.0, 1.0, 1.0, 1.0, 1.0]
+        styles = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        markers = [-1, -1, -1, -1, -1,
+            -1, -1, -1, -1, -1]
+
+
+        for i in range(2):
+            if len(labels[i]) == 0:
+                if (i % 2 == 0):
+                    self.qtgui_time_sink_x_0_0.set_line_label(i, "Re{{Data {0}}}".format(i/2))
+                else:
+                    self.qtgui_time_sink_x_0_0.set_line_label(i, "Im{{Data {0}}}".format(i/2))
+            else:
+                self.qtgui_time_sink_x_0_0.set_line_label(i, labels[i])
+            self.qtgui_time_sink_x_0_0.set_line_width(i, widths[i])
+            self.qtgui_time_sink_x_0_0.set_line_color(i, colors[i])
+            self.qtgui_time_sink_x_0_0.set_line_style(i, styles[i])
+            self.qtgui_time_sink_x_0_0.set_line_marker(i, markers[i])
+            self.qtgui_time_sink_x_0_0.set_line_alpha(i, alphas[i])
+
+        self._qtgui_time_sink_x_0_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0.qwidget(), Qt.QWidget)
+        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_0_win, 1, 0, 1, 1)
+        for r in range(1, 2):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(0, 1):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
             1024, #size
             samp_rate, #samp_rate
@@ -158,10 +215,10 @@ class USRP_4(gr.top_block, Qt.QWidget):
             self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
 
         self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.qwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_win, 0, 0, 1, 2)
+        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_win, 0, 0, 1, 1)
         for r in range(0, 1):
             self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(0, 2):
+        for c in range(0, 1):
             self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
             2048, #size
@@ -203,14 +260,20 @@ class USRP_4(gr.top_block, Qt.QWidget):
             self.qtgui_const_sink_x_0.set_line_alpha(i, alphas[i])
 
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.qwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_win, 1, 1, 1, 1)
-        for r in range(1, 2):
+        self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_win, 2, 0, 1, 1)
+        for r in range(2, 3):
             self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(1, 2):
+        for c in range(0, 1):
             self.top_grid_layout.setColumnStretch(c, 1)
         self.interp_fir_filter_xxx_0 = filter.interp_fir_filter_ccc(Sps, h)
         self.interp_fir_filter_xxx_0.declare_sample_delay(0)
-        self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc(TrueBoardConstellation, 1)
+        self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc(constellation_2, 1)
+        _button_push_button = Qt.QPushButton('')
+        _button_push_button = Qt.QPushButton('button')
+        self._button_choices = {'Pressed': 1, 'Released': 0}
+        _button_push_button.pressed.connect(lambda: self.set_button(self._button_choices['Pressed']))
+        _button_push_button.released.connect(lambda: self.set_button(self._button_choices['Released']))
+        self.top_layout.addWidget(_button_push_button)
         self.blocks_packed_to_unpacked_xx_0 = blocks.packed_to_unpacked_bb(bps, gr.GR_MSB_FIRST)
         self.blocks_pack_k_bits_bb_0 = blocks.pack_k_bits_bb(8)
         self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/alex/Documents/ProgrammingProject/MaquinaNativa1/Frailejon.txt', True, 0, 0)
@@ -224,6 +287,7 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_pack_k_bits_bb_0, 0), (self.blocks_packed_to_unpacked_xx_0, 0))
         self.connect((self.blocks_packed_to_unpacked_xx_0, 0), (self.digital_chunks_to_symbols_xx_0, 0))
         self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.interp_fir_filter_xxx_0, 0))
+        self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.qtgui_time_sink_x_0_0, 0))
         self.connect((self.interp_fir_filter_xxx_0, 0), (self.qtgui_const_sink_x_0, 0))
         self.connect((self.interp_fir_filter_xxx_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.interp_fir_filter_xxx_0, 0), (self.uhd_usrp_sink_0, 0))
@@ -237,13 +301,13 @@ class USRP_4(gr.top_block, Qt.QWidget):
 
         event.accept()
 
-    def get_TrueBoardConstellation(self):
-        return self.TrueBoardConstellation
+    def get_constellation_2(self):
+        return self.constellation_2
 
-    def set_TrueBoardConstellation(self, TrueBoardConstellation):
-        self.TrueBoardConstellation = TrueBoardConstellation
-        self.set_M(len(self.TrueBoardConstellation))
-        self.digital_chunks_to_symbols_xx_0.set_symbol_table(self.TrueBoardConstellation)
+    def set_constellation_2(self, constellation_2):
+        self.constellation_2 = constellation_2
+        self.set_M(len(self.constellation_2))
+        self.digital_chunks_to_symbols_xx_0.set_symbol_table(self.constellation_2)
 
     def get_M(self):
         return self.M
@@ -281,6 +345,7 @@ class USRP_4(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
+        self.qtgui_time_sink_x_0_0.set_samp_rate(self.samp_rate)
         self.uhd_usrp_sink_0.set_samp_rate(self.samp_rate)
 
     def get_h(self):
@@ -289,6 +354,18 @@ class USRP_4(gr.top_block, Qt.QWidget):
     def set_h(self, h):
         self.h = h
         self.interp_fir_filter_xxx_0.set_taps(self.h)
+
+    def get_button(self):
+        return self.button
+
+    def set_button(self, button):
+        self.button = button
+
+    def get_TrueBoardConstellation(self):
+        return self.TrueBoardConstellation
+
+    def set_TrueBoardConstellation(self, TrueBoardConstellation):
+        self.TrueBoardConstellation = TrueBoardConstellation
 
     def get_Rb(self):
         return self.Rb
