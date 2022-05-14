@@ -222,6 +222,25 @@ blocks:
     coordinate: [644, 11]
     rotation: 0
     state: true
+- name: interp_fir_filter_xxx_0
+  id: interp_fir_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_delay: '0'
+    taps: ''
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [714, 296]
+    rotation: 0
+    state: true
 - name: qtgui_const_sink_x_0
   id: qtgui_const_sink_x
   parameters:
