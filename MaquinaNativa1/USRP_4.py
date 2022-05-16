@@ -85,13 +85,33 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.Rs = Rs = 44100
         self.samp_rate = samp_rate = Rs*Sps
         self.h = h = [1]*Sps
-        self.button = button = 0
         self.TrueBoardConstellation = TrueBoardConstellation = (0.77+0.77j,-0.77+0.77j,-0.77-0.77j,0.77-0.77j)
         self.Rb = Rb = Rs*bps
 
         ##################################################
         # Blocks
         ##################################################
+        self.Widget = Qt.QTabWidget()
+        self.Widget_widget_0 = Qt.QWidget()
+        self.Widget_layout_0 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_0)
+        self.Widget_grid_layout_0 = Qt.QGridLayout()
+        self.Widget_layout_0.addLayout(self.Widget_grid_layout_0)
+        self.Widget.addTab(self.Widget_widget_0, 'Señal binaria')
+        self.Widget_widget_1 = Qt.QWidget()
+        self.Widget_layout_1 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_1)
+        self.Widget_grid_layout_1 = Qt.QGridLayout()
+        self.Widget_layout_1.addLayout(self.Widget_grid_layout_1)
+        self.Widget.addTab(self.Widget_widget_1, 'Señal cuadrada')
+        self.Widget_widget_2 = Qt.QWidget()
+        self.Widget_layout_2 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_2)
+        self.Widget_grid_layout_2 = Qt.QGridLayout()
+        self.Widget_layout_2.addLayout(self.Widget_grid_layout_2)
+        self.Widget.addTab(self.Widget_widget_2, 'Diagrama de constelaciones')
+        self.top_grid_layout.addWidget(self.Widget, 0, 0, 1, 1)
+        for r in range(0, 1):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(0, 1):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self.uhd_usrp_sink_0 = uhd.usrp_sink(
             ",".join(("", '')),
             uhd.stream_args(
@@ -155,11 +175,7 @@ class USRP_4(gr.top_block, Qt.QWidget):
             self.qtgui_time_sink_x_0_0.set_line_alpha(i, alphas[i])
 
         self._qtgui_time_sink_x_0_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0.pyqwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_0_win, 1, 0, 1, 1)
-        for r in range(1, 2):
-            self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(0, 1):
-            self.top_grid_layout.setColumnStretch(c, 1)
+        self.Widget_layout_0.addWidget(self._qtgui_time_sink_x_0_0_win)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
             1024, #size
             samp_rate, #samp_rate
@@ -177,7 +193,7 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.qtgui_time_sink_x_0.enable_grid(True)
         self.qtgui_time_sink_x_0.enable_axis_labels(True)
         self.qtgui_time_sink_x_0.enable_control_panel(True)
-        self.qtgui_time_sink_x_0.enable_stem_plot(False)
+        self.qtgui_time_sink_x_0.enable_stem_plot(True)
 
 
         labels = ['Signal 1', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
@@ -209,11 +225,7 @@ class USRP_4(gr.top_block, Qt.QWidget):
             self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
 
         self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.pyqwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_win, 0, 0, 1, 1)
-        for r in range(0, 1):
-            self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(0, 1):
-            self.top_grid_layout.setColumnStretch(c, 1)
+        self.Widget_layout_1.addWidget(self._qtgui_time_sink_x_0_win)
         self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
             2048, #size
             "Diagrama de constelaciones", #name
@@ -253,20 +265,10 @@ class USRP_4(gr.top_block, Qt.QWidget):
             self.qtgui_const_sink_x_0.set_line_alpha(i, alphas[i])
 
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.pyqwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_win, 2, 0, 1, 1)
-        for r in range(2, 3):
-            self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(0, 1):
-            self.top_grid_layout.setColumnStretch(c, 1)
+        self.Widget_layout_2.addWidget(self._qtgui_const_sink_x_0_win)
         self.interp_fir_filter_xxx_0 = filter.interp_fir_filter_ccc(Sps, h)
         self.interp_fir_filter_xxx_0.declare_sample_delay(0)
         self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc(constellation_2, 1)
-        _button_push_button = Qt.QPushButton('')
-        _button_push_button = Qt.QPushButton('button')
-        self._button_choices = {'Pressed': 1, 'Released': 0}
-        _button_push_button.pressed.connect(lambda: self.set_button(self._button_choices['Pressed']))
-        _button_push_button.released.connect(lambda: self.set_button(self._button_choices['Released']))
-        self.top_grid_layout.addWidget(_button_push_button)
         self.blocks_packed_to_unpacked_xx_0 = blocks.packed_to_unpacked_bb(bps, gr.GR_MSB_FIRST)
         self.blocks_pack_k_bits_bb_0 = blocks.pack_k_bits_bb(8)
         self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, 'D:\\Mi unidad\\ProgrammingProject\\MaquinaNativa1\\Frailejon.txt', True, 0, 0)
@@ -350,12 +352,6 @@ class USRP_4(gr.top_block, Qt.QWidget):
     def set_h(self, h):
         self.h = h
         self.interp_fir_filter_xxx_0.set_taps(self.h)
-
-    def get_button(self):
-        return self.button
-
-    def set_button(self, button):
-        self.button = button
 
     def get_TrueBoardConstellation(self):
         return self.TrueBoardConstellation

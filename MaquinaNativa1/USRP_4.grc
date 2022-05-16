@@ -104,23 +104,6 @@ blocks:
     coordinate: [557, 10]
     rotation: 0
     state: true
-- name: button
-  id: variable_qtgui_push_button
-  parameters:
-    comment: ''
-    gui_hint: ''
-    label: ''
-    pressed: '1'
-    released: '0'
-    type: bool
-    value: '0'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [312, 300.0]
-    rotation: 0
-    state: true
 - name: constellation_2
   id: variable
   parameters:
@@ -157,6 +140,40 @@ blocks:
     coordinate: [232, 76.0]
     rotation: 0
     state: true
+- name: Widget
+  id: qtgui_tab_widget
+  parameters:
+    alias: ''
+    comment: ''
+    gui_hint: 0,0,1,1
+    label0: "Se\xF1al binaria"
+    label1: "Se\xF1al cuadrada"
+    label10: Tab 10
+    label11: Tab 11
+    label12: Tab 12
+    label13: Tab 13
+    label14: Tab 14
+    label15: Tab 15
+    label16: Tab 16
+    label17: Tab 17
+    label18: Tab 18
+    label19: Tab 19
+    label2: Diagrama de constelaciones
+    label3: Tab 3
+    label4: Tab 4
+    label5: Tab 5
+    label6: Tab 6
+    label7: Tab 7
+    label8: Tab 8
+    label9: Tab 9
+    num_tabs: '3'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [471, 73]
+    rotation: 0
+    state: true
 - name: analog_random_source_x_0
   id: analog_random_source_x
   parameters:
@@ -190,7 +207,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [522, 296]
+    coordinate: [553, 269]
     rotation: 0
     state: enabled
 - name: blocks_file_sink_0
@@ -208,7 +225,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [682, 309]
+    coordinate: [682, 306]
     rotation: 0
     state: enabled
 - name: blocks_file_source_0
@@ -230,7 +247,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [64, 116.0]
+    coordinate: [33, 118]
     rotation: 0
     state: enabled
 - name: blocks_file_source_1
@@ -288,7 +305,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [241, 235]
+    coordinate: [230, 264]
     rotation: 0
     state: enabled
 - name: blocks_vector_source_x_0
@@ -308,7 +325,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [516, 351]
+    coordinate: [224, 345]
     rotation: 0
     state: disabled
 - name: digital_chunks_to_symbols_xx_0
@@ -328,7 +345,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [400, 152.0]
+    coordinate: [369, 178]
     rotation: 0
     state: enabled
 - name: import_0
@@ -373,7 +390,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [670, 111]
+    coordinate: [687, 127]
     rotation: 0
     state: true
 - name: qtgui_const_sink_x_0
@@ -405,7 +422,7 @@ blocks:
     color9: '"red"'
     comment: ''
     grid: 'True'
-    gui_hint: 2,0,1,1
+    gui_hint: Widget@2
     label1: ''
     label10: ''
     label2: ''
@@ -465,7 +482,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [912, 228.0]
+    coordinate: [908, 228]
     rotation: 0
     state: enabled
 - name: qtgui_freq_sink_x_0
@@ -579,7 +596,7 @@ blocks:
     ctrlpanel: 'True'
     entags: 'True'
     grid: 'True'
-    gui_hint: 0,0,1,1
+    gui_hint: Widget@1
     label1: Signal 1
     label10: Signal 10
     label2: Signal 2
@@ -605,7 +622,7 @@ blocks:
     nconnections: '1'
     size: '1024'
     srate: samp_rate
-    stemplot: 'False'
+    stemplot: 'True'
     style1: '1'
     style10: '1'
     style2: '1'
@@ -642,7 +659,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [888, 76.0]
+    coordinate: [888, 74]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0_0
@@ -676,7 +693,7 @@ blocks:
     ctrlpanel: 'True'
     entags: 'True'
     grid: 'True'
-    gui_hint: 1,0,1,1
+    gui_hint: Widget@0
     label1: Signal 1
     label10: Signal 10
     label2: Signal 2
@@ -739,7 +756,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [686, 199]
+    coordinate: [693, 204]
     rotation: 0
     state: enabled
 - name: uhd_usrp_sink_0
@@ -1016,7 +1033,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [912, 308.0]
+    coordinate: [912, 307]
     rotation: 0
     state: true
 
