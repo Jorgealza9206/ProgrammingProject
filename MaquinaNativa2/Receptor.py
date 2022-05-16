@@ -210,8 +210,6 @@ class Receptor(gr.top_block, Qt.QWidget):
                 firdes.WIN_HAMMING,
                 6.76))
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(volumen)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_float*1, 'C:\\Users\\Julian\\Desktop\\ProgrammingProject\\MaquinaNativa2\\encrypted_data.bin', False)
-        self.blocks_file_sink_0.set_unbuffered(False)
         self.audio_sink_0 = audio.sink(44100, '', True)
         self.analog_wfm_rcv_0 = analog.wfm_rcv(
         	quad_rate=500e3,
@@ -229,7 +227,6 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.audio_sink_0, 0))
         self.connect((self.low_pass_filter_0, 0), (self.analog_wfm_rcv_0, 0))
         self.connect((self.rational_resampler_xxx_0, 0), (self.low_pass_filter_0, 0))
-        self.connect((self.rational_resampler_xxx_1, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.rational_resampler_xxx_1, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.rtlsdr_source_0, 0), (self.rational_resampler_xxx_0, 0))
 

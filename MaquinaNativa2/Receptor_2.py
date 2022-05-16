@@ -85,6 +85,18 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self._amplificador_range = Range(0, 200, 10, 100, 200)
         self._amplificador_win = RangeWidget(self._amplificador_range, self.set_amplificador, 'amplificador', "counter_slider", float)
         self.top_grid_layout.addWidget(self._amplificador_win)
+        self.Widget = Qt.QTabWidget()
+        self.Widget_widget_0 = Qt.QWidget()
+        self.Widget_layout_0 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_0)
+        self.Widget_grid_layout_0 = Qt.QGridLayout()
+        self.Widget_layout_0.addLayout(self.Widget_grid_layout_0)
+        self.Widget.addTab(self.Widget_widget_0, 'Señal cuadrada')
+        self.Widget_widget_1 = Qt.QWidget()
+        self.Widget_layout_1 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_1)
+        self.Widget_grid_layout_1 = Qt.QGridLayout()
+        self.Widget_layout_1.addLayout(self.Widget_grid_layout_1)
+        self.Widget.addTab(self.Widget_widget_1, 'Señal binaria?')
+        self.top_grid_layout.addWidget(self.Widget)
         self.rtlsdr_source_0 = osmosdr.source(
             args="numchan=" + str(1) + " " + ""
         )
@@ -122,7 +134,7 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self.qtgui_time_sink_x_0_0.enable_grid(True)
         self.qtgui_time_sink_x_0_0.enable_axis_labels(True)
         self.qtgui_time_sink_x_0_0.enable_control_panel(True)
-        self.qtgui_time_sink_x_0_0.enable_stem_plot(False)
+        self.qtgui_time_sink_x_0_0.enable_stem_plot(True)
 
 
         labels = ['Signal 1', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
@@ -151,7 +163,7 @@ class Receptor_2(gr.top_block, Qt.QWidget):
             self.qtgui_time_sink_x_0_0.set_line_alpha(i, alphas[i])
 
         self._qtgui_time_sink_x_0_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0.pyqwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_0_win)
+        self.Widget_layout_0.addWidget(self._qtgui_time_sink_x_0_0_win)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
             1024, #size
             480000, #samp_rate
@@ -198,7 +210,7 @@ class Receptor_2(gr.top_block, Qt.QWidget):
             self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
 
         self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.pyqwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_win)
+        self.Widget_layout_1.addWidget(self._qtgui_time_sink_x_0_win)
         self.fir_filter_xxx_0 = filter.fir_filter_fff(8, h)
         self.fir_filter_xxx_0.declare_sample_delay(0)
         self.blocks_threshold_ff_0 = blocks.threshold_ff(1, 1, 0)

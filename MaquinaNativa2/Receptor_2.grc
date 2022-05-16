@@ -89,6 +89,40 @@ blocks:
     coordinate: [471, 24]
     rotation: 0
     state: enabled
+- name: Widget
+  id: qtgui_tab_widget
+  parameters:
+    alias: ''
+    comment: ''
+    gui_hint: ''
+    label0: "Se\xF1al cuadrada"
+    label1: "Se\xF1al binaria?"
+    label10: Tab 10
+    label11: Tab 11
+    label12: Tab 12
+    label13: Tab 13
+    label14: Tab 14
+    label15: Tab 15
+    label16: Tab 16
+    label17: Tab 17
+    label18: Tab 18
+    label19: Tab 19
+    label2: Tab 2
+    label3: Tab 3
+    label4: Tab 4
+    label5: Tab 5
+    label6: Tab 6
+    label7: Tab 7
+    label8: Tab 8
+    label9: Tab 9
+    num_tabs: '2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [809, 12]
+    rotation: 0
+    state: true
 - name: audio_sink_0
   id: audio_sink
   parameters:
@@ -144,7 +178,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [863, 161]
+    coordinate: [834, 160]
     rotation: 0
     state: true
 - name: blocks_file_sink_0
@@ -155,14 +189,14 @@ blocks:
     append: 'False'
     comment: ''
     file: C:\Users\Julian\Desktop\ProgrammingProject\MaquinaNativa2\frailejon.txt
-    type: byte
+    type: float
     unbuffered: 'False'
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [990, 461]
+    coordinate: [993, 459]
     rotation: 0
     state: disabled
 - name: blocks_float_to_char_0
@@ -179,7 +213,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [964, 373]
+    coordinate: [988, 370]
     rotation: 0
     state: disabled
 - name: blocks_multiply_const_vxx_0
@@ -215,7 +249,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [991, 171]
+    coordinate: [994, 163]
     rotation: 0
     state: enabled
 - name: blocks_unpack_k_bits_bb_0
@@ -250,7 +284,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1100, 355]
+    coordinate: [1152, 348]
     rotation: 0
     state: disabled
 - name: fir_filter_xxx_0
@@ -269,7 +303,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1119, 273]
+    coordinate: [1079, 260]
     rotation: 0
     state: enabled
 - name: qtgui_const_sink_x_0
@@ -395,7 +429,7 @@ blocks:
     ctrlpanel: 'True'
     entags: 'True'
     grid: 'True'
-    gui_hint: ''
+    gui_hint: Widget@1
     label1: Signal 1
     label10: Signal 10
     label2: Signal 2
@@ -492,7 +526,7 @@ blocks:
     ctrlpanel: 'True'
     entags: 'True'
     grid: 'True'
-    gui_hint: ''
+    gui_hint: Widget@0
     label1: Signal 1
     label10: Signal 10
     label2: Signal 2
@@ -518,7 +552,7 @@ blocks:
     nconnections: '1'
     size: '1024'
     srate: '480000'
-    stemplot: 'False'
+    stemplot: 'True'
     style1: '1'
     style10: '1'
     style2: '1'
@@ -595,7 +629,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [663, 285]
+    coordinate: [695, 304]
     rotation: 0
     state: disabled
 - name: rtlsdr_source_0
@@ -966,6 +1000,7 @@ connections:
 - [blocks_threshold_ff_0, '0', rational_resampler_xxx_1, '0']
 - [blocks_unpack_k_bits_bb_0, '0', blocks_file_sink_0, '0']
 - [blocks_unpacked_to_packed_xx_0, '0', blocks_unpack_k_bits_bb_0, '0']
+- [fir_filter_xxx_0, '0', blocks_file_sink_0, '0']
 - [fir_filter_xxx_0, '0', blocks_float_to_char_0, '0']
 - [fir_filter_xxx_0, '0', qtgui_time_sink_x_0, '0']
 - [rational_resampler_xxx_0, '0', blocks_multiply_const_vxx_0, '0']
