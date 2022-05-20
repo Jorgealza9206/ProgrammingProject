@@ -78,14 +78,14 @@ class USRP_4(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.constellation_2 = constellation_2 = (1,0)
-        self.M = M = len(constellation_2)
+        self.TrueBoardConstellation = TrueBoardConstellation = (0.77+0.77j,-0.77+0.77j,-0.77-0.77j,0.77-0.77j)
+        self.M = M = len(TrueBoardConstellation)
         self.bps = bps = int(math.log(M,2))
         self.Sps = Sps = 8
         self.Rs = Rs = 44100
         self.samp_rate = samp_rate = Rs*Sps
         self.h = h = [1]*Sps
-        self.TrueBoardConstellation = TrueBoardConstellation = (0.77+0.77j,-0.77+0.77j,-0.77-0.77j,0.77-0.77j)
+        self.constellation_2 = constellation_2 = (1,0)
         self.Rb = Rb = Rs*bps
 
         ##################################################
@@ -121,7 +121,7 @@ class USRP_4(gr.top_block, Qt.QWidget):
             ),
             "",
         )
-        self.uhd_usrp_sink_0.set_center_freq(87.5e6, 0)
+        self.uhd_usrp_sink_0.set_center_freq(76.6e6, 0)
         self.uhd_usrp_sink_0.set_gain(0, 0)
         self.uhd_usrp_sink_0.set_antenna("TX/RX", 0)
         self.uhd_usrp_sink_0.set_samp_rate(samp_rate)
@@ -143,7 +143,7 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.qtgui_time_sink_x_0_0.enable_grid(True)
         self.qtgui_time_sink_x_0_0.enable_axis_labels(True)
         self.qtgui_time_sink_x_0_0.enable_control_panel(True)
-        self.qtgui_time_sink_x_0_0.enable_stem_plot(False)
+        self.qtgui_time_sink_x_0_0.enable_stem_plot(True)
 
 
         labels = ['Signal 1', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
@@ -268,25 +268,20 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.Widget_layout_2.addWidget(self._qtgui_const_sink_x_0_win)
         self.interp_fir_filter_xxx_0 = filter.interp_fir_filter_ccc(Sps, h)
         self.interp_fir_filter_xxx_0.declare_sample_delay(0)
-        self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc(constellation_2, 1)
+        self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc(TrueBoardConstellation, 1)
         self.blocks_packed_to_unpacked_xx_0 = blocks.packed_to_unpacked_bb(bps, gr.GR_MSB_FIRST)
         self.blocks_pack_k_bits_bb_0 = blocks.pack_k_bits_bb(8)
         self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, 'D:\\Mi unidad\\ProgrammingProject\\MaquinaNativa1\\Frailejon.txt', True, 0, 0)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_float*1, 'D:\\Mi unidad/ProgrammingProject/MaquinaNativa1/sample_1.bin', False)
-        self.blocks_file_sink_0.set_unbuffered(False)
-        self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
 
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.blocks_complex_to_mag_0, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.blocks_file_source_0, 0), (self.blocks_pack_k_bits_bb_0, 0))
         self.connect((self.blocks_pack_k_bits_bb_0, 0), (self.blocks_packed_to_unpacked_xx_0, 0))
         self.connect((self.blocks_packed_to_unpacked_xx_0, 0), (self.digital_chunks_to_symbols_xx_0, 0))
-        self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.blocks_complex_to_mag_0, 0))
         self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.interp_fir_filter_xxx_0, 0))
         self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.qtgui_time_sink_x_0_0, 0))
         self.connect((self.interp_fir_filter_xxx_0, 0), (self.qtgui_const_sink_x_0, 0))
@@ -299,13 +294,13 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
-    def get_constellation_2(self):
-        return self.constellation_2
+    def get_TrueBoardConstellation(self):
+        return self.TrueBoardConstellation
 
-    def set_constellation_2(self, constellation_2):
-        self.constellation_2 = constellation_2
-        self.set_M(len(self.constellation_2))
-        self.digital_chunks_to_symbols_xx_0.set_symbol_table(self.constellation_2)
+    def set_TrueBoardConstellation(self, TrueBoardConstellation):
+        self.TrueBoardConstellation = TrueBoardConstellation
+        self.set_M(len(self.TrueBoardConstellation))
+        self.digital_chunks_to_symbols_xx_0.set_symbol_table(self.TrueBoardConstellation)
 
     def get_M(self):
         return self.M
@@ -353,11 +348,11 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.h = h
         self.interp_fir_filter_xxx_0.set_taps(self.h)
 
-    def get_TrueBoardConstellation(self):
-        return self.TrueBoardConstellation
+    def get_constellation_2(self):
+        return self.constellation_2
 
-    def set_TrueBoardConstellation(self, TrueBoardConstellation):
-        self.TrueBoardConstellation = TrueBoardConstellation
+    def set_constellation_2(self, constellation_2):
+        self.constellation_2 = constellation_2
 
     def get_Rb(self):
         return self.Rb

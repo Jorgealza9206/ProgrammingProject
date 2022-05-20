@@ -36,7 +36,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: len(constellation_2)
+    value: len(TrueBoardConstellation)
   states:
     bus_sink: false
     bus_source: false
@@ -209,7 +209,7 @@ blocks:
     bus_structure: null
     coordinate: [553, 269]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_file_sink_0
   id: blocks_file_sink
   parameters:
@@ -227,7 +227,7 @@ blocks:
     bus_structure: null
     coordinate: [682, 306]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_file_source_0
   id: blocks_file_source
   parameters:
@@ -247,7 +247,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [33, 118]
+    coordinate: [37, 124]
     rotation: 0
     state: enabled
 - name: blocks_file_source_1
@@ -286,7 +286,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [74, 241]
+    coordinate: [108, 237]
     rotation: 0
     state: true
 - name: blocks_packed_to_unpacked_xx_0
@@ -305,7 +305,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [230, 264]
+    coordinate: [248, 247]
     rotation: 0
     state: enabled
 - name: blocks_vector_source_x_0
@@ -340,12 +340,12 @@ blocks:
     minoutbuf: '0'
     num_ports: '1'
     out_type: complex
-    symbol_table: constellation_2
+    symbol_table: TrueBoardConstellation
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [369, 178]
+    coordinate: [394, 185]
     rotation: 0
     state: enabled
 - name: import_0
@@ -390,7 +390,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [687, 127]
+    coordinate: [676, 130]
     rotation: 0
     state: true
 - name: qtgui_const_sink_x_0
@@ -719,7 +719,7 @@ blocks:
     nconnections: '1'
     size: '1024'
     srate: samp_rate
-    stemplot: 'False'
+    stemplot: 'True'
     style1: '1'
     style10: '1'
     style2: '1'
@@ -828,7 +828,7 @@ blocks:
     bw7: '0'
     bw8: '0'
     bw9: '0'
-    center_freq0: 87.5e6
+    center_freq0: 76.6e6
     center_freq1: '0'
     center_freq10: '0'
     center_freq11: '0'
@@ -1033,7 +1033,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [912, 307]
+    coordinate: [913, 308]
     rotation: 0
     state: true
 
