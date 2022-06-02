@@ -292,15 +292,15 @@ blocks:
     alias: ''
     beta: '6.76'
     comment: ''
-    cutoff_freq: 100e3
+    cutoff_freq: 5e3
     decim: '1'
     gain: '1'
     interp: '1'
     maxoutbuf: '0'
     minoutbuf: '0'
-    samp_rate: samp_rate
+    samp_rate: '44100'
     type: fir_filter_ccf
-    width: 1e6
+    width: '500'
     win: firdes.WIN_HAMMING
   states:
     bus_sink: false
@@ -327,7 +327,7 @@ blocks:
     autoscale: 'False'
     average: '1.0'
     axislabels: 'True'
-    bw: samp_rate
+    bw: samp_rate_2
     color1: '"blue"'
     color10: '"dark blue"'
     color2: '"red"'
@@ -366,7 +366,7 @@ blocks:
     tr_level: '0.0'
     tr_mode: qtgui.TRIG_MODE_FREE
     tr_tag: '""'
-    type: float
+    type: complex
     units: dB
     update_time: '0.10'
     width1: '1'
@@ -445,7 +445,7 @@ blocks:
     name: '""'
     nconnections: '1'
     size: '1024'
-    srate: samp_rate
+    srate: samp_rate_2
     stemplot: 'False'
     style1: '1'
     style10: '1'
@@ -463,7 +463,7 @@ blocks:
     tr_mode: qtgui.TRIG_MODE_FREE
     tr_slope: qtgui.TRIG_SLOPE_POS
     tr_tag: '""'
-    type: float
+    type: complex
     update_time: '0.10'
     width1: '1'
     width10: '1'
@@ -885,8 +885,6 @@ blocks:
     state: true
 
 connections:
-- [analog_wfm_rcv_0, '0', qtgui_freq_sink_x_0, '0']
-- [analog_wfm_rcv_0, '0', qtgui_time_sink_x_0, '0']
 - [analog_wfm_rcv_0, '0', rational_resampler_xxx_1, '0']
 - [blocks_complex_to_mag_squared_0, '0', blocks_nlog10_ff_0, '0']
 - [blocks_float_to_char_0, '0', blocks_file_sink_1, '0']
@@ -897,6 +895,8 @@ connections:
 - [blocks_threshold_ff_0, '0', blocks_float_to_char_0, '0']
 - [low_pass_filter_0, '0', analog_wfm_rcv_0, '0']
 - [low_pass_filter_0, '0', blocks_complex_to_mag_squared_0, '0']
+- [low_pass_filter_0, '0', qtgui_freq_sink_x_0, '0']
+- [low_pass_filter_0, '0', qtgui_time_sink_x_0, '0']
 - [rational_resampler_xxx_0, '0', low_pass_filter_0, '0']
 - [rational_resampler_xxx_1, '0', blocks_file_sink_0, '0']
 - [rational_resampler_xxx_1, '0', blocks_multiply_const_vxx_0, '0']
