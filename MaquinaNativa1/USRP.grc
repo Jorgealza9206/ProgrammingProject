@@ -53,7 +53,7 @@ blocks:
     options: '[0, 1, 2]'
     orient: Qt.QVBoxLayout
     type: int
-    value: '0'
+    value: '1'
     widget: combo_box
   states:
     bus_sink: false
@@ -284,7 +284,7 @@ blocks:
     bw7: '0'
     bw8: '0'
     bw9: '0'
-    center_freq0: 70e6
+    center_freq0: 830e6
     center_freq1: '0'
     center_freq10: '0'
     center_freq11: '0'

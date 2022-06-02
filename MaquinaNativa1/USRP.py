@@ -74,7 +74,7 @@ class USRP(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.samp_rate = samp_rate = 96e3
-        self.Selector = Selector = 0
+        self.Selector = Selector = 1
 
         ##################################################
         # Blocks
@@ -108,7 +108,7 @@ class USRP(gr.top_block, Qt.QWidget):
             ),
             '',
         )
-        self.uhd_usrp_sink_0.set_center_freq(70e6, 0)
+        self.uhd_usrp_sink_0.set_center_freq(830e6, 0)
         self.uhd_usrp_sink_0.set_gain(0, 0)
         self.uhd_usrp_sink_0.set_antenna('TX/RX', 0)
         self.uhd_usrp_sink_0.set_bandwidth(200e3, 0)
