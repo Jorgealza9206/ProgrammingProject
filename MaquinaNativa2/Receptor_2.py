@@ -6,7 +6,7 @@
 #
 # GNU Radio Python Flow Graph
 # Title: Not titled yet
-# GNU Radio version: v3.8.2.0-57-gd71cd177
+# GNU Radio version: 3.9.5.0
 
 from distutils.version import StrictVersion
 
@@ -27,21 +27,25 @@ import sip
 from gnuradio import blocks
 from gnuradio import filter
 from gnuradio import gr
+from gnuradio.fft import window
 import sys
 import signal
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
-from gnuradio.qtgui import Range, RangeWidget
-import osmosdr
+from gnuradio import uhd
 import time
+from gnuradio.qtgui import Range, RangeWidget
+from PyQt5 import QtCore
+
+
 
 from gnuradio import qtgui
 
 class Receptor_2(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Not titled yet")
+        gr.top_block.__init__(self, "Not titled yet", catch_exceptions=True)
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Not titled yet")
         qtgui.util.check_set_qss()
@@ -74,17 +78,19 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.samp_rate_2 = samp_rate_2 = 44100
-        self.samp_rate = samp_rate = 1920000
-        self.h = h = [1]
+        self.samp_rate = samp_rate = 1562500
+        self.decimation = decimation = 4
+        self.samp_rate_3 = samp_rate_3 = 480000
+        self.samp_rate_2 = samp_rate_2 = samp_rate/decimation
+        self.h = h = 1
         self.amplificador = amplificador = 100
 
         ##################################################
         # Blocks
         ##################################################
         self._amplificador_range = Range(0, 200, 10, 100, 200)
-        self._amplificador_win = RangeWidget(self._amplificador_range, self.set_amplificador, 'amplificador', "counter_slider", float)
-        self.top_grid_layout.addWidget(self._amplificador_win)
+        self._amplificador_win = RangeWidget(self._amplificador_range, self.set_amplificador, "'amplificador'", "counter_slider", float, QtCore.Qt.Horizontal)
+        self.top_layout.addWidget(self._amplificador_win)
         self.Widget = Qt.QTabWidget()
         self.Widget_widget_0 = Qt.QWidget()
         self.Widget_layout_0 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_0)
@@ -96,32 +102,96 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self.Widget_grid_layout_1 = Qt.QGridLayout()
         self.Widget_layout_1.addLayout(self.Widget_grid_layout_1)
         self.Widget.addTab(self.Widget_widget_1, 'Señal binaria?')
-        self.top_grid_layout.addWidget(self.Widget)
-        self.rtlsdr_source_0 = osmosdr.source(
-            args="numchan=" + str(1) + " " + ""
+        self.Widget_widget_2 = Qt.QWidget()
+        self.Widget_layout_2 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_2)
+        self.Widget_grid_layout_2 = Qt.QGridLayout()
+        self.Widget_layout_2.addLayout(self.Widget_grid_layout_2)
+        self.Widget.addTab(self.Widget_widget_2, 'Analizador de espectro')
+        self.Widget_widget_3 = Qt.QWidget()
+        self.Widget_layout_3 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_3)
+        self.Widget_grid_layout_3 = Qt.QGridLayout()
+        self.Widget_layout_3.addLayout(self.Widget_grid_layout_3)
+        self.Widget.addTab(self.Widget_widget_3, 'Señal Recibida Absoluta')
+        self.Widget_widget_4 = Qt.QWidget()
+        self.Widget_layout_4 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_4)
+        self.Widget_grid_layout_4 = Qt.QGridLayout()
+        self.Widget_layout_4.addLayout(self.Widget_grid_layout_4)
+        self.Widget.addTab(self.Widget_widget_4, 'Señal Recibida')
+        self.top_layout.addWidget(self.Widget)
+        self.uhd_usrp_source_0 = uhd.usrp_source(
+            ",".join(("", "")),
+            uhd.stream_args(
+                cpu_format="fc32",
+                args='',
+                channels=list(range(0,1)),
+            ),
         )
-        self.rtlsdr_source_0.set_time_unknown_pps(osmosdr.time_spec_t())
-        self.rtlsdr_source_0.set_sample_rate(samp_rate)
-        self.rtlsdr_source_0.set_center_freq(87.5e6, 0)
-        self.rtlsdr_source_0.set_freq_corr(0, 0)
-        self.rtlsdr_source_0.set_dc_offset_mode(0, 0)
-        self.rtlsdr_source_0.set_iq_balance_mode(0, 0)
-        self.rtlsdr_source_0.set_gain_mode(False, 0)
-        self.rtlsdr_source_0.set_gain(10, 0)
-        self.rtlsdr_source_0.set_if_gain(20, 0)
-        self.rtlsdr_source_0.set_bb_gain(20, 0)
-        self.rtlsdr_source_0.set_antenna('', 0)
-        self.rtlsdr_source_0.set_bandwidth(200e3, 0)
+        self.uhd_usrp_source_0.set_samp_rate(samp_rate)
+        # No synchronization enforced.
+
+        self.uhd_usrp_source_0.set_center_freq(830e6, 0)
+        self.uhd_usrp_source_0.set_antenna('RX2', 0)
+        self.uhd_usrp_source_0.set_bandwidth(200e3, 0)
+        self.uhd_usrp_source_0.set_gain(0, 0)
         self.rational_resampler_xxx_0 = filter.rational_resampler_ccc(
                 interpolation=1,
-                decimation=4,
-                taps=None,
-                fractional_bw=None)
+                decimation=decimation,
+                taps=[],
+                fractional_bw=0)
+        self.qtgui_time_sink_x_1 = qtgui.time_sink_f(
+            1024, #size
+            samp_rate_2, #samp_rate
+            'Señal Recibida Absoluta', #name
+            1, #number of inputs
+            None # parent
+        )
+        self.qtgui_time_sink_x_1.set_update_time(0.10)
+        self.qtgui_time_sink_x_1.set_y_axis(-1, 1)
+
+        self.qtgui_time_sink_x_1.set_y_label('Amplitude', "")
+
+        self.qtgui_time_sink_x_1.enable_tags(True)
+        self.qtgui_time_sink_x_1.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
+        self.qtgui_time_sink_x_1.enable_autoscale(True)
+        self.qtgui_time_sink_x_1.enable_grid(True)
+        self.qtgui_time_sink_x_1.enable_axis_labels(True)
+        self.qtgui_time_sink_x_1.enable_control_panel(True)
+        self.qtgui_time_sink_x_1.enable_stem_plot(True)
+
+
+        labels = ['Señal Recibida', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
+            'Signal 6', 'Signal 7', 'Signal 8', 'Signal 9', 'Signal 10']
+        widths = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        colors = ['blue', 'red', 'green', 'black', 'cyan',
+            'magenta', 'yellow', 'dark red', 'dark green', 'dark blue']
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+            1.0, 1.0, 1.0, 1.0, 1.0]
+        styles = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        markers = [-1, -1, -1, -1, -1,
+            -1, -1, -1, -1, -1]
+
+
+        for i in range(1):
+            if len(labels[i]) == 0:
+                self.qtgui_time_sink_x_1.set_line_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_time_sink_x_1.set_line_label(i, labels[i])
+            self.qtgui_time_sink_x_1.set_line_width(i, widths[i])
+            self.qtgui_time_sink_x_1.set_line_color(i, colors[i])
+            self.qtgui_time_sink_x_1.set_line_style(i, styles[i])
+            self.qtgui_time_sink_x_1.set_line_marker(i, markers[i])
+            self.qtgui_time_sink_x_1.set_line_alpha(i, alphas[i])
+
+        self._qtgui_time_sink_x_1_win = sip.wrapinstance(self.qtgui_time_sink_x_1.qwidget(), Qt.QWidget)
+        self.Widget_layout_3.addWidget(self._qtgui_time_sink_x_1_win)
         self.qtgui_time_sink_x_0_0 = qtgui.time_sink_f(
             1024, #size
-            480000, #samp_rate
-            "", #name
-            1 #number of inputs
+            samp_rate_2, #samp_rate
+            'Señal Cuadrada', #name
+            1, #number of inputs
+            None # parent
         )
         self.qtgui_time_sink_x_0_0.set_update_time(0.10)
         self.qtgui_time_sink_x_0_0.set_y_axis(-1, 1)
@@ -137,7 +207,7 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self.qtgui_time_sink_x_0_0.enable_stem_plot(True)
 
 
-        labels = ['Signal 1', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
+        labels = ['Señal cuadrada', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
             'Signal 6', 'Signal 7', 'Signal 8', 'Signal 9', 'Signal 10']
         widths = [1, 1, 1, 1, 1,
             1, 1, 1, 1, 1]
@@ -162,111 +232,84 @@ class Receptor_2(gr.top_block, Qt.QWidget):
             self.qtgui_time_sink_x_0_0.set_line_marker(i, markers[i])
             self.qtgui_time_sink_x_0_0.set_line_alpha(i, alphas[i])
 
-        self._qtgui_time_sink_x_0_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0.pyqwidget(), Qt.QWidget)
+        self._qtgui_time_sink_x_0_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0.qwidget(), Qt.QWidget)
         self.Widget_layout_0.addWidget(self._qtgui_time_sink_x_0_0_win)
-        self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
-            1024, #size
-            480000, #samp_rate
-            "", #name
-            1 #number of inputs
-        )
-        self.qtgui_time_sink_x_0.set_update_time(0.10)
-        self.qtgui_time_sink_x_0.set_y_axis(-1, 1)
-
-        self.qtgui_time_sink_x_0.set_y_label('Amplitude', "")
-
-        self.qtgui_time_sink_x_0.enable_tags(True)
-        self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
-        self.qtgui_time_sink_x_0.enable_autoscale(True)
-        self.qtgui_time_sink_x_0.enable_grid(True)
-        self.qtgui_time_sink_x_0.enable_axis_labels(True)
-        self.qtgui_time_sink_x_0.enable_control_panel(True)
-        self.qtgui_time_sink_x_0.enable_stem_plot(False)
-
-
-        labels = ['Signal 1', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
-            'Signal 6', 'Signal 7', 'Signal 8', 'Signal 9', 'Signal 10']
-        widths = [1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1]
-        colors = ['blue', 'red', 'green', 'black', 'cyan',
-            'magenta', 'yellow', 'dark red', 'dark green', 'dark blue']
-        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
-            1.0, 1.0, 1.0, 1.0, 1.0]
-        styles = [1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1]
-        markers = [-1, -1, -1, -1, -1,
-            -1, -1, -1, -1, -1]
-
-
-        for i in range(1):
-            if len(labels[i]) == 0:
-                self.qtgui_time_sink_x_0.set_line_label(i, "Data {0}".format(i))
-            else:
-                self.qtgui_time_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_time_sink_x_0.set_line_width(i, widths[i])
-            self.qtgui_time_sink_x_0.set_line_color(i, colors[i])
-            self.qtgui_time_sink_x_0.set_line_style(i, styles[i])
-            self.qtgui_time_sink_x_0.set_line_marker(i, markers[i])
-            self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
-
-        self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.pyqwidget(), Qt.QWidget)
-        self.Widget_layout_1.addWidget(self._qtgui_time_sink_x_0_win)
-        self.fir_filter_xxx_0 = filter.fir_filter_fff(8, h)
-        self.fir_filter_xxx_0.declare_sample_delay(0)
-        self.blocks_threshold_ff_0 = blocks.threshold_ff(1, 1, 0)
+        self.blocks_threshold_ff_0 = blocks.threshold_ff(1, 0.5, 0)
+        self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_float*1)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(amplificador)
-        self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
+        self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, samp_rate)
+        self.blocks_complex_to_magphase_0 = blocks.complex_to_magphase(1)
         self.band_pass_filter_0 = filter.fir_filter_ccf(
             1,
             firdes.band_pass(
                 1,
-                samp_rate,
+                samp_rate/decimation,
                 10000,
-                96000,
-                1000000,
-                firdes.WIN_HAMMING,
+                50000,
+                50000,
+                window.WIN_HAMMING,
                 6.76))
-
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.band_pass_filter_0, 0), (self.blocks_complex_to_mag_0, 0))
-        self.connect((self.blocks_complex_to_mag_0, 0), (self.blocks_threshold_ff_0, 0))
+        self.connect((self.band_pass_filter_0, 0), (self.blocks_complex_to_magphase_0, 0))
+        self.connect((self.blocks_complex_to_magphase_0, 1), (self.blocks_null_sink_0, 0))
+        self.connect((self.blocks_complex_to_magphase_0, 0), (self.blocks_threshold_ff_0, 0))
+        self.connect((self.blocks_complex_to_magphase_0, 0), (self.qtgui_time_sink_x_1, 0))
+        self.connect((self.blocks_delay_0, 0), (self.rational_resampler_xxx_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.band_pass_filter_0, 0))
-        self.connect((self.blocks_threshold_ff_0, 0), (self.fir_filter_xxx_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.qtgui_time_sink_x_0_0, 0))
-        self.connect((self.fir_filter_xxx_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.rational_resampler_xxx_0, 0), (self.blocks_multiply_const_vxx_0, 0))
-        self.connect((self.rtlsdr_source_0, 0), (self.rational_resampler_xxx_0, 0))
+        self.connect((self.uhd_usrp_source_0, 0), (self.blocks_delay_0, 0))
 
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "Receptor_2")
         self.settings.setValue("geometry", self.saveGeometry())
+        self.stop()
+        self.wait()
+
         event.accept()
-
-    def get_samp_rate_2(self):
-        return self.samp_rate_2
-
-    def set_samp_rate_2(self, samp_rate_2):
-        self.samp_rate_2 = samp_rate_2
 
     def get_samp_rate(self):
         return self.samp_rate
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.band_pass_filter_0.set_taps(firdes.band_pass(1, self.samp_rate, 10000, 96000, 1000000, firdes.WIN_HAMMING, 6.76))
-        self.rtlsdr_source_0.set_sample_rate(self.samp_rate)
+        self.set_samp_rate_2(self.samp_rate/self.decimation)
+        self.band_pass_filter_0.set_taps(firdes.band_pass(1, self.samp_rate/self.decimation, 10000, 50000, 50000, window.WIN_HAMMING, 6.76))
+        self.blocks_delay_0.set_dly(self.samp_rate)
+        self.uhd_usrp_source_0.set_samp_rate(self.samp_rate)
+
+    def get_decimation(self):
+        return self.decimation
+
+    def set_decimation(self, decimation):
+        self.decimation = decimation
+        self.set_samp_rate_2(self.samp_rate/self.decimation)
+        self.band_pass_filter_0.set_taps(firdes.band_pass(1, self.samp_rate/self.decimation, 10000, 50000, 50000, window.WIN_HAMMING, 6.76))
+
+    def get_samp_rate_3(self):
+        return self.samp_rate_3
+
+    def set_samp_rate_3(self, samp_rate_3):
+        self.samp_rate_3 = samp_rate_3
+
+    def get_samp_rate_2(self):
+        return self.samp_rate_2
+
+    def set_samp_rate_2(self, samp_rate_2):
+        self.samp_rate_2 = samp_rate_2
+        self.qtgui_time_sink_x_0_0.set_samp_rate(self.samp_rate_2)
+        self.qtgui_time_sink_x_1.set_samp_rate(self.samp_rate_2)
 
     def get_h(self):
         return self.h
 
     def set_h(self, h):
         self.h = h
-        self.fir_filter_xxx_0.set_taps(self.h)
 
     def get_amplificador(self):
         return self.amplificador
@@ -274,7 +317,6 @@ class Receptor_2(gr.top_block, Qt.QWidget):
     def set_amplificador(self, amplificador):
         self.amplificador = amplificador
         self.blocks_multiply_const_vxx_0.set_k(self.amplificador)
-
 
 
 
@@ -293,6 +335,9 @@ def main(top_block_cls=Receptor_2, options=None):
     tb.show()
 
     def sig_handler(sig=None, frame=None):
+        tb.stop()
+        tb.wait()
+
         Qt.QApplication.quit()
 
     signal.signal(signal.SIGINT, sig_handler)
@@ -302,11 +347,6 @@ def main(top_block_cls=Receptor_2, options=None):
     timer.start(500)
     timer.timeout.connect(lambda: None)
 
-    def quitting():
-        tb.stop()
-        tb.wait()
-
-    qapp.aboutToQuit.connect(quitting)
     qapp.exec_()
 
 if __name__ == '__main__':
