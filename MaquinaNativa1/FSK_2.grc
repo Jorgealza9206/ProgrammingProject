@@ -6,12 +6,12 @@ options:
     comment: ''
     copyright: ''
     description: C:\Users\Alex\Dropbox\DegreeProject\Papers 2\Carpio_LoopezDeCastro_Jorge_tfg.pdf
-      PAGINA 22
+      PAGINA 28
     gen_cmake: 'On'
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: FSK
+    id: FSK_2
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -22,13 +22,13 @@ options:
     run_options: prompt
     sizing_mode: fixed
     thread_safe_setters: ''
-    title: Not titled yet
+    title: FSK_2
     window_size: ''
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [9, 8]
+    coordinate: [8, 8]
     rotation: 0
     state: enabled
 
@@ -45,57 +45,6 @@ blocks:
     coordinate: [184, 12]
     rotation: 0
     state: enabled
-- name: analog_frequency_modulator_fc_0
-  id: analog_frequency_modulator_fc
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    sensitivity: math.pi*0.1
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [708, 176]
-    rotation: 0
-    state: true
-- name: analog_pll_freqdet_cf_0
-  id: analog_pll_freqdet_cf
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    max_freq: math.pi*0.1
-    maxoutbuf: '0'
-    min_freq: -math.pi*0.1
-    minoutbuf: '0'
-    w: 2*math.pi*0.1
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [145, 270]
-    rotation: 0
-    state: true
-- name: blocks_char_to_float_0
-  id: blocks_char_to_float
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    scale: '1'
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [404, 178]
-    rotation: 0
-    state: true
 - name: blocks_file_sink_0
   id: blocks_file_sink
   parameters:
@@ -103,7 +52,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: D:\My Drive\ProgrammingProject\MaquinaNativa1\fsk_sink.bin
+    file: D:\My Drive\ProgrammingProject\MaquinaNativa1\fsk_sink_2.bin
     type: byte
     unbuffered: 'False'
     vlen: '1'
@@ -111,79 +60,50 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [797, 324]
-    rotation: 0
+    coordinate: [55, 276]
+    rotation: 180
     state: true
-- name: blocks_float_to_uchar_0
-  id: blocks_float_to_uchar
+- name: blocks_file_source_0
+  id: blocks_file_source
   parameters:
     affinity: ''
     alias: ''
+    begin_tag: pmt.PMT_NIL
     comment: ''
+    file: D:\My Drive\ProgrammingProject\MaquinaNativa1\Frailejon.txt
+    length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [453, 289]
-    rotation: 0
-    state: true
-- name: blocks_keep_m_in_n_0
-  id: blocks_keep_m_in_n
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    m: '1'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    n: '4'
     offset: '0'
+    repeat: 'True'
     type: byte
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [618, 263]
-    rotation: 0
-    state: true
-- name: blocks_repeat_0
-  id: blocks_repeat
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    interp: '2'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    type: float
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [560, 176]
+    coordinate: [56, 141]
     rotation: 0
     state: true
-- name: blocks_threshold_ff_0
-  id: blocks_threshold_ff
+- name: blocks_packed_to_unpacked_xx_0
+  id: blocks_packed_to_unpacked_xx
   parameters:
     affinity: ''
     alias: ''
+    bits_per_chunk: '1'
     comment: ''
-    high: '0'
-    init: '0'
-    low: '0'
+    endianness: gr.GR_MSB_FIRST
     maxoutbuf: '0'
     minoutbuf: '0'
+    num_ports: '1'
+    type: byte
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [318, 269]
+    coordinate: [285, 159]
     rotation: 0
-    state: true
+    state: enabled
 - name: blocks_throttle_0
   id: blocks_throttle
   parameters:
@@ -200,72 +120,79 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [861, 226]
-    rotation: 0
+    coordinate: [637, 285]
+    rotation: 180
     state: true
-- name: blocks_vector_sink_x_0
-  id: blocks_vector_sink_x
+- name: digital_gfsk_demod_0
+  id: digital_gfsk_demod
   parameters:
     affinity: ''
     alias: ''
     comment: ''
-    reserve_items: '1024'
-    type: byte
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [815, 286]
-    rotation: 0
-    state: true
-- name: blocks_vector_source_x_0
-  id: blocks_vector_source_x
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
+    freq_error: '0.0'
+    gain_mu: '0.175'
+    log: 'False'
     maxoutbuf: '0'
     minoutbuf: '0'
-    repeat: 'True'
-    tags: '[]'
-    type: byte
-    vector: (1,0,1,0,1,0,1,0)
-    vlen: '1'
+    mu: '0.5'
+    omega_relative_limit: '0.005'
+    samples_per_symbol: '20'
+    sensitivity: '1.0'
+    verbose: 'False'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [59, 147]
-    rotation: 0
-    state: enabled
-- name: digital_map_bb_0
-  id: digital_map_bb
+    coordinate: [399, 261]
+    rotation: 180
+    state: true
+- name: digital_gfsk_mod_0
+  id: digital_gfsk_mod
   parameters:
     affinity: ''
     alias: ''
+    bt: '0.35'
     comment: ''
-    map: (-1,1)
+    log: 'False'
     maxoutbuf: '0'
     minoutbuf: '0'
+    samples_per_symbol: '20'
+    sensitivity: '1.0'
+    verbose: 'False'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [274, 177]
+    coordinate: [512, 146]
     rotation: 0
     state: true
-- name: import_0
-  id: import
+- name: qtgui_sink_x_0
+  id: qtgui_sink_x
   parameters:
+    affinity: ''
     alias: ''
+    bw: samp_rate
     comment: ''
-    imports: import math
+    fc: '0'
+    fftsize: '1024'
+    gui_hint: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '""'
+    plotconst: 'True'
+    plotfreq: 'True'
+    plottime: 'True'
+    plotwaterfall: 'True'
+    rate: '10'
+    showports: 'False'
+    showrf: 'False'
+    type: complex
+    wintype: firdes.WIN_BLACKMAN_hARRIS
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [280, 28]
+    coordinate: [809, 61]
     rotation: 0
     state: true
 - name: qtgui_time_sink_x_0
@@ -362,50 +289,18 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [919, 90]
-    rotation: 0
-    state: true
-- name: virtual_sink_0
-  id: virtual_sink
-  parameters:
-    alias: ''
-    comment: ''
-    stream_id: fsk
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1041, 194]
-    rotation: 0
-    state: true
-- name: virtual_source_0
-  id: virtual_source
-  parameters:
-    alias: ''
-    comment: ''
-    stream_id: fsk
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [10, 261]
+    coordinate: [816, 171]
     rotation: 0
     state: true
 
 connections:
-- [analog_frequency_modulator_fc_0, '0', blocks_throttle_0, '0']
-- [analog_pll_freqdet_cf_0, '0', blocks_threshold_ff_0, '0']
-- [blocks_char_to_float_0, '0', blocks_repeat_0, '0']
-- [blocks_float_to_uchar_0, '0', blocks_keep_m_in_n_0, '0']
-- [blocks_keep_m_in_n_0, '0', blocks_file_sink_0, '0']
-- [blocks_keep_m_in_n_0, '0', blocks_vector_sink_x_0, '0']
-- [blocks_repeat_0, '0', analog_frequency_modulator_fc_0, '0']
-- [blocks_threshold_ff_0, '0', blocks_float_to_uchar_0, '0']
-- [blocks_throttle_0, '0', qtgui_time_sink_x_0, '0']
-- [blocks_throttle_0, '0', virtual_sink_0, '0']
-- [blocks_vector_source_x_0, '0', digital_map_bb_0, '0']
-- [digital_map_bb_0, '0', blocks_char_to_float_0, '0']
-- [virtual_source_0, '0', analog_pll_freqdet_cf_0, '0']
+- [blocks_file_source_0, '0', blocks_packed_to_unpacked_xx_0, '0']
+- [blocks_packed_to_unpacked_xx_0, '0', digital_gfsk_mod_0, '0']
+- [blocks_throttle_0, '0', digital_gfsk_demod_0, '0']
+- [digital_gfsk_demod_0, '0', blocks_file_sink_0, '0']
+- [digital_gfsk_mod_0, '0', blocks_throttle_0, '0']
+- [digital_gfsk_mod_0, '0', qtgui_sink_x_0, '0']
+- [digital_gfsk_mod_0, '0', qtgui_time_sink_x_0, '0']
 
 metadata:
   file_format: 1

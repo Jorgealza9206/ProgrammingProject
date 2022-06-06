@@ -127,3 +127,6 @@ PREPARACIÓN PARA LA TRANSMISIÓN:
 1. Enviar .wav y capturarlo en binario y wav, y después probarlos. EXITOSO
 2. Enviar archivo cifrado en binario, capturarlo en binario y comparar el original con el enviado
 3. Enviar archivo cifrado en wav, capturarlo en wav y comparar el original con el enviado
+
+Se baja el 26 de mayo el siguiente archivo: Implementación de un sistema de comunicaciones basado en SDR mediante GNU Radio  // https://repositorio.uam.es/handle/10486/679 // Carpio_LoopezDeCastro_Jorge_tfg.pdf //
+buscado por el criterio de busqueda: send data fsk usrp
