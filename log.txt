@@ -130,3 +130,9 @@ PREPARACIÓN PARA LA TRANSMISIÓN:
 
 Se baja el 26 de mayo el siguiente archivo: Implementación de un sistema de comunicaciones basado en SDR mediante GNU Radio  // https://repositorio.uam.es/handle/10486/679 // Carpio_LoopezDeCastro_Jorge_tfg.pdf //
 buscado por el criterio de busqueda: send data fsk usrp
+
+Junio 7: Implementación de una estación base GSM (2G) y recepción de señales LTE (4G), aplicando radio definido por software // https://repository.usta.edu.co/bitstream/handle/11634/28926/Anexo%20III.%20Art%C3%ADculo.pdf?sequence=4&isAllowed=y // C:\Users\Alex\Dropbox\DegreeProject\Papers 2 // Criterio de busqueda: access control para "sincronizacion de simbolo" en gnu radio
+
+Junio 7: PROPUESTA DE PRÁCTICAS DE LABORATORIO CON SOFTWARE DE VIRTUALIZACIÓN DE RADIO PARA LA INSTITUCIÓN UNIVERSITARIA POLITÉCNICO GRANCOLOMBIANO // https://alejandria.poligran.edu.co/bitstream/handle/10823/2167/Trabajo%20de%20grado%20propuesta%20de%20practicas%20de%20laboratorio%20con%20software%20de%20virtualizacion%20de%20radio.pdf?sequence=1&isAllowed=y // C:\Users\Alex\Dropbox\DegreeProject\Papers 2 // Criterio de busqueda: access control para "sincronizacion de simbolo" en gnu radio
+
+Junio 14: Arreglar la frecuencia del paquete, puede ser que por eso el USRP no transmite en fus_USRP_4_with_Pkt_7_base.grc

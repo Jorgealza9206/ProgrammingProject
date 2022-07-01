@@ -37,7 +37,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 1/0.022
+    value: '45.45454545454546'
   states:
     bus_sink: false
     bus_source: false
@@ -75,7 +75,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [848, 12.0]
+    coordinate: [840, 8.0]
     rotation: 0
     state: enabled
 - name: fsk_deviation
@@ -216,9 +216,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 148.0]
+    coordinate: [16, 112.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: analog_simple_squelch_cc_0
   id: analog_simple_squelch_cc
   parameters:
@@ -254,6 +254,22 @@ blocks:
     coordinate: [464, 284.0]
     rotation: 0
     state: true
+- name: blocks_complex_to_float_0
+  id: blocks_complex_to_float
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [384, 336.0]
+    rotation: 0
+    state: true
 - name: blocks_delay_0
   id: blocks_delay
   parameters:
@@ -273,20 +289,62 @@ blocks:
     coordinate: [856, 536.0]
     rotation: 0
     state: enabled
-- name: blocks_float_to_complex_0
-  id: blocks_float_to_complex
+- name: blocks_file_sink_1
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: G:\My Drive\ProgrammingProject\MaquinaNativa1\encrypted_data_rr.bin
+    type: byte
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1200, 372.0]
+    rotation: 0
+    state: enabled
+- name: blocks_file_source_0
+  id: blocks_file_source
+  parameters:
+    affinity: ''
+    alias: ''
+    begin_tag: pmt.PMT_NIL
+    comment: ''
+    file: G:\My Drive\ProgrammingProject\MaquinaNativa1\encrypted_data.bin
+    length: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    repeat: 'True'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [0, 192.0]
+    rotation: 0
+    state: enabled
+- name: blocks_keep_one_in_n_0
+  id: blocks_keep_one_in_n
   parameters:
     affinity: ''
     alias: ''
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
+    n: '1056'
+    type: byte
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [216, 328.0]
+    coordinate: [944, 392.0]
     rotation: 0
     state: true
 - name: blocks_multiply_const_vxx_0
@@ -305,6 +363,39 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [304, 284.0]
+    rotation: 0
+    state: true
+- name: blocks_null_sink_0
+  id: blocks_null_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    bus_structure_sink: '[[0,],]'
+    comment: ''
+    num_inputs: '1'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [544, 496.0]
+    rotation: 0
+    state: true
+- name: blocks_pack_k_bits_bb_0
+  id: blocks_pack_k_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    k: '8'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1064, 388.0]
     rotation: 0
     state: true
 - name: blocks_repeat_0
@@ -554,7 +645,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1200, 284.0]
+    coordinate: [1184, 248.0]
     rotation: 0
     state: true
 - name: qtgui_time_sink_x_0
@@ -669,7 +760,7 @@ blocks:
     alpha7: '1.0'
     alpha8: '1.0'
     alpha9: '1.0'
-    autoscale: 'True'
+    autoscale: 'False'
     axislabels: 'True'
     color1: blue
     color10: dark blue
@@ -707,7 +798,7 @@ blocks:
     marker7: '-1'
     marker8: '-1'
     marker9: '-1'
-    name: '"xmt"'
+    name: '""'
     nconnections: '2'
     size: '16384'
     srate: samp_rate
@@ -728,7 +819,7 @@ blocks:
     tr_mode: qtgui.TRIG_MODE_FREE
     tr_slope: qtgui.TRIG_SLOPE_POS
     tr_tag: '""'
-    type: complex
+    type: float
     update_time: '0.10'
     width1: '1'
     width10: '1'
@@ -748,7 +839,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [440, 328.0]
+    coordinate: [584, 340.0]
     rotation: 0
     state: true
 - name: rational_resampler_xxx_0_0
@@ -770,7 +861,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1008, 284.0]
+    coordinate: [984, 280.0]
     rotation: 0
     state: enabled
 - name: virtual_sink_0
@@ -845,10 +936,14 @@ connections:
 - [analog_random_source_x_0, '0', blocks_unpack_k_bits_bb_0, '0']
 - [analog_simple_squelch_cc_0, '0', analog_quadrature_demod_cf_1, '0']
 - [blocks_add_const_vxx_0, '0', blocks_vco_f_0, '0']
+- [blocks_complex_to_float_0, '0', qtgui_time_sink_x_1, '0']
+- [blocks_complex_to_float_0, '1', blocks_null_sink_0, '0']
 - [blocks_delay_0, '0', blocks_sub_xx_0, '1']
 - [blocks_delay_0, '0', qtgui_time_sink_x_0, '2']
-- [blocks_float_to_complex_0, '0', qtgui_time_sink_x_1, '1']
+- [blocks_file_source_0, '0', blocks_unpack_k_bits_bb_0, '0']
+- [blocks_keep_one_in_n_0, '0', blocks_pack_k_bits_bb_0, '0']
 - [blocks_multiply_const_vxx_0, '0', blocks_add_const_vxx_0, '0']
+- [blocks_pack_k_bits_bb_0, '0', blocks_file_sink_1, '0']
 - [blocks_repeat_0, '0', blocks_throttle_0, '0']
 - [blocks_sub_xx_0, '0', qtgui_time_sink_x_0, '1']
 - [blocks_throttle_0, '0', blocks_uchar_to_float_0, '0']
@@ -857,15 +952,15 @@ connections:
 - [blocks_uchar_to_float_0_0, '0', qtgui_time_sink_x_0, '0']
 - [blocks_unpack_k_bits_bb_0, '0', blocks_repeat_0, '0']
 - [blocks_vco_f_0, '0', virtual_sink_1, '0']
+- [digital_binary_slicer_fb_0, '0', blocks_keep_one_in_n_0, '0']
 - [digital_binary_slicer_fb_0, '0', blocks_uchar_to_float_0_0, '0']
 - [freq_xlating_fir_filter_xxx_0, '0', analog_simple_squelch_cc_0, '0']
-- [freq_xlating_fir_filter_xxx_0, '0', qtgui_time_sink_x_1, '0']
+- [freq_xlating_fir_filter_xxx_0, '0', blocks_complex_to_float_0, '0']
 - [rational_resampler_xxx_0_0, '0', qtgui_eye_sink_x_0, '0']
 - [virtual_source_0, '0', blocks_multiply_const_vxx_0, '0']
 - [virtual_source_0_0, '0', blocks_delay_0, '0']
-- [virtual_source_1, '0', blocks_float_to_complex_0, '0']
-- [virtual_source_1, '0', blocks_float_to_complex_0, '1']
 - [virtual_source_1, '0', freq_xlating_fir_filter_xxx_0, '0']
+- [virtual_source_1, '0', qtgui_time_sink_x_1, '1']
 
 metadata:
   file_format: 1
