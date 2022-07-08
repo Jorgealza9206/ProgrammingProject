@@ -6,9 +6,9 @@
 #
 # GNU Radio Python Flow Graph
 # Title: Not titled yet
-# GNU Radio version: 3.9.5.0
+# GNU Radio version: 3.10.3.0
 
-from distutils.version import StrictVersion
+from packaging.version import Version as StrictVersion
 
 if __name__ == '__main__':
     import ctypes
@@ -82,8 +82,8 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self.decimation = decimation = 4
         self.samp_rate_3 = samp_rate_3 = 480000
         self.samp_rate_2 = samp_rate_2 = samp_rate/decimation
-        self.low = low = 1.2
-        self.high = high = 1
+        self.low = low = 2
+        self.high = high = 2
         self.h = h = 1
         self.amplificador = amplificador = 100
 
@@ -146,7 +146,7 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         # No synchronization enforced.
 
         self.uhd_usrp_source_0.set_center_freq(830e6, 0)
-        self.uhd_usrp_source_0.set_antenna("TX/RX", 0)
+        self.uhd_usrp_source_0.set_antenna("RX2", 0)
         self.uhd_usrp_source_0.set_bandwidth(200e3, 0)
         self.uhd_usrp_source_0.set_gain(0, 0)
         self.rational_resampler_xxx_0 = filter.rational_resampler_ccc(
@@ -356,8 +356,8 @@ class Receptor_2(gr.top_block, Qt.QWidget):
             None # parent
         )
         self.qtgui_const_sink_x_0.set_update_time(0.10)
-        self.qtgui_const_sink_x_0.set_y_axis(-2, 2)
-        self.qtgui_const_sink_x_0.set_x_axis(-2, 2)
+        self.qtgui_const_sink_x_0.set_y_axis((-2), 2)
+        self.qtgui_const_sink_x_0.set_x_axis((-2), 2)
         self.qtgui_const_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
         self.qtgui_const_sink_x_0.enable_autoscale(False)
         self.qtgui_const_sink_x_0.enable_grid(False)
@@ -395,15 +395,15 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self.blocks_keep_m_in_n_0 = blocks.keep_m_in_n(gr.sizeof_float, 1, 8, 0)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
         self.blocks_float_to_char_0 = blocks.float_to_char(1, 1)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, 'C:\\Users\\Julian\\Desktop\\ProgrammingProject\\MaquinaNativa2\\encrypted_data.bin', False)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, 'D:\\Alza\\ProgrammingProject\\MaquinaNativa2\\encrypted_data.bin', False)
         self.blocks_file_sink_0.set_unbuffered(False)
-        self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, 3*samp_rate)
+        self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, (3*samp_rate))
         self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
         self.band_pass_filter_0 = filter.fir_filter_ccf(
             1,
             firdes.band_pass(
                 1,
-                samp_rate/decimation,
+                (samp_rate/decimation),
                 10000,
                 50000,
                 50000,
@@ -424,8 +424,8 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_keep_m_in_n_0, 0), (self.blocks_float_to_char_0, 0))
         self.connect((self.blocks_keep_m_in_n_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.band_pass_filter_0, 0))
-        self.connect((self.blocks_threshold_ff_0, 0), (self.blocks_float_to_complex_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.blocks_float_to_complex_0, 1))
+        self.connect((self.blocks_threshold_ff_0, 0), (self.blocks_float_to_complex_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.blocks_keep_m_in_n_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.qtgui_time_sink_x_0_0, 0))
         self.connect((self.rational_resampler_xxx_0, 0), (self.blocks_multiply_const_vxx_0, 0))
@@ -446,8 +446,8 @@ class Receptor_2(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.set_samp_rate_2(self.samp_rate/self.decimation)
-        self.band_pass_filter_0.set_taps(firdes.band_pass(1, self.samp_rate/self.decimation, 10000, 50000, 50000, window.WIN_HAMMING, 6.76))
-        self.blocks_delay_0.set_dly(3*self.samp_rate)
+        self.band_pass_filter_0.set_taps(firdes.band_pass(1, (self.samp_rate/self.decimation), 10000, 50000, 50000, window.WIN_HAMMING, 6.76))
+        self.blocks_delay_0.set_dly((3*self.samp_rate))
         self.uhd_usrp_source_0.set_samp_rate(self.samp_rate)
 
     def get_decimation(self):
@@ -456,7 +456,7 @@ class Receptor_2(gr.top_block, Qt.QWidget):
     def set_decimation(self, decimation):
         self.decimation = decimation
         self.set_samp_rate_2(self.samp_rate/self.decimation)
-        self.band_pass_filter_0.set_taps(firdes.band_pass(1, self.samp_rate/self.decimation, 10000, 50000, 50000, window.WIN_HAMMING, 6.76))
+        self.band_pass_filter_0.set_taps(firdes.band_pass(1, (self.samp_rate/self.decimation), 10000, 50000, 50000, window.WIN_HAMMING, 6.76))
 
     def get_samp_rate_3(self):
         return self.samp_rate_3
