@@ -27,6 +27,7 @@ from gnuradio import qtgui
 from gnuradio.filter import firdes
 import sip
 from gnuradio import blocks
+import pmt
 from gnuradio import digital
 from gnuradio import filter
 from gnuradio import gr
@@ -93,6 +94,7 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.TrueBoardConstellation = TrueBoardConstellation = (0.77+0.77j,-0.77+0.77j,-0.77-0.77j,0.77-0.77j)
         self.Sps_0 = Sps_0 = int(Sps/2)
         self.Rb = Rb = Rs*bps
+        self.PHG = PHG = digital.header_format_default('11001100101001010100110111110101',0, 1)
 
         ##################################################
         # Blocks
@@ -138,6 +140,11 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.Widget_grid_layout_3 = Qt.QGridLayout()
         self.Widget_layout_3.addLayout(self.Widget_grid_layout_3)
         self.Widget.addTab(self.Widget_widget_3, 'Antes de Chunks')
+        self.Widget_widget_4 = Qt.QWidget()
+        self.Widget_layout_4 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_4)
+        self.Widget_grid_layout_4 = Qt.QGridLayout()
+        self.Widget_layout_4.addLayout(self.Widget_grid_layout_4)
+        self.Widget.addTab(self.Widget_widget_4, 'Antes de Desempaquetar')
         self.top_grid_layout.addWidget(self.Widget, 0, 0, 1, 7)
         for r in range(0, 1):
             self.top_grid_layout.setRowStretch(r, 1)
@@ -351,19 +358,29 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.Widget_layout_2.addWidget(self._qtgui_const_sink_x_0_win)
         self.interp_fir_filter_xxx_0 = filter.interp_fir_filter_ccf(Sps, h)
         self.interp_fir_filter_xxx_0.declare_sample_delay(0)
+        self.digital_protocol_formatter_bb_0 = digital.protocol_formatter_bb(PHG, "packet_len")
         self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc(module, 1)
-        self.blocks_vector_source_x_0 = blocks.vector_source_b((1,1,0,0,1,1,0,0,1,0,1,0,0,1,0,1), True, 1, )
+        self.blocks_unpack_k_bits_bb_0 = blocks.unpack_k_bits_bb(8)
         self.blocks_uchar_to_float_0 = blocks.uchar_to_float()
+        self.blocks_tagged_stream_mux_0 = blocks.tagged_stream_mux(gr.sizeof_char*1, 'packet_len', 0)
+        self.blocks_stream_to_tagged_stream_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, 256, "packet_len")
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, 'G:\\My Drive\\ProgrammingProject\\MaquinaNativa1\\Melendi - Destino o Casualidad ft. Ha Ash VDownloader.wav', False, 0, 0)
+        self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
 
 
         ##################################################
         # Connections
         ##################################################
+        self.connect((self.blocks_file_source_0, 0), (self.blocks_stream_to_tagged_stream_0, 0))
+        self.connect((self.blocks_stream_to_tagged_stream_0, 0), (self.blocks_tagged_stream_mux_0, 1))
+        self.connect((self.blocks_stream_to_tagged_stream_0, 0), (self.digital_protocol_formatter_bb_0, 0))
+        self.connect((self.blocks_tagged_stream_mux_0, 0), (self.blocks_unpack_k_bits_bb_0, 0))
         self.connect((self.blocks_uchar_to_float_0, 0), (self.qtgui_time_sink_x_0_0_0, 0))
-        self.connect((self.blocks_vector_source_x_0, 0), (self.blocks_uchar_to_float_0, 0))
-        self.connect((self.blocks_vector_source_x_0, 0), (self.digital_chunks_to_symbols_xx_0, 0))
+        self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.blocks_uchar_to_float_0, 0))
+        self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.digital_chunks_to_symbols_xx_0, 0))
         self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.interp_fir_filter_xxx_0, 0))
         self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.qtgui_time_sink_x_0_0, 0))
+        self.connect((self.digital_protocol_formatter_bb_0, 0), (self.blocks_tagged_stream_mux_0, 0))
         self.connect((self.interp_fir_filter_xxx_0, 0), (self.qtgui_const_sink_x_0, 0))
         self.connect((self.interp_fir_filter_xxx_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.interp_fir_filter_xxx_0, 0), (self.uhd_usrp_sink_0, 0))
@@ -465,6 +482,12 @@ class USRP_4(gr.top_block, Qt.QWidget):
 
     def set_Rb(self, Rb):
         self.Rb = Rb
+
+    def get_PHG(self):
+        return self.PHG
+
+    def set_PHG(self, PHG):
+        self.PHG = PHG
 
 
 
