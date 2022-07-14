@@ -26,6 +26,7 @@ from gnuradio import qtgui
 from gnuradio.filter import firdes
 import sip
 from gnuradio import blocks
+from gnuradio import digital
 from gnuradio import filter
 from gnuradio import gr
 from gnuradio.fft import window
@@ -117,12 +118,12 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self.Widget_layout_1 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_1)
         self.Widget_grid_layout_1 = Qt.QGridLayout()
         self.Widget_layout_1.addLayout(self.Widget_grid_layout_1)
-        self.Widget.addTab(self.Widget_widget_1, 'Señal binaria?')
+        self.Widget.addTab(self.Widget_widget_1, 'Señal decimada')
         self.Widget_widget_2 = Qt.QWidget()
         self.Widget_layout_2 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_2)
         self.Widget_grid_layout_2 = Qt.QGridLayout()
         self.Widget_layout_2.addLayout(self.Widget_grid_layout_2)
-        self.Widget.addTab(self.Widget_widget_2, 'Analizador de espectro')
+        self.Widget.addTab(self.Widget_widget_2, 'Diagrama de constelaciones')
         self.Widget_widget_3 = Qt.QWidget()
         self.Widget_layout_3 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_3)
         self.Widget_grid_layout_3 = Qt.QGridLayout()
@@ -133,6 +134,11 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self.Widget_grid_layout_4 = Qt.QGridLayout()
         self.Widget_layout_4.addLayout(self.Widget_grid_layout_4)
         self.Widget.addTab(self.Widget_widget_4, 'Señal Recibida')
+        self.Widget_widget_5 = Qt.QWidget()
+        self.Widget_layout_5 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_5)
+        self.Widget_grid_layout_5 = Qt.QGridLayout()
+        self.Widget_layout_5.addLayout(self.Widget_grid_layout_5)
+        self.Widget.addTab(self.Widget_widget_5, 'Antes de desempaquetar')
         self.top_layout.addWidget(self.Widget)
         self.uhd_usrp_source_0 = uhd.usrp_source(
             ",".join(("", "")),
@@ -154,6 +160,54 @@ class Receptor_2(gr.top_block, Qt.QWidget):
                 decimation=decimation,
                 taps=[],
                 fractional_bw=0)
+        self.qtgui_time_sink_x_2 = qtgui.time_sink_f(
+            1024, #size
+            samp_rate, #samp_rate
+            "Antes de desempaquetar", #name
+            1, #number of inputs
+            None # parent
+        )
+        self.qtgui_time_sink_x_2.set_update_time(0.10)
+        self.qtgui_time_sink_x_2.set_y_axis(-1, 1)
+
+        self.qtgui_time_sink_x_2.set_y_label('Amplitude', "")
+
+        self.qtgui_time_sink_x_2.enable_tags(True)
+        self.qtgui_time_sink_x_2.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
+        self.qtgui_time_sink_x_2.enable_autoscale(False)
+        self.qtgui_time_sink_x_2.enable_grid(False)
+        self.qtgui_time_sink_x_2.enable_axis_labels(True)
+        self.qtgui_time_sink_x_2.enable_control_panel(True)
+        self.qtgui_time_sink_x_2.enable_stem_plot(True)
+
+
+        labels = ['Signal 1', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
+            'Signal 6', 'Signal 7', 'Signal 8', 'Signal 9', 'Signal 10']
+        widths = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        colors = ['blue', 'red', 'green', 'black', 'cyan',
+            'magenta', 'yellow', 'dark red', 'dark green', 'dark blue']
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+            1.0, 1.0, 1.0, 1.0, 1.0]
+        styles = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        markers = [-1, -1, -1, -1, -1,
+            -1, -1, -1, -1, -1]
+
+
+        for i in range(1):
+            if len(labels[i]) == 0:
+                self.qtgui_time_sink_x_2.set_line_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_time_sink_x_2.set_line_label(i, labels[i])
+            self.qtgui_time_sink_x_2.set_line_width(i, widths[i])
+            self.qtgui_time_sink_x_2.set_line_color(i, colors[i])
+            self.qtgui_time_sink_x_2.set_line_style(i, styles[i])
+            self.qtgui_time_sink_x_2.set_line_marker(i, markers[i])
+            self.qtgui_time_sink_x_2.set_line_alpha(i, alphas[i])
+
+        self._qtgui_time_sink_x_2_win = sip.wrapinstance(self.qtgui_time_sink_x_2.qwidget(), Qt.QWidget)
+        self.Widget_layout_5.addWidget(self._qtgui_time_sink_x_2_win)
         self.qtgui_time_sink_x_1_0 = qtgui.time_sink_c(
             1024, #size
             samp_rate_2, #samp_rate
@@ -389,13 +443,18 @@ class Receptor_2(gr.top_block, Qt.QWidget):
             self.qtgui_const_sink_x_0.set_line_alpha(i, alphas[i])
 
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.qwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_const_sink_x_0_win)
+        self.Widget_layout_2.addWidget(self._qtgui_const_sink_x_0_win)
+        self.digital_correlate_access_code_xx_ts_0 = digital.correlate_access_code_bb_ts('11001100101001010100110111110101',
+          0, 'packet_len')
+        self.blocks_uchar_to_float_0 = blocks.uchar_to_float()
         self.blocks_threshold_ff_0 = blocks.threshold_ff(low, high, 0)
+        self.blocks_tagged_stream_align_0 = blocks.tagged_stream_align(gr.sizeof_char*1, 'packet_len')
+        self.blocks_pack_k_bits_bb_0 = blocks.pack_k_bits_bb(8)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(amplificador)
         self.blocks_keep_m_in_n_0 = blocks.keep_m_in_n(gr.sizeof_float, 1, 8, 0)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
         self.blocks_float_to_char_0 = blocks.float_to_char(1, 1)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, 'D:\\Alza\\ProgrammingProject\\MaquinaNativa2\\encrypted_data.bin', False)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, 'C:\\Users\\Julian\\Desktop\\ProgrammingProject\\MaquinaNativa2\\cancion_2.wav', False)
         self.blocks_file_sink_0.set_unbuffered(False)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, (3*samp_rate))
         self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
@@ -419,15 +478,19 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_complex_to_mag_0, 0), (self.blocks_threshold_ff_0, 0))
         self.connect((self.blocks_complex_to_mag_0, 0), (self.qtgui_time_sink_x_1, 0))
         self.connect((self.blocks_delay_0, 0), (self.rational_resampler_xxx_0, 0))
-        self.connect((self.blocks_float_to_char_0, 0), (self.blocks_file_sink_0, 0))
+        self.connect((self.blocks_float_to_char_0, 0), (self.blocks_uchar_to_float_0, 0))
+        self.connect((self.blocks_float_to_char_0, 0), (self.digital_correlate_access_code_xx_ts_0, 0))
         self.connect((self.blocks_float_to_complex_0, 0), (self.qtgui_const_sink_x_0, 0))
         self.connect((self.blocks_keep_m_in_n_0, 0), (self.blocks_float_to_char_0, 0))
         self.connect((self.blocks_keep_m_in_n_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.band_pass_filter_0, 0))
-        self.connect((self.blocks_threshold_ff_0, 0), (self.blocks_float_to_complex_0, 1))
+        self.connect((self.blocks_pack_k_bits_bb_0, 0), (self.blocks_file_sink_0, 0))
+        self.connect((self.blocks_tagged_stream_align_0, 0), (self.blocks_pack_k_bits_bb_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.blocks_float_to_complex_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.blocks_keep_m_in_n_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.qtgui_time_sink_x_0_0, 0))
+        self.connect((self.blocks_uchar_to_float_0, 0), (self.qtgui_time_sink_x_2, 0))
+        self.connect((self.digital_correlate_access_code_xx_ts_0, 0), (self.blocks_tagged_stream_align_0, 0))
         self.connect((self.rational_resampler_xxx_0, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.uhd_usrp_source_0, 0), (self.blocks_delay_0, 0))
 
@@ -448,6 +511,7 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self.set_samp_rate_2(self.samp_rate/self.decimation)
         self.band_pass_filter_0.set_taps(firdes.band_pass(1, (self.samp_rate/self.decimation), 10000, 50000, 50000, window.WIN_HAMMING, 6.76))
         self.blocks_delay_0.set_dly((3*self.samp_rate))
+        self.qtgui_time_sink_x_2.set_samp_rate(self.samp_rate)
         self.uhd_usrp_source_0.set_samp_rate(self.samp_rate)
 
     def get_decimation(self):
