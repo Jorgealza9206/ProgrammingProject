@@ -454,7 +454,7 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self.blocks_keep_m_in_n_0 = blocks.keep_m_in_n(gr.sizeof_float, 1, 8, 0)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
         self.blocks_float_to_char_0 = blocks.float_to_char(1, 1)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, 'C:\\Users\\Julian\\Desktop\\ProgrammingProject\\MaquinaNativa2\\cancion_2.wav', False)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, 'C:\\Users\\Julian\\Desktop\\ProgrammingProject\\MaquinaNativa2\\img.jpeg', False)
         self.blocks_file_sink_0.set_unbuffered(False)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, (3*samp_rate))
         self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
