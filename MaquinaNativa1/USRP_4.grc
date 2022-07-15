@@ -45,6 +45,20 @@ blocks:
     coordinate: [464, 12.0]
     rotation: 0
     state: true
+- name: PHG
+  id: variable_header_format_default
+  parameters:
+    access_code: '11001100101001010100110111110101'
+    bps: '1'
+    comment: ''
+    threshold: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [48, 108.0]
+    rotation: 0
+    state: true
 - name: Rb
   id: variable
   parameters:
@@ -215,18 +229,18 @@ blocks:
     label19: Tab 19
     label2: Diagrama de constelaciones
     label3: Antes de Chunks
-    label4: Tab 4
+    label4: Antes de Desempaquetar
     label5: Tab 5
     label6: Tab 6
     label7: Tab 7
     label8: Tab 8
     label9: Tab 9
-    num_tabs: '4'
+    num_tabs: '5'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [480, 72.0]
+    coordinate: [480, 72]
     rotation: 0
     state: true
 - name: blocks_complex_to_mag_0
@@ -242,7 +256,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [680, 448.0]
+    coordinate: [672, 480.0]
     rotation: 0
     state: disabled
 - name: blocks_file_sink_1
@@ -252,7 +266,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: G:\My Drive\ProgrammingProject\MaquinaNativa1\encrypted_data_rr.bin
+    file: G:\My Drive\ProgrammingProject\MaquinaNativa1\cancion.wav
     type: byte
     unbuffered: 'False'
     vlen: '1'
@@ -260,7 +274,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [864, 468.0]
+    coordinate: [856, 500.0]
     rotation: 0
     state: disabled
 - name: blocks_file_source_0
@@ -270,21 +284,21 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: G:\My Drive\ProgrammingProject\MaquinaNativa1\encrypted_data.bin
+    file: C:\Users\Alex\Pictures\Cindy.jpeg
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
     offset: '0'
-    repeat: 'True'
+    repeat: 'False'
     type: byte
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 368.0]
+    coordinate: [12, 421]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_float_to_uchar_0
   id: blocks_float_to_uchar
   parameters:
@@ -297,7 +311,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [688, 488.0]
+    coordinate: [680, 520.0]
     rotation: 0
     state: disabled
 - name: blocks_keep_one_in_n_0
@@ -308,14 +322,31 @@ blocks:
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    n: '8'
+    n: Sps
     type: complex
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [720, 408.0]
+    coordinate: [712, 440.0]
+    rotation: 0
+    state: disabled
+- name: blocks_null_sink_0
+  id: blocks_null_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    bus_structure_sink: '[[0,],]'
+    comment: ''
+    num_inputs: '1'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [144, 584.0]
     rotation: 0
     state: disabled
 - name: blocks_pack_k_bits_bb_0
@@ -331,7 +362,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [200, 364.0]
+    coordinate: [232, 412.0]
     rotation: 0
     state: disabled
 - name: blocks_pack_k_bits_bb_0_0
@@ -347,7 +378,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [704, 524.0]
+    coordinate: [840, 588.0]
     rotation: 0
     state: disabled
 - name: blocks_packed_to_unpacked_xx_0
@@ -366,9 +397,66 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [208, 300.0]
+    coordinate: [315, 358]
     rotation: 0
     state: disabled
+- name: blocks_stream_to_tagged_stream_0
+  id: blocks_stream_to_tagged_stream
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    len_tag_key: '"packet_len"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    packet_len: '256'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [56, 348.0]
+    rotation: 0
+    state: true
+- name: blocks_tagged_stream_align_0
+  id: blocks_tagged_stream_align
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    lengthtagname: packet_len
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [592, 564.0]
+    rotation: 0
+    state: disabled
+- name: blocks_tagged_stream_mux_0
+  id: blocks_tagged_stream_mux
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    lengthtagname: packet_len
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    ninputs: '2'
+    tag_preserve_head_pos: '0'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [280, 288.0]
+    rotation: 0
+    state: true
 - name: blocks_uchar_to_float_0
   id: blocks_uchar_to_float
   parameters:
@@ -381,9 +469,24 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [440, 344.0]
+    coordinate: [538, 282]
     rotation: 0
     state: enabled
+- name: blocks_uchar_to_float_0_0
+  id: blocks_uchar_to_float
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [760, 656.0]
+    rotation: 0
+    state: disabled
 - name: blocks_unpack_k_bits_bb_0
   id: blocks_unpack_k_bits_bb
   parameters:
@@ -397,9 +500,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [264, 404.0]
+    coordinate: [296, 228.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_vector_source_x_0
   id: blocks_vector_source_x
   parameters:
@@ -417,9 +520,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 221]
+    coordinate: [16, 116.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: digital_chunks_to_symbols_xx_0
   id: digital_chunks_to_symbols_xx
   parameters:
@@ -437,9 +540,79 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [323, 200]
+    coordinate: [512, 208.0]
     rotation: 0
     state: enabled
+- name: digital_correlate_access_code_xx_ts_0
+  id: digital_correlate_access_code_xx_ts
+  parameters:
+    access_code: '11001100101001010100110111110101'
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    tagname: packet_len
+    threshold: '3'
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [328, 540.0]
+    rotation: 0
+    state: disabled
+- name: digital_packet_headergenerator_bb_0
+  id: digital_packet_headergenerator_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    header_formatter: PHG
+    len_tag_key: '"packet_len"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [64, 204.0]
+    rotation: 0
+    state: disabled
+- name: digital_packet_headergenerator_bb_default_0
+  id: digital_packet_headergenerator_bb_default
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    header_len: '16'
+    len_tag_key: '"packet_len"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [40, 212.0]
+    rotation: 0
+    state: disabled
+- name: digital_protocol_formatter_bb_0
+  id: digital_protocol_formatter_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    format: PHG
+    len_tag_key: '"packet_len"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [32, 276.0]
+    rotation: 0
+    state: true
 - name: import_0
   id: import
   parameters:
@@ -482,9 +655,43 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [614, 176]
+    coordinate: [685, 176]
     rotation: 0
     state: enabled
+- name: pdu_pdu_to_tagged_stream_0
+  id: pdu_pdu_to_tagged_stream
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    tag: packet_len
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 652.0]
+    rotation: 0
+    state: disabled
+- name: pdu_tagged_stream_to_pdu_0
+  id: pdu_tagged_stream_to_pdu
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    tag: packet_len
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [208, 660.0]
+    rotation: 0
+    state: disabled
 - name: qtgui_const_sink_x_0
   id: qtgui_const_sink_x
   parameters:
@@ -849,7 +1056,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [599, 236]
+    coordinate: [692, 240]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0_0_0
@@ -946,9 +1153,106 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [600, 320.0]
+    coordinate: [683, 318]
     rotation: 0
     state: enabled
+- name: qtgui_time_sink_x_0_0_0_0
+  id: qtgui_time_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'True'
+    axislabels: 'True'
+    color1: blue
+    color10: dark blue
+    color2: red
+    color3: green
+    color4: black
+    color5: cyan
+    color6: magenta
+    color7: yellow
+    color8: dark red
+    color9: dark green
+    comment: ''
+    ctrlpanel: 'True'
+    entags: 'True'
+    grid: 'True'
+    gui_hint: Widget@4
+    label1: Signal 1
+    label10: Signal 10
+    label2: Signal 2
+    label3: Signal 3
+    label4: Signal 4
+    label5: Signal 5
+    label6: Signal 6
+    label7: Signal 7
+    label8: Signal 8
+    label9: Signal 9
+    legend: 'True'
+    marker1: '-1'
+    marker10: '-1'
+    marker2: '-1'
+    marker3: '-1'
+    marker4: '-1'
+    marker5: '-1'
+    marker6: '-1'
+    marker7: '-1'
+    marker8: '-1'
+    marker9: '-1'
+    name: Antes de Desempaquetar
+    nconnections: '1'
+    size: '1024'
+    srate: samp_rate
+    stemplot: 'True'
+    style1: '1'
+    style10: '1'
+    style2: '1'
+    style3: '1'
+    style4: '1'
+    style5: '1'
+    style6: '1'
+    style7: '1'
+    style8: '1'
+    style9: '1'
+    tr_chan: '0'
+    tr_delay: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_slope: qtgui.TRIG_SLOPE_POS
+    tr_tag: '""'
+    type: float
+    update_time: '0.1'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    ylabel: Amplitude
+    ymax: '1'
+    ymin: '-1'
+    yunit: '""'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [912, 652.0]
+    rotation: 0
+    state: disabled
 - name: uhd_usrp_sink_0
   id: uhd_usrp_sink
   parameters:
@@ -1223,31 +1527,45 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [911, 328]
+    coordinate: [911, 327]
     rotation: 0
     state: disabled
 
 connections:
 - [blocks_complex_to_mag_0, '0', blocks_float_to_uchar_0, '0']
 - [blocks_file_source_0, '0', blocks_pack_k_bits_bb_0, '0']
-- [blocks_file_source_0, '0', blocks_unpack_k_bits_bb_0, '0']
-- [blocks_float_to_uchar_0, '0', blocks_pack_k_bits_bb_0_0, '0']
+- [blocks_file_source_0, '0', blocks_stream_to_tagged_stream_0, '0']
+- [blocks_float_to_uchar_0, '0', blocks_uchar_to_float_0_0, '0']
+- [blocks_float_to_uchar_0, '0', digital_correlate_access_code_xx_ts_0, '0']
 - [blocks_keep_one_in_n_0, '0', blocks_complex_to_mag_0, '0']
 - [blocks_pack_k_bits_bb_0, '0', blocks_packed_to_unpacked_xx_0, '0']
 - [blocks_pack_k_bits_bb_0_0, '0', blocks_file_sink_1, '0']
 - [blocks_packed_to_unpacked_xx_0, '0', blocks_uchar_to_float_0, '0']
 - [blocks_packed_to_unpacked_xx_0, '0', digital_chunks_to_symbols_xx_0, '0']
+- [blocks_stream_to_tagged_stream_0, '0', blocks_tagged_stream_mux_0, '1']
+- [blocks_stream_to_tagged_stream_0, '0', digital_packet_headergenerator_bb_0, '0']
+- [blocks_stream_to_tagged_stream_0, '0', digital_packet_headergenerator_bb_default_0,
+  '0']
+- [blocks_stream_to_tagged_stream_0, '0', digital_protocol_formatter_bb_0, '0']
+- [blocks_tagged_stream_align_0, '0', blocks_pack_k_bits_bb_0_0, '0']
+- [blocks_tagged_stream_mux_0, '0', blocks_unpack_k_bits_bb_0, '0']
 - [blocks_uchar_to_float_0, '0', qtgui_time_sink_x_0_0_0, '0']
+- [blocks_uchar_to_float_0_0, '0', qtgui_time_sink_x_0_0_0_0, '0']
 - [blocks_unpack_k_bits_bb_0, '0', blocks_uchar_to_float_0, '0']
 - [blocks_unpack_k_bits_bb_0, '0', digital_chunks_to_symbols_xx_0, '0']
 - [blocks_vector_source_x_0, '0', blocks_uchar_to_float_0, '0']
 - [blocks_vector_source_x_0, '0', digital_chunks_to_symbols_xx_0, '0']
 - [digital_chunks_to_symbols_xx_0, '0', interp_fir_filter_xxx_0, '0']
 - [digital_chunks_to_symbols_xx_0, '0', qtgui_time_sink_x_0_0, '0']
+- [digital_correlate_access_code_xx_ts_0, '0', blocks_tagged_stream_align_0, '0']
+- [digital_packet_headergenerator_bb_0, '0', blocks_tagged_stream_mux_0, '0']
+- [digital_packet_headergenerator_bb_default_0, '0', blocks_tagged_stream_mux_0, '0']
+- [digital_protocol_formatter_bb_0, '0', blocks_tagged_stream_mux_0, '0']
 - [interp_fir_filter_xxx_0, '0', blocks_keep_one_in_n_0, '0']
 - [interp_fir_filter_xxx_0, '0', qtgui_const_sink_x_0, '0']
 - [interp_fir_filter_xxx_0, '0', qtgui_time_sink_x_0, '0']
 - [interp_fir_filter_xxx_0, '0', uhd_usrp_sink_0, '0']
+- [pdu_tagged_stream_to_pdu_0, pdus, pdu_pdu_to_tagged_stream_0, pdus]
 
 metadata:
   file_format: 1

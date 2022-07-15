@@ -3,7 +3,7 @@ from Crypto.Random import get_random_bytes
 from Crypto.Cipher import AES, PKCS1_OAEP
 
 #data = open("sample_1.bin", "rb")
-data = open("Melendi - Destino o Casualidad ft. Ha Ash VDownloader.wav", "rb")
+data = open("Melendi - Destino o Casualidad ft. Ha Ash VDownloader.bin", "rb")
 datos = data.read()
 print(data)
 file_out = open("encrypted_data.bin", "wb")  # Exporta un archivo ¿encriptado?
