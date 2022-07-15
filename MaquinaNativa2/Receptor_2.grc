@@ -144,6 +144,18 @@ blocks:
     coordinate: [570, 28]
     rotation: 0
     state: enabled
+- name: sps
+  id: variable
+  parameters:
+    comment: ''
+    value: '8'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [568, 104.0]
+    rotation: 0
+    state: true
 - name: Widget
   id: qtgui_tab_widget
   parameters:
@@ -298,7 +310,7 @@ blocks:
     m: '1'
     maxoutbuf: '0'
     minoutbuf: '0'
-    n: '8'
+    n: sps
     offset: '0'
     type: float
   states:
@@ -401,7 +413,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    decim: '8'
+    decim: sps
     maxoutbuf: '0'
     minoutbuf: '0'
     samp_delay: '0'
