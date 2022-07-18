@@ -1,6 +1,7 @@
 options:
   parameters:
     author: ''
+    catch_exceptions: 'True'
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
     comment: ''
@@ -51,7 +52,7 @@ blocks:
     gui_hint: ''
     label: ''
     min_len: '200'
-    orient: Qt.Horizontal
+    orient: QtCore.Qt.Horizontal
     rangeType: float
     start: '0'
     step: '0.1'
@@ -89,7 +90,7 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: C:\Users\Julian\Desktop\ProgrammingProject\MaquinaNativa2\sample_2.bin
+    file: D:\Alza\ProgrammingProject\MaquinaNativa2\sample_2.bin
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -174,6 +175,7 @@ blocks:
     minoutbuf: '0'
     name: '""'
     nconnections: '1'
+    norm_window: 'False'
     showports: 'False'
     tr_chan: '0'
     tr_level: '0.0'
@@ -192,7 +194,7 @@ blocks:
     width7: '1'
     width8: '1'
     width9: '1'
-    wintype: firdes.WIN_BLACKMAN_hARRIS
+    wintype: window.WIN_BLACKMAN_hARRIS
     ymax: '10'
     ymin: '-140'
   states:
@@ -308,3 +310,4 @@ connections:
 
 metadata:
   file_format: 1
+  grc_version: 3.10.3.0
