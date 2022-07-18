@@ -37,6 +37,8 @@ import signal
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
+from gnuradio import uhd
+import time
 import math
 import numpy
 
@@ -82,16 +84,16 @@ class USRP_4(gr.top_block, Qt.QWidget):
         ##################################################
         self.constellation_2 = constellation_2 = (0,1)
         self.module = module = constellation_2
-        self.Sps = Sps = 8
-        self.Rs = Rs = 48828.125
         self.M = M = len(module)
-        self.samp_rate = samp_rate = Rs*Sps
         self.bps = bps = int(math.log(M,2))
+        self.Rb = Rb = 48828.125
+        self.Sps = Sps = 8
+        self.Rs = Rs = Rb/bps
+        self.samp_rate = samp_rate = Rs*Sps
         self.samp_rate_2 = samp_rate_2 = samp_rate*16
         self.h = h = [1]*Sps
         self.TrueBoardConstellation = TrueBoardConstellation = (0.77+0.77j,-0.77+0.77j,-0.77-0.77j,0.77-0.77j)
         self.Sps_0 = Sps_0 = int(Sps/2)
-        self.Rb = Rb = Rs*bps
         self.PHG = PHG = digital.header_format_default('11001100101001010100110111110101',0, 1)
 
         ##################################################
@@ -148,6 +150,21 @@ class USRP_4(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(0, 7):
             self.top_grid_layout.setColumnStretch(c, 1)
+        self.uhd_usrp_sink_0 = uhd.usrp_sink(
+            ",".join(("", '')),
+            uhd.stream_args(
+                cpu_format="fc32",
+                args='',
+                channels=list(range(0,1)),
+            ),
+            '',
+        )
+        self.uhd_usrp_sink_0.set_samp_rate(samp_rate)
+        # No synchronization enforced.
+
+        self.uhd_usrp_sink_0.set_center_freq(830e6, 0)
+        self.uhd_usrp_sink_0.set_antenna("TX/RX", 0)
+        self.uhd_usrp_sink_0.set_gain(0, 0)
         self.qtgui_time_sink_x_0_0_0 = qtgui.time_sink_f(
             1024, #size
             samp_rate, #samp_rate
@@ -299,7 +316,7 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.qwidget(), Qt.QWidget)
         self.Widget_layout_1.addWidget(self._qtgui_time_sink_x_0_win)
         self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
-            2048, #size
+            1024, #size
             "Diagrama de constelaciones", #name
             1, #number of inputs
             None # parent
@@ -366,6 +383,7 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.connect((self.digital_protocol_formatter_bb_0, 0), (self.blocks_tagged_stream_mux_0, 0))
         self.connect((self.interp_fir_filter_xxx_0, 0), (self.qtgui_const_sink_x_0, 0))
         self.connect((self.interp_fir_filter_xxx_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.interp_fir_filter_xxx_0, 0), (self.uhd_usrp_sink_0, 0))
 
 
     def closeEvent(self, event):
@@ -392,6 +410,27 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self._module_callback(self.module)
         self.digital_chunks_to_symbols_xx_0.set_symbol_table(self.module)
 
+    def get_M(self):
+        return self.M
+
+    def set_M(self, M):
+        self.M = M
+        self.set_bps(int(math.log(self.M,2)))
+
+    def get_bps(self):
+        return self.bps
+
+    def set_bps(self, bps):
+        self.bps = bps
+        self.set_Rs(self.Rb/self.bps)
+
+    def get_Rb(self):
+        return self.Rb
+
+    def set_Rb(self, Rb):
+        self.Rb = Rb
+        self.set_Rs(self.Rb/self.bps)
+
     def get_Sps(self):
         return self.Sps
 
@@ -406,15 +445,7 @@ class USRP_4(gr.top_block, Qt.QWidget):
 
     def set_Rs(self, Rs):
         self.Rs = Rs
-        self.set_Rb(self.Rs*self.bps)
         self.set_samp_rate(self.Rs*self.Sps)
-
-    def get_M(self):
-        return self.M
-
-    def set_M(self, M):
-        self.M = M
-        self.set_bps(int(math.log(self.M,2)))
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -425,13 +456,7 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_0_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_0_0_0.set_samp_rate(self.samp_rate)
-
-    def get_bps(self):
-        return self.bps
-
-    def set_bps(self, bps):
-        self.bps = bps
-        self.set_Rb(self.Rs*self.bps)
+        self.uhd_usrp_sink_0.set_samp_rate(self.samp_rate)
 
     def get_samp_rate_2(self):
         return self.samp_rate_2
@@ -457,12 +482,6 @@ class USRP_4(gr.top_block, Qt.QWidget):
 
     def set_Sps_0(self, Sps_0):
         self.Sps_0 = Sps_0
-
-    def get_Rb(self):
-        return self.Rb
-
-    def set_Rb(self, Rb):
-        self.Rb = Rb
 
     def get_PHG(self):
         return self.PHG

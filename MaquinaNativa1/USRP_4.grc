@@ -56,26 +56,26 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [48, 108.0]
+    coordinate: [32, 180.0]
     rotation: 0
     state: true
 - name: Rb
   id: variable
   parameters:
     comment: ''
-    value: Rs*bps
+    value: '48828.125'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [751, 11]
+    coordinate: [744, 12.0]
     rotation: 0
     state: true
 - name: Rs
   id: variable
   parameters:
     comment: ''
-    value: '48828.125'
+    value: Rb/bps
   states:
     bus_sink: false
     bus_source: false
@@ -116,7 +116,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [269, 10]
+    coordinate: [288, 12.0]
     rotation: 0
     state: true
 - name: bps
@@ -332,39 +332,6 @@ blocks:
     coordinate: [712, 440.0]
     rotation: 0
     state: disabled
-- name: blocks_null_sink_0
-  id: blocks_null_sink
-  parameters:
-    affinity: ''
-    alias: ''
-    bus_structure_sink: '[[0,],]'
-    comment: ''
-    num_inputs: '1'
-    type: byte
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [144, 584.0]
-    rotation: 0
-    state: disabled
-- name: blocks_pack_k_bits_bb_0
-  id: blocks_pack_k_bits_bb
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    k: '8'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [232, 412.0]
-    rotation: 0
-    state: disabled
 - name: blocks_pack_k_bits_bb_0_0
   id: blocks_pack_k_bits_bb
   parameters:
@@ -379,25 +346,6 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [840, 588.0]
-    rotation: 0
-    state: disabled
-- name: blocks_packed_to_unpacked_xx_0
-  id: blocks_packed_to_unpacked_xx
-  parameters:
-    affinity: ''
-    alias: ''
-    bits_per_chunk: bps
-    comment: ''
-    endianness: gr.GR_MSB_FIRST
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_ports: '1'
-    type: byte
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [315, 358]
     rotation: 0
     state: disabled
 - name: blocks_stream_to_tagged_stream_0
@@ -520,7 +468,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 116.0]
+    coordinate: [24, 108.0]
     rotation: 0
     state: disabled
 - name: digital_chunks_to_symbols_xx_0
@@ -560,40 +508,6 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [328, 540.0]
-    rotation: 0
-    state: disabled
-- name: digital_packet_headergenerator_bb_0
-  id: digital_packet_headergenerator_bb
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    header_formatter: PHG
-    len_tag_key: '"packet_len"'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [64, 204.0]
-    rotation: 0
-    state: disabled
-- name: digital_packet_headergenerator_bb_default_0
-  id: digital_packet_headergenerator_bb_default
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    header_len: '16'
-    len_tag_key: '"packet_len"'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [40, 212.0]
     rotation: 0
     state: disabled
 - name: digital_protocol_formatter_bb_0
@@ -658,40 +572,6 @@ blocks:
     coordinate: [685, 176]
     rotation: 0
     state: enabled
-- name: pdu_pdu_to_tagged_stream_0
-  id: pdu_pdu_to_tagged_stream
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    tag: packet_len
-    type: byte
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [16, 652.0]
-    rotation: 0
-    state: disabled
-- name: pdu_tagged_stream_to_pdu_0
-  id: pdu_tagged_stream_to_pdu
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    tag: packet_len
-    type: byte
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [208, 660.0]
-    rotation: 0
-    state: disabled
 - name: qtgui_const_sink_x_0
   id: qtgui_const_sink_x
   parameters:
@@ -745,7 +625,7 @@ blocks:
     marker9: '0'
     name: '"Diagrama de constelaciones"'
     nconnections: '1'
-    size: '2048'
+    size: '1024'
     style1: '0'
     style10: '0'
     style2: '0'
@@ -784,87 +664,6 @@ blocks:
     coordinate: [896, 252.0]
     rotation: 0
     state: enabled
-- name: qtgui_freq_sink_x_0
-  id: qtgui_freq_sink_x
-  parameters:
-    affinity: ''
-    alias: ''
-    alpha1: '1.0'
-    alpha10: '1.0'
-    alpha2: '1.0'
-    alpha3: '1.0'
-    alpha4: '1.0'
-    alpha5: '1.0'
-    alpha6: '1.0'
-    alpha7: '1.0'
-    alpha8: '1.0'
-    alpha9: '1.0'
-    autoscale: 'True'
-    average: '1.0'
-    axislabels: 'True'
-    bw: samp_rate_1
-    color1: '"blue"'
-    color10: '"dark blue"'
-    color2: '"red"'
-    color3: '"green"'
-    color4: '"black"'
-    color5: '"cyan"'
-    color6: '"magenta"'
-    color7: '"yellow"'
-    color8: '"dark red"'
-    color9: '"dark green"'
-    comment: ''
-    ctrlpanel: 'True'
-    fc: '0'
-    fftsize: '1024'
-    freqhalf: 'True'
-    grid: 'True'
-    gui_hint: 0,1,1,1
-    label: Relative Gain
-    label1: ''
-    label10: ''''''
-    label2: ''''''
-    label3: ''''''
-    label4: ''''''
-    label5: ''''''
-    label6: ''''''
-    label7: ''''''
-    label8: ''''''
-    label9: ''''''
-    legend: 'True'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    name: '""'
-    nconnections: '1'
-    norm_window: 'False'
-    showports: 'False'
-    tr_chan: '0'
-    tr_level: '0.0'
-    tr_mode: qtgui.TRIG_MODE_FREE
-    tr_tag: '""'
-    type: float
-    units: dB
-    update_time: '0.10'
-    width1: '1'
-    width10: '1'
-    width2: '1'
-    width3: '1'
-    width4: '1'
-    width5: '1'
-    width6: '1'
-    width7: '1'
-    width8: '1'
-    width9: '1'
-    wintype: window.WIN_BLACKMAN_hARRIS
-    ymax: '10'
-    ymin: '-140'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [846, 54]
-    rotation: 0
-    state: disabled
 - name: qtgui_time_sink_x_0
   id: qtgui_time_sink_x
   parameters:
@@ -1529,23 +1328,16 @@ blocks:
     bus_structure: null
     coordinate: [911, 327]
     rotation: 0
-    state: disabled
+    state: enabled
 
 connections:
 - [blocks_complex_to_mag_0, '0', blocks_float_to_uchar_0, '0']
-- [blocks_file_source_0, '0', blocks_pack_k_bits_bb_0, '0']
 - [blocks_file_source_0, '0', blocks_stream_to_tagged_stream_0, '0']
 - [blocks_float_to_uchar_0, '0', blocks_uchar_to_float_0_0, '0']
 - [blocks_float_to_uchar_0, '0', digital_correlate_access_code_xx_ts_0, '0']
 - [blocks_keep_one_in_n_0, '0', blocks_complex_to_mag_0, '0']
-- [blocks_pack_k_bits_bb_0, '0', blocks_packed_to_unpacked_xx_0, '0']
 - [blocks_pack_k_bits_bb_0_0, '0', blocks_file_sink_1, '0']
-- [blocks_packed_to_unpacked_xx_0, '0', blocks_uchar_to_float_0, '0']
-- [blocks_packed_to_unpacked_xx_0, '0', digital_chunks_to_symbols_xx_0, '0']
 - [blocks_stream_to_tagged_stream_0, '0', blocks_tagged_stream_mux_0, '1']
-- [blocks_stream_to_tagged_stream_0, '0', digital_packet_headergenerator_bb_0, '0']
-- [blocks_stream_to_tagged_stream_0, '0', digital_packet_headergenerator_bb_default_0,
-  '0']
 - [blocks_stream_to_tagged_stream_0, '0', digital_protocol_formatter_bb_0, '0']
 - [blocks_tagged_stream_align_0, '0', blocks_pack_k_bits_bb_0_0, '0']
 - [blocks_tagged_stream_mux_0, '0', blocks_unpack_k_bits_bb_0, '0']
@@ -1558,14 +1350,11 @@ connections:
 - [digital_chunks_to_symbols_xx_0, '0', interp_fir_filter_xxx_0, '0']
 - [digital_chunks_to_symbols_xx_0, '0', qtgui_time_sink_x_0_0, '0']
 - [digital_correlate_access_code_xx_ts_0, '0', blocks_tagged_stream_align_0, '0']
-- [digital_packet_headergenerator_bb_0, '0', blocks_tagged_stream_mux_0, '0']
-- [digital_packet_headergenerator_bb_default_0, '0', blocks_tagged_stream_mux_0, '0']
 - [digital_protocol_formatter_bb_0, '0', blocks_tagged_stream_mux_0, '0']
 - [interp_fir_filter_xxx_0, '0', blocks_keep_one_in_n_0, '0']
 - [interp_fir_filter_xxx_0, '0', qtgui_const_sink_x_0, '0']
 - [interp_fir_filter_xxx_0, '0', qtgui_time_sink_x_0, '0']
 - [interp_fir_filter_xxx_0, '0', uhd_usrp_sink_0, '0']
-- [pdu_tagged_stream_to_pdu_0, pdus, pdu_pdu_to_tagged_stream_0, pdus]
 
 metadata:
   file_format: 1
