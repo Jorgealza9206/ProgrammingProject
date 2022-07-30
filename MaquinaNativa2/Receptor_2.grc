@@ -85,7 +85,7 @@ blocks:
     gui_hint: ''
     label: high
     type: real
-    value: '4'
+    value: '0.7'
   states:
     bus_sink: false
     bus_source: false
@@ -100,7 +100,7 @@ blocks:
     gui_hint: ''
     label: Low
     type: real
-    value: '4'
+    value: '0.7'
   states:
     bus_sink: false
     bus_source: false
@@ -178,11 +178,11 @@ blocks:
     label3: "Se\xF1al Recibida Absoluta"
     label4: "Se\xF1al Recibida"
     label5: Antes de desempaquetar
-    label6: Tab 6
+    label6: Symbol Sync
     label7: Tab 7
     label8: Tab 8
     label9: Tab 9
-    num_tabs: '6'
+    num_tabs: '7'
   states:
     bus_sink: false
     bus_source: false
@@ -228,7 +228,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [688, 304.0]
+    coordinate: [664, 336.0]
     rotation: 0
     state: true
 - name: blocks_delay_0
@@ -257,7 +257,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: D:\Alza\ProgrammingProject\MaquinaNativa2\img.jpeg
+    file: D:\Alza\ProgrammingProject\MaquinaNativa2\encrypted_data.bin
     type: byte
     unbuffered: 'False'
     vlen: '1'
@@ -265,7 +265,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1264, 536.0]
+    coordinate: [1288, 608.0]
     rotation: 0
     state: enabled
 - name: blocks_float_to_char_0
@@ -282,7 +282,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [928, 400.0]
+    coordinate: [952, 472.0]
     rotation: 0
     state: enabled
 - name: blocks_float_to_complex_0
@@ -298,7 +298,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [744, 360.0]
+    coordinate: [648, 480.0]
     rotation: 0
     state: true
 - name: blocks_keep_m_in_n_0
@@ -317,7 +317,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1040, 272.0]
+    coordinate: [1040, 352.0]
     rotation: 0
     state: enabled
 - name: blocks_multiply_const_vxx_0
@@ -351,7 +351,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1120, 544.0]
+    coordinate: [1144, 616.0]
     rotation: 0
     state: enabled
 - name: blocks_tagged_stream_align_0
@@ -369,7 +369,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1128, 480.0]
+    coordinate: [1152, 552.0]
     rotation: 0
     state: enabled
 - name: blocks_threshold_ff_0
@@ -387,7 +387,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [872, 256.0]
+    coordinate: [864, 352.0]
     rotation: 0
     state: enabled
 - name: blocks_uchar_to_float_0
@@ -402,7 +402,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [928, 464.0]
+    coordinate: [952, 536.0]
     rotation: 0
     state: enabled
 - name: digital_correlate_access_code_xx_ts_0
@@ -421,7 +421,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1104, 392.0]
+    coordinate: [1128, 464.0]
     rotation: 0
     state: enabled
 - name: qtgui_const_sink_x_0
@@ -513,7 +513,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [736, 440.0]
+    coordinate: [640, 560.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0
@@ -901,7 +901,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1024, 64.0]
+    coordinate: [1024, 16.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_2
@@ -998,7 +998,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [920, 512.0]
+    coordinate: [944, 584.0]
     rotation: 0
     state: enabled
 - name: rational_resampler_xxx_0
