@@ -284,7 +284,7 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: C:\Users\Alex\Pictures\Cindy.jpeg
+    file: G:\My Drive\ProgrammingProject\MaquinaNativa1\encrypted_data.bin
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
