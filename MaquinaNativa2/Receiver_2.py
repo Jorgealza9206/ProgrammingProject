@@ -90,14 +90,14 @@ class Receiver_2(gr.top_block, Qt.QWidget):
         self.Rb = Rb = 48000
         self.samp_rate = samp_rate = Rb*decim
         self.decimation = decimation = 1
+        self.FSK_Deviation = FSK_Deviation = 20000
         self.tw = tw = 1000
         self.samp_rate_0 = samp_rate_0 = samp_rate*decimation
         self.gain_quad = gain_quad = 15.2789
-        self.frequency_neg = frequency_neg = -50000
+        self.frequency_neg = frequency_neg = -Rb-FSK_Deviation
         self.frequency = frequency = 435e6
         self.cof = cof = 96e3
         self.Rs = Rs = Rb/8
-        self.FSK_Deviation = FSK_Deviation = 500
 
         ##################################################
         # Blocks
@@ -108,7 +108,7 @@ class Receiver_2(gr.top_block, Qt.QWidget):
         self._gain_quad_range = Range(1, 200, 2, 15.2789, 200)
         self._gain_quad_win = RangeWidget(self._gain_quad_range, self.set_gain_quad, "Gain of Demodulation", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._gain_quad_win)
-        self._frequency_neg_range = Range(-100000, 75000, 1000, -50000, 200)
+        self._frequency_neg_range = Range(-500000, 10000, 1000, -Rb-FSK_Deviation, 200)
         self._frequency_neg_win = RangeWidget(self._frequency_neg_range, self.set_frequency_neg, "Negative Multiplier", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._frequency_neg_win)
         self._frequency_range = Range(400e6, 500e6, 1000, 435e6, 200)
@@ -332,6 +332,7 @@ class Receiver_2(gr.top_block, Qt.QWidget):
     def set_Rb(self, Rb):
         self.Rb = Rb
         self.set_Rs(self.Rb/8)
+        self.set_frequency_neg(-self.Rb-self.FSK_Deviation)
         self.set_samp_rate(self.Rb*self.decim)
 
     def get_samp_rate(self):
@@ -351,6 +352,13 @@ class Receiver_2(gr.top_block, Qt.QWidget):
     def set_decimation(self, decimation):
         self.decimation = decimation
         self.set_samp_rate_0(self.samp_rate*self.decimation)
+
+    def get_FSK_Deviation(self):
+        return self.FSK_Deviation
+
+    def set_FSK_Deviation(self, FSK_Deviation):
+        self.FSK_Deviation = FSK_Deviation
+        self.set_frequency_neg(-self.Rb-self.FSK_Deviation)
 
     def get_tw(self):
         return self.tw
@@ -400,12 +408,6 @@ class Receiver_2(gr.top_block, Qt.QWidget):
 
     def set_Rs(self, Rs):
         self.Rs = Rs
-
-    def get_FSK_Deviation(self):
-        return self.FSK_Deviation
-
-    def set_FSK_Deviation(self, FSK_Deviation):
-        self.FSK_Deviation = FSK_Deviation
 
 
 

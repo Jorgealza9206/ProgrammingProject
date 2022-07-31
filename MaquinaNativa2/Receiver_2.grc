@@ -37,7 +37,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '500'
+    value: '20000'
   states:
     bus_sink: false
     bus_source: false
@@ -144,10 +144,10 @@ blocks:
     min_len: '200'
     orient: QtCore.Qt.Horizontal
     rangeType: float
-    start: '-100000'
+    start: '-500000'
     step: '1000'
-    stop: '75000'
-    value: '-50000'
+    stop: '10000'
+    value: -Rb-FSK_Deviation
     widget: counter_slider
   states:
     bus_sink: false
@@ -674,7 +674,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [536, 168.0]
+    coordinate: [528, 160.0]
     rotation: 0
     state: true
 - name: rational_resampler_xxx_0
@@ -696,7 +696,7 @@ blocks:
     bus_structure: null
     coordinate: [320, 248.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: satellites_hdlc_deframer_0
   id: satellites_hdlc_deframer
   parameters:
