@@ -375,7 +375,7 @@ blocks:
     bus_structure: null
     coordinate: [904, 148.0]
     rotation: 0
-    state: true
+    state: bypassed
 - name: satellites_hdlc_framer_0
   id: satellites_hdlc_framer
   parameters:
@@ -477,7 +477,7 @@ blocks:
     bw7: '0'
     bw8: '0'
     bw9: '0'
-    center_freq0: 830e6
+    center_freq0: 435e6
     center_freq1: '0'
     center_freq10: '0'
     center_freq11: '0'
