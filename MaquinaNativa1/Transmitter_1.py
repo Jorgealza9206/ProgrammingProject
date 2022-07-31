@@ -102,16 +102,11 @@ class Transmitter_1(gr.top_block, Qt.QWidget):
         self.uhd_usrp_sink_0.set_samp_rate(samp_rate_0)
         # No synchronization enforced.
 
-        self.uhd_usrp_sink_0.set_center_freq(830e6, 0)
+        self.uhd_usrp_sink_0.set_center_freq(435e6, 0)
         self.uhd_usrp_sink_0.set_antenna("TX/RX", 0)
         self.uhd_usrp_sink_0.set_gain(0, 0)
         self.satellites_nrzi_encode_0 = satellites.nrzi_encode()
         self.satellites_hdlc_framer_0 = satellites.hdlc_framer(preamble_bytes=100, postamble_bytes=50)
-        self.rational_resampler_xxx_0 = filter.rational_resampler_ccc(
-                interpolation=interp_0,
-                decimation=1,
-                taps=[],
-                fractional_bw=0)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
             1024, #size
             samp_rate_0, #samp_rate
@@ -184,12 +179,11 @@ class Transmitter_1(gr.top_block, Qt.QWidget):
         self.connect((self.analog_sig_source_x_0, 0), (self.blocks_multiply_xx_0, 1))
         self.connect((self.blocks_char_to_float_0, 0), (self.analog_frequency_modulator_fc_0, 0))
         self.connect((self.blocks_file_source_0, 0), (self.blocks_stream_to_tagged_stream_0, 0))
-        self.connect((self.blocks_multiply_xx_0, 0), (self.rational_resampler_xxx_0, 0))
+        self.connect((self.blocks_multiply_xx_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.blocks_multiply_xx_0, 0), (self.uhd_usrp_sink_0, 0))
         self.connect((self.blocks_repeat_0, 0), (self.blocks_char_to_float_0, 0))
         self.connect((self.blocks_stream_to_tagged_stream_0, 0), (self.pdu_tagged_stream_to_pdu_0, 0))
         self.connect((self.pdu_pdu_to_tagged_stream_0, 0), (self.satellites_nrzi_encode_0, 0))
-        self.connect((self.rational_resampler_xxx_0, 0), (self.qtgui_time_sink_x_0, 0))
-        self.connect((self.rational_resampler_xxx_0, 0), (self.uhd_usrp_sink_0, 0))
         self.connect((self.satellites_nrzi_encode_0, 0), (self.blocks_repeat_0, 0))
 
 
