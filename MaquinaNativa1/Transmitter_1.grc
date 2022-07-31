@@ -37,7 +37,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '1562500'
+    value: '48000'
   states:
     bus_sink: false
     bus_source: false
@@ -49,7 +49,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '4'
+    value: '40'
   states:
     bus_sink: false
     bus_source: false
@@ -57,11 +57,23 @@ blocks:
     coordinate: [288, 12.0]
     rotation: 0
     state: true
+- name: interp_0
+  id: variable
+  parameters:
+    comment: ''
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [288, 76.0]
+    rotation: 0
+    state: true
 - name: samp_rate
   id: variable
   parameters:
     comment: ''
-    value: 4*Rb
+    value: interp*Rb
   states:
     bus_sink: false
     bus_source: false
@@ -73,7 +85,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 2*Rb*4
+    value: Rb*interp*interp_0
   states:
     bus_sink: false
     bus_source: false
@@ -89,7 +101,7 @@ blocks:
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    sensitivity: '0.22619'
+    sensitivity: '0.1309'
   states:
     bus_sink: false
     bus_source: false
@@ -111,7 +123,7 @@ blocks:
     phase: '0'
     samp_rate: samp_rate
     type: complex
-    waveform: analog.GR_COS_WAVE
+    waveform: analog.GR_SIN_WAVE
   states:
     bus_sink: false
     bus_source: false
@@ -155,7 +167,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [40, 268.0]
+    coordinate: [32, 268.0]
     rotation: 0
     state: enabled
 - name: blocks_multiply_xx_0
@@ -210,7 +222,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [72, 156.0]
+    coordinate: [48, 164.0]
     rotation: 0
     state: true
 - name: pdu_pdu_to_tagged_stream_0
@@ -244,7 +256,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [288, 164.0]
+    coordinate: [288, 172.0]
     rotation: 0
     state: true
 - name: qtgui_time_sink_x_0
@@ -303,7 +315,7 @@ blocks:
     name: '""'
     nconnections: '1'
     size: '1024'
-    srate: samp_rate
+    srate: samp_rate_0
     stemplot: 'False'
     style1: '1'
     style10: '1'
@@ -352,7 +364,7 @@ blocks:
     comment: ''
     decim: '1'
     fbw: '0'
-    interp: '2'
+    interp: interp_0
     maxoutbuf: '0'
     minoutbuf: '0'
     taps: '[]'
@@ -361,7 +373,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [896, 156.0]
+    coordinate: [904, 148.0]
     rotation: 0
     state: true
 - name: satellites_hdlc_framer_0
@@ -378,7 +390,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [312, 220.0]
+    coordinate: [304, 220.0]
     rotation: 0
     state: true
 - name: satellites_nrzi_encode_0
@@ -670,7 +682,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [872, 284.0]
+    coordinate: [896, 300.0]
     rotation: 0
     state: enabled
 
