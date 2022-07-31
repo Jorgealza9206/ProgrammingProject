@@ -86,34 +86,35 @@ class Receiver_2(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.samp_rate = samp_rate = 48000
-        self.decimation = decimation = 40
-        self.Rb = Rb = 1411200
-        self.tw = tw = 100
+        self.decim = decim = 40
+        self.Rb = Rb = 48000
+        self.samp_rate = samp_rate = Rb*decim
+        self.decimation = decimation = 1
+        self.tw = tw = 1000
         self.samp_rate_0 = samp_rate_0 = samp_rate*decimation
         self.gain_quad = gain_quad = 15.2789
-        self.frequency_neg = frequency_neg = -1700
+        self.frequency_neg = frequency_neg = -50000
         self.frequency = frequency = 435e6
-        self.cof = cof = 2500
+        self.cof = cof = 96e3
         self.Rs = Rs = Rb/8
         self.FSK_Deviation = FSK_Deviation = 500
 
         ##################################################
         # Blocks
         ##################################################
-        self._tw_range = Range(50, 1500, 50, 100, 200)
+        self._tw_range = Range(500, 15000, 500, 1000, 200)
         self._tw_win = RangeWidget(self._tw_range, self.set_tw, "Transition Width", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._tw_win)
         self._gain_quad_range = Range(1, 200, 2, 15.2789, 200)
         self._gain_quad_win = RangeWidget(self._gain_quad_range, self.set_gain_quad, "Gain of Demodulation", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._gain_quad_win)
-        self._frequency_neg_range = Range(-5000, 2000, 100, -1700, 200)
+        self._frequency_neg_range = Range(-100000, 75000, 1000, -50000, 200)
         self._frequency_neg_win = RangeWidget(self._frequency_neg_range, self.set_frequency_neg, "Negative Multiplier", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._frequency_neg_win)
         self._frequency_range = Range(400e6, 500e6, 1000, 435e6, 200)
         self._frequency_win = RangeWidget(self._frequency_range, self.set_frequency, "SDR Receive Frequency", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._frequency_win)
-        self._cof_range = Range(100, 3000, 100, 2500, 200)
+        self._cof_range = Range(1000, 200e3, 1000, 96e3, 200)
         self._cof_win = RangeWidget(self._cof_range, self.set_cof, "Cut-off Low Pass Filter", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._cof_win)
         self.uhd_usrp_source_0 = uhd.usrp_source(
@@ -138,6 +139,41 @@ class Receiver_2(gr.top_block, Qt.QWidget):
                 decimation=decimation,
                 taps=[],
                 fractional_bw=0.4)
+        self.qtgui_waterfall_sink_x_0 = qtgui.waterfall_sink_c(
+            1024, #size
+            window.WIN_BLACKMAN_hARRIS, #wintype
+            0, #fc
+            samp_rate, #bw
+            "", #name
+            1, #number of inputs
+            None # parent
+        )
+        self.qtgui_waterfall_sink_x_0.set_update_time(0.10)
+        self.qtgui_waterfall_sink_x_0.enable_grid(False)
+        self.qtgui_waterfall_sink_x_0.enable_axis_labels(True)
+
+
+
+        labels = ['', '', '', '', '',
+                  '', '', '', '', '']
+        colors = [0, 0, 0, 0, 0,
+                  0, 0, 0, 0, 0]
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+                  1.0, 1.0, 1.0, 1.0, 1.0]
+
+        for i in range(1):
+            if len(labels[i]) == 0:
+                self.qtgui_waterfall_sink_x_0.set_line_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_waterfall_sink_x_0.set_line_label(i, labels[i])
+            self.qtgui_waterfall_sink_x_0.set_color_map(i, colors[i])
+            self.qtgui_waterfall_sink_x_0.set_line_alpha(i, alphas[i])
+
+        self.qtgui_waterfall_sink_x_0.set_intensity_range(-140, 10)
+
+        self._qtgui_waterfall_sink_x_0_win = sip.wrapinstance(self.qtgui_waterfall_sink_x_0.qwidget(), Qt.QWidget)
+
+        self.top_layout.addWidget(self._qtgui_waterfall_sink_x_0_win)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
             1024, #size
             samp_rate_0, #samp_rate
@@ -239,11 +275,11 @@ class Receiver_2(gr.top_block, Qt.QWidget):
                 tw,
                 window.WIN_HAMMING,
                 6.76))
-        self.digital_clock_recovery_mm_xx_0 = digital.clock_recovery_mm_ff(decimation, (765625e-3), 0.5, 0.175, 0.005)
+        self.digital_clock_recovery_mm_xx_0 = digital.clock_recovery_mm_ff(decim, (765625e-3), 0.5, 0.175, 0.005)
         self.digital_binary_slicer_fb_0 = digital.binary_slicer_fb()
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
         self.blocks_message_debug_0 = blocks.message_debug(True)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, 'D:\\Alza\\ProgrammingProject\\MaquinaNativa2\\encrypted_data.bin', False)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, 'e:\\Alza\\ProgrammingProject\\MaquinaNativa2\\encrypted_data.bin', False)
         self.blocks_file_sink_0.set_unbuffered(False)
         self.blocks_complex_to_real_0 = blocks.complex_to_real(1)
         self.audio_sink_0 = audio.sink(samp_rate, '', True)
@@ -269,6 +305,7 @@ class Receiver_2(gr.top_block, Qt.QWidget):
         self.connect((self.pdu_pdu_to_tagged_stream_0, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.pdu_pdu_to_tagged_stream_0, 0), (self.network_tcp_sink_0, 0))
         self.connect((self.rational_resampler_xxx_0, 0), (self.blocks_multiply_xx_0, 0))
+        self.connect((self.rational_resampler_xxx_0, 0), (self.qtgui_waterfall_sink_x_0, 0))
         self.connect((self.satellites_nrzi_decode_0, 0), (self.satellites_hdlc_deframer_0, 0))
         self.connect((self.uhd_usrp_source_0, 0), (self.rational_resampler_xxx_0, 0))
 
@@ -281,6 +318,22 @@ class Receiver_2(gr.top_block, Qt.QWidget):
 
         event.accept()
 
+    def get_decim(self):
+        return self.decim
+
+    def set_decim(self, decim):
+        self.decim = decim
+        self.set_samp_rate(self.Rb*self.decim)
+        self.digital_clock_recovery_mm_xx_0.set_omega(self.decim)
+
+    def get_Rb(self):
+        return self.Rb
+
+    def set_Rb(self, Rb):
+        self.Rb = Rb
+        self.set_Rs(self.Rb/8)
+        self.set_samp_rate(self.Rb*self.decim)
+
     def get_samp_rate(self):
         return self.samp_rate
 
@@ -290,6 +343,7 @@ class Receiver_2(gr.top_block, Qt.QWidget):
         self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
         self.low_pass_filter_0.set_taps(firdes.low_pass(1, self.samp_rate, self.cof, self.tw, window.WIN_HAMMING, 6.76))
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
+        self.qtgui_waterfall_sink_x_0.set_frequency_range(0, self.samp_rate)
 
     def get_decimation(self):
         return self.decimation
@@ -297,14 +351,6 @@ class Receiver_2(gr.top_block, Qt.QWidget):
     def set_decimation(self, decimation):
         self.decimation = decimation
         self.set_samp_rate_0(self.samp_rate*self.decimation)
-        self.digital_clock_recovery_mm_xx_0.set_omega(self.decimation)
-
-    def get_Rb(self):
-        return self.Rb
-
-    def set_Rb(self, Rb):
-        self.Rb = Rb
-        self.set_Rs(self.Rb/8)
 
     def get_tw(self):
         return self.tw

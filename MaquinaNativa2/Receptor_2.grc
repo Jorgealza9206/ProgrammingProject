@@ -257,7 +257,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: D:\Alza\ProgrammingProject\MaquinaNativa2\encrypted_data.bin
+    file: E:\Alza\ProgrammingProject\MaquinaNativa2\encrypted_data.bin
     type: byte
     unbuffered: 'False'
     vlen: '1'
