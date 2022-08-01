@@ -235,7 +235,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [888, 336.0]
+    coordinate: [872, 336.0]
     rotation: 0
     state: true
 - name: analog_sig_source_x_0
@@ -376,7 +376,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1064, 312.0]
+    coordinate: [1064, 320.0]
     rotation: 0
     state: true
 - name: low_pass_filter_0
@@ -613,7 +613,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1064, 224.0]
+    coordinate: [1056, 224.0]
     rotation: 0
     state: true
 - name: qtgui_waterfall_sink_x_0
