@@ -84,8 +84,8 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self.sps = sps = 8
         self.samp_rate_3 = samp_rate_3 = 480000
         self.samp_rate_2 = samp_rate_2 = samp_rate/decimation
-        self.low = low = 0.7
-        self.high = high = 0.7
+        self.low = low = 3
+        self.high = high = 3
         self.h = h = 1
         self.amplificador = amplificador = 100
 
@@ -216,7 +216,7 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self.Widget_layout_5.addWidget(self._qtgui_time_sink_x_2_win)
         self.qtgui_time_sink_x_1_0 = qtgui.time_sink_c(
             1024, #size
-            samp_rate_2, #samp_rate
+            samp_rate, #samp_rate
             'Señal Recibida', #name
             1, #number of inputs
             None # parent
@@ -267,9 +267,9 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self.Widget_layout_4.addWidget(self._qtgui_time_sink_x_1_0_win)
         self.qtgui_time_sink_x_1 = qtgui.time_sink_f(
             1024, #size
-            samp_rate_2, #samp_rate
+            samp_rate, #samp_rate
             'Señal Recibida Absoluta', #name
-            1, #number of inputs
+            2, #number of inputs
             None # parent
         )
         self.qtgui_time_sink_x_1.set_update_time(0.10)
@@ -300,7 +300,7 @@ class Receptor_2(gr.top_block, Qt.QWidget):
             -1, -1, -1, -1, -1]
 
 
-        for i in range(1):
+        for i in range(2):
             if len(labels[i]) == 0:
                 self.qtgui_time_sink_x_1.set_line_label(i, "Data {0}".format(i))
             else:
@@ -315,7 +315,7 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self.Widget_layout_3.addWidget(self._qtgui_time_sink_x_1_win)
         self.qtgui_time_sink_x_0_0 = qtgui.time_sink_f(
             1024, #size
-            samp_rate_2, #samp_rate
+            samp_rate, #samp_rate
             'Señal Cuadrada', #name
             1, #number of inputs
             None # parent
@@ -363,7 +363,7 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self.Widget_layout_0.addWidget(self._qtgui_time_sink_x_0_0_win)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
             1024, #size
-            samp_rate_2, #samp_rate
+            samp_rate, #samp_rate
             'Señal decimada filtrada', #name
             1, #number of inputs
             None # parent
@@ -469,7 +469,7 @@ class Receptor_2(gr.top_block, Qt.QWidget):
             firdes.band_pass(
                 1,
                 (samp_rate/decimation),
-                10000,
+                500,
                 50000,
                 50000,
                 window.WIN_HAMMING,
@@ -495,6 +495,7 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_threshold_ff_0, 0), (self.blocks_float_to_complex_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.blocks_keep_m_in_n_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.qtgui_time_sink_x_0_0, 0))
+        self.connect((self.blocks_threshold_ff_0, 0), (self.qtgui_time_sink_x_1, 1))
         self.connect((self.blocks_uchar_to_float_0, 0), (self.qtgui_time_sink_x_2, 0))
         self.connect((self.digital_correlate_access_code_xx_ts_0, 0), (self.blocks_tagged_stream_align_0, 0))
         self.connect((self.rational_resampler_xxx_0, 0), (self.blocks_multiply_const_vxx_0, 0))
@@ -515,8 +516,12 @@ class Receptor_2(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.set_samp_rate_2(self.samp_rate/self.decimation)
-        self.band_pass_filter_0.set_taps(firdes.band_pass(1, (self.samp_rate/self.decimation), 10000, 50000, 50000, window.WIN_HAMMING, 6.76))
+        self.band_pass_filter_0.set_taps(firdes.band_pass(1, (self.samp_rate/self.decimation), 500, 50000, 50000, window.WIN_HAMMING, 6.76))
         self.blocks_delay_0.set_dly(self.samp_rate)
+        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
+        self.qtgui_time_sink_x_0_0.set_samp_rate(self.samp_rate)
+        self.qtgui_time_sink_x_1.set_samp_rate(self.samp_rate)
+        self.qtgui_time_sink_x_1_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_2.set_samp_rate(self.samp_rate)
         self.uhd_usrp_source_0.set_samp_rate(self.samp_rate)
 
@@ -526,7 +531,7 @@ class Receptor_2(gr.top_block, Qt.QWidget):
     def set_decimation(self, decimation):
         self.decimation = decimation
         self.set_samp_rate_2(self.samp_rate/self.decimation)
-        self.band_pass_filter_0.set_taps(firdes.band_pass(1, (self.samp_rate/self.decimation), 10000, 50000, 50000, window.WIN_HAMMING, 6.76))
+        self.band_pass_filter_0.set_taps(firdes.band_pass(1, (self.samp_rate/self.decimation), 500, 50000, 50000, window.WIN_HAMMING, 6.76))
 
     def get_sps(self):
         return self.sps
@@ -546,10 +551,6 @@ class Receptor_2(gr.top_block, Qt.QWidget):
 
     def set_samp_rate_2(self, samp_rate_2):
         self.samp_rate_2 = samp_rate_2
-        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate_2)
-        self.qtgui_time_sink_x_0_0.set_samp_rate(self.samp_rate_2)
-        self.qtgui_time_sink_x_1.set_samp_rate(self.samp_rate_2)
-        self.qtgui_time_sink_x_1_0.set_samp_rate(self.samp_rate_2)
 
     def get_low(self):
         return self.low
