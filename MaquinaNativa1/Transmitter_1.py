@@ -81,11 +81,10 @@ class Transmitter_1(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.interp_0 = interp_0 = 1
+        self.samp_rate = samp_rate = 48000
         self.interp = interp = 40
-        self.Rb = Rb = 48000
-        self.samp_rate_0 = samp_rate_0 = Rb*interp*interp_0
-        self.samp_rate = samp_rate = interp*Rb
+        self.samp_rate_0 = samp_rate_0 = interp*samp_rate
+        self.Rb = Rb = 1200
 
         ##################################################
         # Blocks
@@ -107,9 +106,14 @@ class Transmitter_1(gr.top_block, Qt.QWidget):
         self.uhd_usrp_sink_0.set_gain(0, 0)
         self.satellites_nrzi_encode_0 = satellites.nrzi_encode()
         self.satellites_hdlc_framer_0 = satellites.hdlc_framer(preamble_bytes=100, postamble_bytes=50)
+        self.rational_resampler_xxx_0 = filter.rational_resampler_ccc(
+                interpolation=interp,
+                decimation=1,
+                taps=[],
+                fractional_bw=0)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
             1024, #size
-            samp_rate_0, #samp_rate
+            samp_rate, #samp_rate
             "", #name
             1, #number of inputs
             None # parent
@@ -163,7 +167,7 @@ class Transmitter_1(gr.top_block, Qt.QWidget):
         self.blocks_stream_to_tagged_stream_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, 256, "packet_len")
         self.blocks_repeat_0 = blocks.repeat(gr.sizeof_char*1, interp)
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, 'E:\\Alza\\ProgrammingProject\\MaquinaNativa1\\encrypted_data.bin', False, 0, 0)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, 'G:\\My Drive\\ProgrammingProject\\MaquinaNativa1\\encrypted_data.bin', False, 0, 0)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
         self.blocks_char_to_float_0 = blocks.char_to_float(1, 1)
         self.analog_sig_source_x_0 = analog.sig_source_c(samp_rate, analog.GR_SIN_WAVE, Rb, 1, 0, 0)
@@ -179,11 +183,12 @@ class Transmitter_1(gr.top_block, Qt.QWidget):
         self.connect((self.analog_sig_source_x_0, 0), (self.blocks_multiply_xx_0, 1))
         self.connect((self.blocks_char_to_float_0, 0), (self.analog_frequency_modulator_fc_0, 0))
         self.connect((self.blocks_file_source_0, 0), (self.blocks_stream_to_tagged_stream_0, 0))
-        self.connect((self.blocks_multiply_xx_0, 0), (self.qtgui_time_sink_x_0, 0))
-        self.connect((self.blocks_multiply_xx_0, 0), (self.uhd_usrp_sink_0, 0))
+        self.connect((self.blocks_multiply_xx_0, 0), (self.rational_resampler_xxx_0, 0))
         self.connect((self.blocks_repeat_0, 0), (self.blocks_char_to_float_0, 0))
         self.connect((self.blocks_stream_to_tagged_stream_0, 0), (self.pdu_tagged_stream_to_pdu_0, 0))
         self.connect((self.pdu_pdu_to_tagged_stream_0, 0), (self.satellites_nrzi_encode_0, 0))
+        self.connect((self.rational_resampler_xxx_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.rational_resampler_xxx_0, 0), (self.uhd_usrp_sink_0, 0))
         self.connect((self.satellites_nrzi_encode_0, 0), (self.blocks_repeat_0, 0))
 
 
@@ -195,45 +200,36 @@ class Transmitter_1(gr.top_block, Qt.QWidget):
 
         event.accept()
 
-    def get_interp_0(self):
-        return self.interp_0
+    def get_samp_rate(self):
+        return self.samp_rate
 
-    def set_interp_0(self, interp_0):
-        self.interp_0 = interp_0
-        self.set_samp_rate_0(self.Rb*self.interp*self.interp_0)
+    def set_samp_rate(self, samp_rate):
+        self.samp_rate = samp_rate
+        self.set_samp_rate_0(self.interp*self.samp_rate)
+        self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
+        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
 
     def get_interp(self):
         return self.interp
 
     def set_interp(self, interp):
         self.interp = interp
-        self.set_samp_rate(self.interp*self.Rb)
-        self.set_samp_rate_0(self.Rb*self.interp*self.interp_0)
+        self.set_samp_rate_0(self.interp*self.samp_rate)
         self.blocks_repeat_0.set_interpolation(self.interp)
-
-    def get_Rb(self):
-        return self.Rb
-
-    def set_Rb(self, Rb):
-        self.Rb = Rb
-        self.set_samp_rate(self.interp*self.Rb)
-        self.set_samp_rate_0(self.Rb*self.interp*self.interp_0)
-        self.analog_sig_source_x_0.set_frequency(self.Rb)
 
     def get_samp_rate_0(self):
         return self.samp_rate_0
 
     def set_samp_rate_0(self, samp_rate_0):
         self.samp_rate_0 = samp_rate_0
-        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate_0)
         self.uhd_usrp_sink_0.set_samp_rate(self.samp_rate_0)
 
-    def get_samp_rate(self):
-        return self.samp_rate
+    def get_Rb(self):
+        return self.Rb
 
-    def set_samp_rate(self, samp_rate):
-        self.samp_rate = samp_rate
-        self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
+    def set_Rb(self, Rb):
+        self.Rb = Rb
+        self.analog_sig_source_x_0.set_frequency(self.Rb)
 
 
 

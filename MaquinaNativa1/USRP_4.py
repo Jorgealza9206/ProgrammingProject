@@ -29,7 +29,6 @@ import sip
 from gnuradio import blocks
 import pmt
 from gnuradio import digital
-from gnuradio import filter
 from gnuradio import gr
 from gnuradio.fft import window
 import sys
@@ -99,32 +98,12 @@ class USRP_4(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        # Create the options list
-        self._module_options = [((0.77+0.77j), (-0.77+0.77j), (-0.77-0.77j), (0.77-0.77j)), (0, 1)]
-        # Create the labels list
-        self._module_labels = ['TrueBoardConstellation', 'constellation_2']
-        # Create the combo box
-        self._module_tool_bar = Qt.QToolBar(self)
-        self._module_tool_bar.addWidget(Qt.QLabel("modulación" + ": "))
-        self._module_combo_box = Qt.QComboBox()
-        self._module_tool_bar.addWidget(self._module_combo_box)
-        for _label in self._module_labels: self._module_combo_box.addItem(_label)
-        self._module_callback = lambda i: Qt.QMetaObject.invokeMethod(self._module_combo_box, "setCurrentIndex", Qt.Q_ARG("int", self._module_options.index(i)))
-        self._module_callback(self.module)
-        self._module_combo_box.currentIndexChanged.connect(
-            lambda i: self.set_module(self._module_options[i]))
-        # Create the radio buttons
-        self.top_grid_layout.addWidget(self._module_tool_bar, 0, 7, 1, 1)
-        for r in range(0, 1):
-            self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(7, 8):
-            self.top_grid_layout.setColumnStretch(c, 1)
         self.Widget = Qt.QTabWidget()
         self.Widget_widget_0 = Qt.QWidget()
         self.Widget_layout_0 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_0)
         self.Widget_grid_layout_0 = Qt.QGridLayout()
         self.Widget_layout_0.addLayout(self.Widget_grid_layout_0)
-        self.Widget.addTab(self.Widget_widget_0, 'Señal binaria')
+        self.Widget.addTab(self.Widget_widget_0, 'Señal')
         self.Widget_widget_1 = Qt.QWidget()
         self.Widget_layout_1 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_1)
         self.Widget_grid_layout_1 = Qt.QGridLayout()
@@ -213,57 +192,6 @@ class USRP_4(gr.top_block, Qt.QWidget):
 
         self._qtgui_time_sink_x_0_0_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0_0.qwidget(), Qt.QWidget)
         self.Widget_layout_3.addWidget(self._qtgui_time_sink_x_0_0_0_win)
-        self.qtgui_time_sink_x_0_0 = qtgui.time_sink_c(
-            1024, #size
-            samp_rate, #samp_rate
-            "", #name
-            1, #number of inputs
-            None # parent
-        )
-        self.qtgui_time_sink_x_0_0.set_update_time(0.1)
-        self.qtgui_time_sink_x_0_0.set_y_axis(-1, 1)
-
-        self.qtgui_time_sink_x_0_0.set_y_label('Amplitude', "")
-
-        self.qtgui_time_sink_x_0_0.enable_tags(True)
-        self.qtgui_time_sink_x_0_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
-        self.qtgui_time_sink_x_0_0.enable_autoscale(True)
-        self.qtgui_time_sink_x_0_0.enable_grid(True)
-        self.qtgui_time_sink_x_0_0.enable_axis_labels(True)
-        self.qtgui_time_sink_x_0_0.enable_control_panel(True)
-        self.qtgui_time_sink_x_0_0.enable_stem_plot(True)
-
-
-        labels = ['Signal 1', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
-            'Signal 6', 'Signal 7', 'Signal 8', 'Signal 9', 'Signal 10']
-        widths = [1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1]
-        colors = ['blue', 'red', 'green', 'black', 'cyan',
-            'magenta', 'yellow', 'dark red', 'dark green', 'dark blue']
-        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
-            1.0, 1.0, 1.0, 1.0, 1.0]
-        styles = [1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1]
-        markers = [-1, -1, -1, -1, -1,
-            -1, -1, -1, -1, -1]
-
-
-        for i in range(2):
-            if len(labels[i]) == 0:
-                if (i % 2 == 0):
-                    self.qtgui_time_sink_x_0_0.set_line_label(i, "Re{{Data {0}}}".format(i/2))
-                else:
-                    self.qtgui_time_sink_x_0_0.set_line_label(i, "Im{{Data {0}}}".format(i/2))
-            else:
-                self.qtgui_time_sink_x_0_0.set_line_label(i, labels[i])
-            self.qtgui_time_sink_x_0_0.set_line_width(i, widths[i])
-            self.qtgui_time_sink_x_0_0.set_line_color(i, colors[i])
-            self.qtgui_time_sink_x_0_0.set_line_style(i, styles[i])
-            self.qtgui_time_sink_x_0_0.set_line_marker(i, markers[i])
-            self.qtgui_time_sink_x_0_0.set_line_alpha(i, alphas[i])
-
-        self._qtgui_time_sink_x_0_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0.qwidget(), Qt.QWidget)
-        self.Widget_layout_0.addWidget(self._qtgui_time_sink_x_0_0_win)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
             1024, #size
             samp_rate, #samp_rate
@@ -356,15 +284,35 @@ class USRP_4(gr.top_block, Qt.QWidget):
 
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.qwidget(), Qt.QWidget)
         self.Widget_layout_2.addWidget(self._qtgui_const_sink_x_0_win)
-        self.interp_fir_filter_xxx_0 = filter.interp_fir_filter_ccf(Sps, h)
-        self.interp_fir_filter_xxx_0.declare_sample_delay(0)
+        # Create the options list
+        self._module_options = [((0.77+0.77j), (-0.77+0.77j), (-0.77-0.77j), (0.77-0.77j)), (0, 1)]
+        # Create the labels list
+        self._module_labels = ['TrueBoardConstellation', 'constellation_2']
+        # Create the combo box
+        self._module_tool_bar = Qt.QToolBar(self)
+        self._module_tool_bar.addWidget(Qt.QLabel("modulación" + ": "))
+        self._module_combo_box = Qt.QComboBox()
+        self._module_tool_bar.addWidget(self._module_combo_box)
+        for _label in self._module_labels: self._module_combo_box.addItem(_label)
+        self._module_callback = lambda i: Qt.QMetaObject.invokeMethod(self._module_combo_box, "setCurrentIndex", Qt.Q_ARG("int", self._module_options.index(i)))
+        self._module_callback(self.module)
+        self._module_combo_box.currentIndexChanged.connect(
+            lambda i: self.set_module(self._module_options[i]))
+        # Create the radio buttons
+        self.top_grid_layout.addWidget(self._module_tool_bar, 0, 7, 1, 1)
+        for r in range(0, 1):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(7, 8):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self.digital_protocol_formatter_bb_0 = digital.protocol_formatter_bb(PHG, "packet_len")
-        self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc(module, 1)
         self.blocks_unpack_k_bits_bb_0 = blocks.unpack_k_bits_bb(8)
+        self.blocks_uchar_to_float_1 = blocks.uchar_to_float()
         self.blocks_uchar_to_float_0 = blocks.uchar_to_float()
         self.blocks_tagged_stream_mux_0 = blocks.tagged_stream_mux(gr.sizeof_char*1, 'packet_len', 0)
         self.blocks_stream_to_tagged_stream_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, 256, "packet_len")
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, 'G:\\My Drive\\ProgrammingProject\\MaquinaNativa1\\encrypted_data.bin', False, 0, 0)
+        self.blocks_repeat_0 = blocks.repeat(gr.sizeof_char*1, Sps)
+        self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, 'G:\\My Drive\\ProgrammingProject\\MaquinaNativa1\\encrypted_data.bin', True, 0, 0)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
 
 
@@ -372,18 +320,18 @@ class USRP_4(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.connect((self.blocks_file_source_0, 0), (self.blocks_stream_to_tagged_stream_0, 0))
+        self.connect((self.blocks_float_to_complex_0, 0), (self.qtgui_const_sink_x_0, 0))
+        self.connect((self.blocks_float_to_complex_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.blocks_float_to_complex_0, 0), (self.uhd_usrp_sink_0, 0))
+        self.connect((self.blocks_repeat_0, 0), (self.blocks_uchar_to_float_1, 0))
         self.connect((self.blocks_stream_to_tagged_stream_0, 0), (self.blocks_tagged_stream_mux_0, 1))
         self.connect((self.blocks_stream_to_tagged_stream_0, 0), (self.digital_protocol_formatter_bb_0, 0))
         self.connect((self.blocks_tagged_stream_mux_0, 0), (self.blocks_unpack_k_bits_bb_0, 0))
         self.connect((self.blocks_uchar_to_float_0, 0), (self.qtgui_time_sink_x_0_0_0, 0))
+        self.connect((self.blocks_uchar_to_float_1, 0), (self.blocks_float_to_complex_0, 0))
+        self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.blocks_repeat_0, 0))
         self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.blocks_uchar_to_float_0, 0))
-        self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.digital_chunks_to_symbols_xx_0, 0))
-        self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.interp_fir_filter_xxx_0, 0))
-        self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.qtgui_time_sink_x_0_0, 0))
         self.connect((self.digital_protocol_formatter_bb_0, 0), (self.blocks_tagged_stream_mux_0, 0))
-        self.connect((self.interp_fir_filter_xxx_0, 0), (self.qtgui_const_sink_x_0, 0))
-        self.connect((self.interp_fir_filter_xxx_0, 0), (self.qtgui_time_sink_x_0, 0))
-        self.connect((self.interp_fir_filter_xxx_0, 0), (self.uhd_usrp_sink_0, 0))
 
 
     def closeEvent(self, event):
@@ -408,7 +356,6 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.module = module
         self.set_M(len(self.module))
         self._module_callback(self.module)
-        self.digital_chunks_to_symbols_xx_0.set_symbol_table(self.module)
 
     def get_M(self):
         return self.M
@@ -439,6 +386,7 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.set_Sps_0(int(self.Sps/2))
         self.set_h([1]*self.Sps)
         self.set_samp_rate(self.Rs*self.Sps)
+        self.blocks_repeat_0.set_interpolation(self.Sps)
 
     def get_Rs(self):
         return self.Rs
@@ -454,7 +402,6 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate
         self.set_samp_rate_2(self.samp_rate*16)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
-        self.qtgui_time_sink_x_0_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_0_0_0.set_samp_rate(self.samp_rate)
         self.uhd_usrp_sink_0.set_samp_rate(self.samp_rate)
 
@@ -469,7 +416,6 @@ class USRP_4(gr.top_block, Qt.QWidget):
 
     def set_h(self, h):
         self.h = h
-        self.interp_fir_filter_xxx_0.set_taps(self.h)
 
     def get_TrueBoardConstellation(self):
         return self.TrueBoardConstellation
