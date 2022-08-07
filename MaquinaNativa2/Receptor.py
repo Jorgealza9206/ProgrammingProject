@@ -21,6 +21,7 @@ if __name__ == '__main__':
             print("Warning: failed to XInitThreads()")
 
 from PyQt5 import Qt
+from gnuradio import eng_notation
 from gnuradio import qtgui
 from gnuradio.filter import firdes
 import sip
@@ -33,7 +34,6 @@ import sys
 import signal
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
-from gnuradio import eng_notation
 from gnuradio import uhd
 import time
 from gnuradio.qtgui import Range, RangeWidget
@@ -81,17 +81,32 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         ##################################################
         self.samp_rate = samp_rate = 1562500
         self.decimation = decimation = 4
-        self.th = th = 1.5
         self.sps = sps = 8
         self.samp_rate_3 = samp_rate_3 = 480000
         self.samp_rate_2 = samp_rate_2 = samp_rate/decimation
+        self.low = low = 3
+        self.high = high = 3
         self.h = h = 1
-        self.amplificador = amplificador = 600
+        self.amplificador = amplificador = 100
 
         ##################################################
         # Blocks
         ##################################################
-        self._amplificador_range = Range(0, 1000, 10, 600, 200)
+        self._low_tool_bar = Qt.QToolBar(self)
+        self._low_tool_bar.addWidget(Qt.QLabel("Low" + ": "))
+        self._low_line_edit = Qt.QLineEdit(str(self.low))
+        self._low_tool_bar.addWidget(self._low_line_edit)
+        self._low_line_edit.returnPressed.connect(
+            lambda: self.set_low(eng_notation.str_to_num(str(self._low_line_edit.text()))))
+        self.top_layout.addWidget(self._low_tool_bar)
+        self._high_tool_bar = Qt.QToolBar(self)
+        self._high_tool_bar.addWidget(Qt.QLabel("high" + ": "))
+        self._high_line_edit = Qt.QLineEdit(str(self.high))
+        self._high_tool_bar.addWidget(self._high_line_edit)
+        self._high_line_edit.returnPressed.connect(
+            lambda: self.set_high(eng_notation.str_to_num(str(self._high_line_edit.text()))))
+        self.top_layout.addWidget(self._high_tool_bar)
+        self._amplificador_range = Range(0, 200, 10, 100, 200)
         self._amplificador_win = RangeWidget(self._amplificador_range, self.set_amplificador, "'amplificador'", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._amplificador_win)
         self.Widget = Qt.QTabWidget()
@@ -435,15 +450,14 @@ class Receptor_2(gr.top_block, Qt.QWidget):
 
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.qwidget(), Qt.QWidget)
         self.Widget_layout_2.addWidget(self._qtgui_const_sink_x_0_win)
-        self.fir_filter_xxx_0 = filter.fir_filter_fff(8, [1])
-        self.fir_filter_xxx_0.declare_sample_delay(0)
         self.digital_correlate_access_code_xx_ts_0 = digital.correlate_access_code_bb_ts('11001100101001010100110111110101',
           0, 'packet_len')
         self.blocks_uchar_to_float_0 = blocks.uchar_to_float()
-        self.blocks_threshold_ff_0 = blocks.threshold_ff(th, th, 0)
+        self.blocks_threshold_ff_0 = blocks.threshold_ff(low, high, 0)
         self.blocks_tagged_stream_align_0 = blocks.tagged_stream_align(gr.sizeof_char*1, 'packet_len')
         self.blocks_pack_k_bits_bb_0 = blocks.pack_k_bits_bb(8)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(amplificador)
+        self.blocks_keep_m_in_n_0 = blocks.keep_m_in_n(gr.sizeof_float, 1, sps, 0)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
         self.blocks_float_to_char_0 = blocks.float_to_char(1, 1)
         self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, 'E:\\Alza\\ProgrammingProject\\MaquinaNativa2\\encrypted_data.bin', False)
@@ -473,17 +487,17 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_float_to_char_0, 0), (self.blocks_uchar_to_float_0, 0))
         self.connect((self.blocks_float_to_char_0, 0), (self.digital_correlate_access_code_xx_ts_0, 0))
         self.connect((self.blocks_float_to_complex_0, 0), (self.qtgui_const_sink_x_0, 0))
+        self.connect((self.blocks_keep_m_in_n_0, 0), (self.blocks_float_to_char_0, 0))
+        self.connect((self.blocks_keep_m_in_n_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.band_pass_filter_0, 0))
         self.connect((self.blocks_pack_k_bits_bb_0, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.blocks_tagged_stream_align_0, 0), (self.blocks_pack_k_bits_bb_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.blocks_float_to_complex_0, 0))
-        self.connect((self.blocks_threshold_ff_0, 0), (self.fir_filter_xxx_0, 0))
+        self.connect((self.blocks_threshold_ff_0, 0), (self.blocks_keep_m_in_n_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.qtgui_time_sink_x_0_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.qtgui_time_sink_x_1, 1))
         self.connect((self.blocks_uchar_to_float_0, 0), (self.qtgui_time_sink_x_2, 0))
         self.connect((self.digital_correlate_access_code_xx_ts_0, 0), (self.blocks_tagged_stream_align_0, 0))
-        self.connect((self.fir_filter_xxx_0, 0), (self.blocks_float_to_char_0, 0))
-        self.connect((self.fir_filter_xxx_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.rational_resampler_xxx_0, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.uhd_usrp_source_0, 0), (self.blocks_delay_0, 0))
 
@@ -519,19 +533,12 @@ class Receptor_2(gr.top_block, Qt.QWidget):
         self.set_samp_rate_2(self.samp_rate/self.decimation)
         self.band_pass_filter_0.set_taps(firdes.band_pass(1, (self.samp_rate/self.decimation), 500, 50000, 50000, window.WIN_HAMMING, 6.76))
 
-    def get_th(self):
-        return self.th
-
-    def set_th(self, th):
-        self.th = th
-        self.blocks_threshold_ff_0.set_hi(self.th)
-        self.blocks_threshold_ff_0.set_lo(self.th)
-
     def get_sps(self):
         return self.sps
 
     def set_sps(self, sps):
         self.sps = sps
+        self.blocks_keep_m_in_n_0.set_n(self.sps)
 
     def get_samp_rate_3(self):
         return self.samp_rate_3
@@ -544,6 +551,22 @@ class Receptor_2(gr.top_block, Qt.QWidget):
 
     def set_samp_rate_2(self, samp_rate_2):
         self.samp_rate_2 = samp_rate_2
+
+    def get_low(self):
+        return self.low
+
+    def set_low(self, low):
+        self.low = low
+        Qt.QMetaObject.invokeMethod(self._low_line_edit, "setText", Qt.Q_ARG("QString", eng_notation.num_to_str(self.low)))
+        self.blocks_threshold_ff_0.set_lo(self.low)
+
+    def get_high(self):
+        return self.high
+
+    def set_high(self, high):
+        self.high = high
+        Qt.QMetaObject.invokeMethod(self._high_line_edit, "setText", Qt.Q_ARG("QString", eng_notation.num_to_str(self.high)))
+        self.blocks_threshold_ff_0.set_hi(self.high)
 
     def get_h(self):
         return self.h
