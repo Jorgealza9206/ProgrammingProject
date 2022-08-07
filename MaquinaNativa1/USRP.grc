@@ -238,7 +238,7 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: G:\My Drive\ProgrammingProject\MaquinaNativa1\encrypted_data_r.bin
+    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/encrypted_data_r.bin
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -1109,4 +1109,3 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.3.0
