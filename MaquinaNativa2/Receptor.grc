@@ -11,7 +11,7 @@ options:
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: Receptor_2
+    id: Receptor
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -45,7 +45,7 @@ blocks:
     start: '0'
     step: '10'
     stop: '1000'
-    value: '600'
+    value: '200'
     widget: counter_slider
   states:
     bus_sink: false
@@ -130,7 +130,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '1.5'
+    value: '1.2'
   states:
     bus_sink: false
     bus_source: false
@@ -239,7 +239,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: E:\Alza\ProgrammingProject\MaquinaNativa2\encrypted_data.bin
+    file: /home/proyecto/Documents/ProgrammingProject/MaquinaNativa2/encrypted_data.bin
     type: byte
     unbuffered: 'False'
     vlen: '1'
@@ -1487,4 +1487,3 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.3.0
