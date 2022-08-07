@@ -78,36 +78,6 @@ blocks:
     coordinate: [672, 21]
     rotation: 0
     state: true
-- name: high
-  id: variable_qtgui_entry
-  parameters:
-    comment: ''
-    gui_hint: ''
-    label: high
-    type: real
-    value: '3'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [384, 104.0]
-    rotation: 0
-    state: true
-- name: low
-  id: variable_qtgui_entry
-  parameters:
-    comment: ''
-    gui_hint: ''
-    label: Low
-    type: real
-    value: '3'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [384, 16.0]
-    rotation: 0
-    state: true
 - name: samp_rate
   id: variable
   parameters:
@@ -154,6 +124,35 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [576, 96.0]
+    rotation: 0
+    state: true
+- name: th
+  id: variable
+  parameters:
+    comment: ''
+    value: '1.9'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [400, 16.0]
+    rotation: 0
+    state: true
+- name: variable_config_0
+  id: variable_config
+  parameters:
+    comment: ''
+    config_file: default
+    option: key
+    section: main
+    type: real
+    value: '0'
+    writeback: None
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1496, 128.0]
     rotation: 0
     state: true
 - name: Widget
@@ -267,7 +266,7 @@ blocks:
     bus_structure: null
     coordinate: [1288, 608.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_float_to_char_0
   id: blocks_float_to_char
   parameters:
@@ -284,7 +283,7 @@ blocks:
     bus_structure: null
     coordinate: [952, 472.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_float_to_complex_0
   id: blocks_float_to_complex
   parameters:
@@ -353,7 +352,7 @@ blocks:
     bus_structure: null
     coordinate: [1144, 616.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_tagged_stream_align_0
   id: blocks_tagged_stream_align
   parameters:
@@ -371,16 +370,16 @@ blocks:
     bus_structure: null
     coordinate: [1168, 552.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_threshold_ff_0
   id: blocks_threshold_ff
   parameters:
     affinity: ''
     alias: ''
     comment: ''
-    high: high
+    high: th
     init: '0'
-    low: low
+    low: th
     maxoutbuf: '0'
     minoutbuf: '0'
   states:
@@ -404,7 +403,7 @@ blocks:
     bus_structure: null
     coordinate: [952, 536.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: digital_correlate_access_code_xx_ts_0
   id: digital_correlate_access_code_xx_ts
   parameters:
@@ -423,7 +422,26 @@ blocks:
     bus_structure: null
     coordinate: [1312, 464.0]
     rotation: 0
-    state: enabled
+    state: disabled
+- name: fir_filter_xxx_0
+  id: fir_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '8'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_delay: '0'
+    taps: ''
+    type: fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1008, 264.0]
+    rotation: 0
+    state: disabled
 - name: qtgui_const_sink_x_0
   id: qtgui_const_sink_x
   parameters:
@@ -1000,7 +1018,7 @@ blocks:
     bus_structure: null
     coordinate: [944, 584.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: rational_resampler_xxx_0
   id: rational_resampler_xxx
   parameters:
@@ -1831,10 +1849,12 @@ connections:
 - [blocks_tagged_stream_align_0, '0', blocks_pack_k_bits_bb_0, '0']
 - [blocks_threshold_ff_0, '0', blocks_float_to_complex_0, '0']
 - [blocks_threshold_ff_0, '0', blocks_keep_m_in_n_0, '0']
+- [blocks_threshold_ff_0, '0', fir_filter_xxx_0, '0']
 - [blocks_threshold_ff_0, '0', qtgui_time_sink_x_0_0, '0']
 - [blocks_threshold_ff_0, '0', qtgui_time_sink_x_1, '1']
 - [blocks_uchar_to_float_0, '0', qtgui_time_sink_x_2, '0']
 - [digital_correlate_access_code_xx_ts_0, '0', blocks_tagged_stream_align_0, '0']
+- [fir_filter_xxx_0, '0', qtgui_time_sink_x_0, '0']
 - [rational_resampler_xxx_0, '0', blocks_multiply_const_vxx_0, '0']
 - [rtlsdr_source_0, '0', rational_resampler_xxx_0, '0']
 - [uhd_usrp_source_0, '0', blocks_delay_0, '0']
