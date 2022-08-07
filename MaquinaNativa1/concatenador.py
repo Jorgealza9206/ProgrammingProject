@@ -2,18 +2,18 @@ import os
 import math
 
 file_size = os.path.getsize(r'encrypted_data.bin') 
-print('File Size:', file_size, 'bytes')
+#print('File Size:', file_size, 'bytes')
 
 fileSizeConcat = math.ceil(file_size / 256) * 256
-print(fileSizeConcat)
+#print(fileSizeConcat)
 
 sizeConcat = fileSizeConcat - file_size
-print(sizeConcat)
+#print(sizeConcat)
 
 concat = " "*sizeConcat
-print(concat)
+#print(concat)
 concat2 = bytes(concat, encoding='utf-8')
-print(concat2)
+#print(concat2)
 
 with open("encrypted_data.bin","rb") as f1:
     data = f1.read()

@@ -45,7 +45,7 @@ import numpy
 
 from gnuradio import qtgui
 
-class USRP_4(gr.top_block, Qt.QWidget):
+class USRP(gr.top_block, Qt.QWidget):
 
     def __init__(self):
         gr.top_block.__init__(self, "USRP_4 M-PSK", catch_exceptions=True)
@@ -68,7 +68,7 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "USRP_4")
+        self.settings = Qt.QSettings("GNU Radio", "USRP")
 
         try:
             if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
@@ -89,7 +89,6 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.Sps = Sps = 8
         self.Rs = Rs = Rb/bps
         self.samp_rate = samp_rate = Rs*Sps
-        self.samp_rate_2 = samp_rate_2 = samp_rate*16
         self.h = h = [1]*Sps
         self.TrueBoardConstellation = TrueBoardConstellation = (0.77+0.77j,-0.77+0.77j,-0.77-0.77j,0.77-0.77j)
         self.Sps_0 = Sps_0 = int(Sps/2)
@@ -325,7 +324,7 @@ class USRP_4(gr.top_block, Qt.QWidget):
 
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "USRP_4")
+        self.settings = Qt.QSettings("GNU Radio", "USRP")
         self.settings.setValue("geometry", self.saveGeometry())
         self.stop()
         self.wait()
@@ -390,16 +389,9 @@ class USRP_4(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.set_samp_rate_2(self.samp_rate*16)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_0_0_0.set_samp_rate(self.samp_rate)
         self.uhd_usrp_sink_0.set_samp_rate(self.samp_rate)
-
-    def get_samp_rate_2(self):
-        return self.samp_rate_2
-
-    def set_samp_rate_2(self, samp_rate_2):
-        self.samp_rate_2 = samp_rate_2
 
     def get_h(self):
         return self.h
@@ -428,7 +420,7 @@ class USRP_4(gr.top_block, Qt.QWidget):
 
 
 
-def main(top_block_cls=USRP_4, options=None):
+def main(top_block_cls=USRP, options=None):
 
     if StrictVersion("4.5.0") <= StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
         style = gr.prefs().get_string('qtgui', 'style', 'raster')
