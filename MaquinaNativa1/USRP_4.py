@@ -103,27 +103,17 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.Widget_layout_0 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_0)
         self.Widget_grid_layout_0 = Qt.QGridLayout()
         self.Widget_layout_0.addLayout(self.Widget_grid_layout_0)
-        self.Widget.addTab(self.Widget_widget_0, 'Señal')
+        self.Widget.addTab(self.Widget_widget_0, 'Señal cuadrada')
         self.Widget_widget_1 = Qt.QWidget()
         self.Widget_layout_1 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_1)
         self.Widget_grid_layout_1 = Qt.QGridLayout()
         self.Widget_layout_1.addLayout(self.Widget_grid_layout_1)
-        self.Widget.addTab(self.Widget_widget_1, 'Señal cuadrada')
+        self.Widget.addTab(self.Widget_widget_1, 'Antes de Repeat')
         self.Widget_widget_2 = Qt.QWidget()
         self.Widget_layout_2 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_2)
         self.Widget_grid_layout_2 = Qt.QGridLayout()
         self.Widget_layout_2.addLayout(self.Widget_grid_layout_2)
         self.Widget.addTab(self.Widget_widget_2, 'Diagrama de constelaciones')
-        self.Widget_widget_3 = Qt.QWidget()
-        self.Widget_layout_3 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_3)
-        self.Widget_grid_layout_3 = Qt.QGridLayout()
-        self.Widget_layout_3.addLayout(self.Widget_grid_layout_3)
-        self.Widget.addTab(self.Widget_widget_3, 'Antes de Chunks')
-        self.Widget_widget_4 = Qt.QWidget()
-        self.Widget_layout_4 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_4)
-        self.Widget_grid_layout_4 = Qt.QGridLayout()
-        self.Widget_layout_4.addLayout(self.Widget_grid_layout_4)
-        self.Widget.addTab(self.Widget_widget_4, 'Antes de Desempaquetar')
         self.top_grid_layout.addWidget(self.Widget, 0, 0, 1, 7)
         for r in range(0, 1):
             self.top_grid_layout.setRowStretch(r, 1)
@@ -191,7 +181,7 @@ class USRP_4(gr.top_block, Qt.QWidget):
             self.qtgui_time_sink_x_0_0_0.set_line_alpha(i, alphas[i])
 
         self._qtgui_time_sink_x_0_0_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0_0.qwidget(), Qt.QWidget)
-        self.Widget_layout_3.addWidget(self._qtgui_time_sink_x_0_0_0_win)
+        self.Widget_layout_1.addWidget(self._qtgui_time_sink_x_0_0_0_win)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
             1024, #size
             samp_rate, #samp_rate
@@ -242,7 +232,7 @@ class USRP_4(gr.top_block, Qt.QWidget):
             self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
 
         self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.qwidget(), Qt.QWidget)
-        self.Widget_layout_1.addWidget(self._qtgui_time_sink_x_0_win)
+        self.Widget_layout_0.addWidget(self._qtgui_time_sink_x_0_win)
         self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
             1024, #size
             "Diagrama de constelaciones", #name
@@ -312,7 +302,7 @@ class USRP_4(gr.top_block, Qt.QWidget):
         self.blocks_stream_to_tagged_stream_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, 256, "packet_len")
         self.blocks_repeat_0 = blocks.repeat(gr.sizeof_char*1, Sps)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, 'G:\\My Drive\\ProgrammingProject\\MaquinaNativa1\\encrypted_data.bin', True, 0, 0)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, 'G:\\My Drive\\ProgrammingProject\\MaquinaNativa1\\encrypted_data_r.bin', False, 0, 0)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
 
 

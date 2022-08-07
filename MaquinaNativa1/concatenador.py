@@ -1,8 +1,13 @@
 import os
+import math
+
 file_size = os.path.getsize(r'encrypted_data.bin') 
 print('File Size:', file_size, 'bytes')
 
-sizeConcat = file_size % 256 + 16
+fileSizeConcat = math.ceil(file_size / 256) * 256
+print(fileSizeConcat)
+
+sizeConcat = fileSizeConcat - file_size
 print(sizeConcat)
 
 concat = " "*sizeConcat
