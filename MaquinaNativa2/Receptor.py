@@ -81,10 +81,10 @@ class Receptor(gr.top_block, Qt.QWidget):
         ##################################################
         self.samp_rate = samp_rate = 1562500
         self.decimation = decimation = 4
-        self.th = th = 1.2
         self.sps = sps = 8
-        self.samp_rate_3 = samp_rate_3 = 480000
         self.samp_rate_2 = samp_rate_2 = samp_rate/decimation
+        self.th = th = 2
+        self.symbol_rate = symbol_rate = samp_rate_2/sps
         self.h = h = 1
         self.amplificador = amplificador = 200
 
@@ -151,54 +151,6 @@ class Receptor(gr.top_block, Qt.QWidget):
                 decimation=decimation,
                 taps=[],
                 fractional_bw=0)
-        self.qtgui_time_sink_x_2 = qtgui.time_sink_f(
-            1024, #size
-            samp_rate, #samp_rate
-            "Antes de desempaquetar", #name
-            1, #number of inputs
-            None # parent
-        )
-        self.qtgui_time_sink_x_2.set_update_time(0.10)
-        self.qtgui_time_sink_x_2.set_y_axis(-1, 1)
-
-        self.qtgui_time_sink_x_2.set_y_label('Amplitude', "")
-
-        self.qtgui_time_sink_x_2.enable_tags(True)
-        self.qtgui_time_sink_x_2.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
-        self.qtgui_time_sink_x_2.enable_autoscale(False)
-        self.qtgui_time_sink_x_2.enable_grid(False)
-        self.qtgui_time_sink_x_2.enable_axis_labels(True)
-        self.qtgui_time_sink_x_2.enable_control_panel(True)
-        self.qtgui_time_sink_x_2.enable_stem_plot(True)
-
-
-        labels = ['Signal 1', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
-            'Signal 6', 'Signal 7', 'Signal 8', 'Signal 9', 'Signal 10']
-        widths = [1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1]
-        colors = ['blue', 'red', 'green', 'black', 'cyan',
-            'magenta', 'yellow', 'dark red', 'dark green', 'dark blue']
-        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
-            1.0, 1.0, 1.0, 1.0, 1.0]
-        styles = [1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1]
-        markers = [-1, -1, -1, -1, -1,
-            -1, -1, -1, -1, -1]
-
-
-        for i in range(1):
-            if len(labels[i]) == 0:
-                self.qtgui_time_sink_x_2.set_line_label(i, "Data {0}".format(i))
-            else:
-                self.qtgui_time_sink_x_2.set_line_label(i, labels[i])
-            self.qtgui_time_sink_x_2.set_line_width(i, widths[i])
-            self.qtgui_time_sink_x_2.set_line_color(i, colors[i])
-            self.qtgui_time_sink_x_2.set_line_style(i, styles[i])
-            self.qtgui_time_sink_x_2.set_line_marker(i, markers[i])
-            self.qtgui_time_sink_x_2.set_line_alpha(i, alphas[i])
-
-        self._qtgui_time_sink_x_2_win = sip.wrapinstance(self.qtgui_time_sink_x_2.qwidget(), Qt.QWidget)
-        self.Widget_layout_5.addWidget(self._qtgui_time_sink_x_2_win)
         self.qtgui_time_sink_x_1_0 = qtgui.time_sink_c(
             1024, #size
             samp_rate, #samp_rate
@@ -435,15 +387,13 @@ class Receptor(gr.top_block, Qt.QWidget):
 
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.qwidget(), Qt.QWidget)
         self.Widget_layout_2.addWidget(self._qtgui_const_sink_x_0_win)
-        self.fir_filter_xxx_0 = filter.fir_filter_fff(8, [1])
-        self.fir_filter_xxx_0.declare_sample_delay(0)
         self.digital_correlate_access_code_xx_ts_0 = digital.correlate_access_code_bb_ts('11001100101001010100110111110101',
           0, 'packet_len')
-        self.blocks_uchar_to_float_0 = blocks.uchar_to_float()
         self.blocks_threshold_ff_0 = blocks.threshold_ff(th, th, 0)
         self.blocks_tagged_stream_align_0 = blocks.tagged_stream_align(gr.sizeof_char*1, 'packet_len')
         self.blocks_pack_k_bits_bb_0 = blocks.pack_k_bits_bb(8)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(amplificador)
+        self.blocks_keep_m_in_n_0 = blocks.keep_m_in_n(gr.sizeof_float, 1, sps, 0)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
         self.blocks_float_to_char_0 = blocks.float_to_char(1, 1)
         self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/proyecto/Documents/ProgrammingProject/MaquinaNativa2/encrypted_data.bin', False)
@@ -470,20 +420,18 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_complex_to_mag_0, 0), (self.blocks_threshold_ff_0, 0))
         self.connect((self.blocks_complex_to_mag_0, 0), (self.qtgui_time_sink_x_1, 0))
         self.connect((self.blocks_delay_0, 0), (self.rational_resampler_xxx_0, 0))
-        self.connect((self.blocks_float_to_char_0, 0), (self.blocks_uchar_to_float_0, 0))
         self.connect((self.blocks_float_to_char_0, 0), (self.digital_correlate_access_code_xx_ts_0, 0))
         self.connect((self.blocks_float_to_complex_0, 0), (self.qtgui_const_sink_x_0, 0))
+        self.connect((self.blocks_keep_m_in_n_0, 0), (self.blocks_float_to_char_0, 0))
+        self.connect((self.blocks_keep_m_in_n_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.band_pass_filter_0, 0))
         self.connect((self.blocks_pack_k_bits_bb_0, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.blocks_tagged_stream_align_0, 0), (self.blocks_pack_k_bits_bb_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.blocks_float_to_complex_0, 0))
-        self.connect((self.blocks_threshold_ff_0, 0), (self.fir_filter_xxx_0, 0))
+        self.connect((self.blocks_threshold_ff_0, 0), (self.blocks_keep_m_in_n_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.qtgui_time_sink_x_0_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.qtgui_time_sink_x_1, 1))
-        self.connect((self.blocks_uchar_to_float_0, 0), (self.qtgui_time_sink_x_2, 0))
         self.connect((self.digital_correlate_access_code_xx_ts_0, 0), (self.blocks_tagged_stream_align_0, 0))
-        self.connect((self.fir_filter_xxx_0, 0), (self.blocks_float_to_char_0, 0))
-        self.connect((self.fir_filter_xxx_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.rational_resampler_xxx_0, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.uhd_usrp_source_0, 0), (self.blocks_delay_0, 0))
 
@@ -508,7 +456,6 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.qtgui_time_sink_x_0_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_1.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_1_0.set_samp_rate(self.samp_rate)
-        self.qtgui_time_sink_x_2.set_samp_rate(self.samp_rate)
         self.uhd_usrp_source_0.set_samp_rate(self.samp_rate)
 
     def get_decimation(self):
@@ -519,6 +466,21 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.set_samp_rate_2(self.samp_rate/self.decimation)
         self.band_pass_filter_0.set_taps(firdes.band_pass(1, self.samp_rate/self.decimation, 500, 50000, 50000, window.WIN_HAMMING, 6.76))
 
+    def get_sps(self):
+        return self.sps
+
+    def set_sps(self, sps):
+        self.sps = sps
+        self.set_symbol_rate(self.samp_rate_2/self.sps)
+        self.blocks_keep_m_in_n_0.set_n(self.sps)
+
+    def get_samp_rate_2(self):
+        return self.samp_rate_2
+
+    def set_samp_rate_2(self, samp_rate_2):
+        self.samp_rate_2 = samp_rate_2
+        self.set_symbol_rate(self.samp_rate_2/self.sps)
+
     def get_th(self):
         return self.th
 
@@ -527,23 +489,11 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.blocks_threshold_ff_0.set_hi(self.th)
         self.blocks_threshold_ff_0.set_lo(self.th)
 
-    def get_sps(self):
-        return self.sps
+    def get_symbol_rate(self):
+        return self.symbol_rate
 
-    def set_sps(self, sps):
-        self.sps = sps
-
-    def get_samp_rate_3(self):
-        return self.samp_rate_3
-
-    def set_samp_rate_3(self, samp_rate_3):
-        self.samp_rate_3 = samp_rate_3
-
-    def get_samp_rate_2(self):
-        return self.samp_rate_2
-
-    def set_samp_rate_2(self, samp_rate_2):
-        self.samp_rate_2 = samp_rate_2
+    def set_symbol_rate(self, symbol_rate):
+        self.symbol_rate = symbol_rate
 
     def get_h(self):
         return self.h

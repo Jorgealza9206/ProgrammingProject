@@ -99,19 +99,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [488, 24.0]
-    rotation: 0
-    state: enabled
-- name: samp_rate_3
-  id: variable
-  parameters:
-    comment: ''
-    value: '480000'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [576, 24.0]
+    coordinate: [472, 28.0]
     rotation: 0
     state: enabled
 - name: sps
@@ -126,11 +114,23 @@ blocks:
     coordinate: [576, 96.0]
     rotation: 0
     state: true
+- name: symbol_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: samp_rate_2/sps
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [576, 24.0]
+    rotation: 0
+    state: enabled
 - name: th
   id: variable
   parameters:
     comment: ''
-    value: '1.2'
+    value: '2'
   states:
     bus_sink: false
     bus_source: false
@@ -264,7 +264,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1040, 448.0]
+    coordinate: [1048, 460.0]
     rotation: 0
     state: enabled
 - name: blocks_float_to_complex_0
@@ -282,7 +282,7 @@ blocks:
     bus_structure: null
     coordinate: [688, 464.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: blocks_keep_m_in_n_0
   id: blocks_keep_m_in_n
   parameters:
@@ -299,9 +299,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1056, 352.0]
+    coordinate: [1032, 348.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_multiply_const_vxx_0
   id: blocks_multiply_const_vxx
   parameters:
@@ -369,7 +369,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [856, 352.0]
+    coordinate: [864, 348.0]
     rotation: 0
     state: enabled
 - name: blocks_uchar_to_float_0
@@ -386,7 +386,7 @@ blocks:
     bus_structure: null
     coordinate: [1016, 512.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: digital_correlate_access_code_xx_ts_0
   id: digital_correlate_access_code_xx_ts
   parameters:
@@ -404,25 +404,6 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [1288, 432.0]
-    rotation: 0
-    state: enabled
-- name: fir_filter_xxx_0
-  id: fir_filter_xxx
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    decim: '8'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samp_delay: '0'
-    taps: '1'
-    type: fff
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1032, 272.0]
     rotation: 0
     state: enabled
 - name: qtgui_const_sink_x_0
@@ -611,7 +592,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1272, 304.0]
+    coordinate: [1336, 292.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0_0
@@ -708,7 +689,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1280, 200.0]
+    coordinate: [1296, 196.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_1
@@ -805,7 +786,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1264, 80.0]
+    coordinate: [1264, 84.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_1_0
@@ -1001,7 +982,7 @@ blocks:
     bus_structure: null
     coordinate: [1008, 560.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: rational_resampler_xxx_0
   id: rational_resampler_xxx
   parameters:
@@ -1475,13 +1456,10 @@ connections:
 - [blocks_tagged_stream_align_0, '0', blocks_pack_k_bits_bb_0, '0']
 - [blocks_threshold_ff_0, '0', blocks_float_to_complex_0, '0']
 - [blocks_threshold_ff_0, '0', blocks_keep_m_in_n_0, '0']
-- [blocks_threshold_ff_0, '0', fir_filter_xxx_0, '0']
 - [blocks_threshold_ff_0, '0', qtgui_time_sink_x_0_0, '0']
 - [blocks_threshold_ff_0, '0', qtgui_time_sink_x_1, '1']
 - [blocks_uchar_to_float_0, '0', qtgui_time_sink_x_2, '0']
 - [digital_correlate_access_code_xx_ts_0, '0', blocks_tagged_stream_align_0, '0']
-- [fir_filter_xxx_0, '0', blocks_float_to_char_0, '0']
-- [fir_filter_xxx_0, '0', qtgui_time_sink_x_0, '0']
 - [rational_resampler_xxx_0, '0', blocks_multiply_const_vxx_0, '0']
 - [uhd_usrp_source_0, '0', blocks_delay_0, '0']
 
