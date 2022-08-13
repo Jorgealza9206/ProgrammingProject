@@ -4,7 +4,7 @@ from Crypto.Cipher import AES, PKCS1_OAEP
 
 #data = open("einstein.jpeg", "rb")
 #data = open("Cindy.jpeg", "rb")
-data = open("Alberta.jpg", "rb")
+data = open("authen.txt", "rb")
 datos = data.read()
 print(data)
 file_out = open("encrypted_data.bin", "wb")  # Exporta un archivo ¿encriptado?
