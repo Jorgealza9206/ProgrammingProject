@@ -3,13 +3,17 @@
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 
+data = open("sample_2.bin", "rb")
 key = get_random_bytes(16)
-print(key)
+data = data.read()
+key_file = open("symmetrical_key.pem","wb")
+key_file.write(key)
+key_file.close()
+# print(data)
 cipher = AES.new(key, AES.MODE_EAX)
-texto_original = "Vaya coma calao"
-texto_en_bytes = texto_original.encode()
-texto_cifrado, tag = cipher.encrypt_and_digest(texto_en_bytes)
-print(texto_cifrado,tag)
+#data = data.encode()
+texto_cifrado, tag = cipher.encrypt_and_digest(data)
+#print(texto_cifrado,tag)
 
 file_out = open("encrypted.bin", "wb")
 [ file_out.write(x) for x in (cipher.nonce, tag, texto_cifrado) ]
