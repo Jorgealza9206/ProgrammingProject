@@ -1,3 +1,2 @@
 
-
-ect/MaquinaNativa1/Alberta.jpg
+t/MaquinaNativa1/einstein.jpeg

@@ -1,5 +1,19 @@
-exec(open("RSA_docPythonENC.py").read())
+import time
+import os
 
-exec(open("concatenador.py").read())
+exec(open("main.py").read()) 
 
-exec(open("USRP.py").read())
+start = time.process_time()
+
+exec(open("RSA_ENC_TX.py").read()) #Cifrado RSA
+
+exec(open("concatenador.py").read()) #Acondiciona el archivo para GNU Radio
+
+exec(open("USRP.py").read()) #Ejecuta la comunicación
+
+end = time.process_time()
+delay = end - start
+print("Tiempo trancurrido: " + str(delay) + " segundos")
+sizeFileBytes = os.path.getsize(r'encrypted_data.bin')
+sizeFile = sizeFileBytes*8/1000
+print("Throughput: " + str(sizeFile/delay) + " kbps")
