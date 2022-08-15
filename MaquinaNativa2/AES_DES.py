@@ -2,7 +2,9 @@ from Crypto.Cipher import AES
 
 key_file = open("symmetrical_key.pem","rb")
 key = key_file.read()
-file_in = open("encrypted.bin", "rb")
+print(key)
+file_in = open("encrypted_data_r.bin", "rb")
+#file_in = open("encrypted.bin", "rb")
 file_out = open("sample_3.jpg", "wb")
 nonce, tag, ciphertext = [ file_in.read(x) for x in (16, 16, -1) ]
 
