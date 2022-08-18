@@ -1,8 +1,9 @@
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import AES, PKCS1_OAEP
 
-file_in = open("encrypted_data_r.bin", "rb")
-file_out = open("sample_3.jpg", "wb")
+#file_in = open("encrypted_data_r.bin", "rb")
+file_in = open("encrypted_data.bin", "rb")
+file_out = open("sample.jpg", "wb")
 
 # Importa la llave privada
 private_key = RSA.import_key(open("private.pem").read())

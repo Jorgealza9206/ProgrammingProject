@@ -4,20 +4,26 @@ index = 0
 data = ""
 data2 = "felix"
 
-with open("encrypted_data.bin","rb") as f2:
+with open("Cindy_c.bin","rb") as f2:
     data = f2.read()
 
-#print(data)
-
-for i in data[::-1]:
+for i in range(len(data)-1,-1,-1):
     index = index + 1
-    if i != 32:
+    #print(i,data[i])
+    if data[i] != data[i-1]:
         break
 
-print(index)
+# for i in data[::-1]:
+#     index = index + 1
+#     print(i)
+#     if i != 32:
+#         break
+
+print(index+1)
 
 with open("encrypted_data_r.bin","wb") as f2:
-    f2.write(data[:len(data)-(index-1)])
+    #f2.write(data[:len(data)-(index-1)])
+    f2.write(data[:len(data)-(index)])
 
 # print(data)
 
