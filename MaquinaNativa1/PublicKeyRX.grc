@@ -249,7 +249,7 @@ blocks:
     bus_structure: null
     coordinate: [1304, 588.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_float_to_char_0
   id: blocks_float_to_char
   parameters:
@@ -266,7 +266,7 @@ blocks:
     bus_structure: null
     coordinate: [1048, 444.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_float_to_complex_0
   id: blocks_float_to_complex
   parameters:
@@ -335,7 +335,7 @@ blocks:
     bus_structure: null
     coordinate: [1160, 588.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_tagged_stream_align_0
   id: blocks_tagged_stream_align
   parameters:
@@ -353,7 +353,7 @@ blocks:
     bus_structure: null
     coordinate: [1184, 524.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_threshold_ff_0
   id: blocks_threshold_ff
   parameters:
@@ -405,7 +405,7 @@ blocks:
     bus_structure: null
     coordinate: [1208, 428.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: qtgui_const_sink_x_0
   id: qtgui_const_sink_x
   parameters:
@@ -1008,7 +1008,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    ant0: '"RX2"'
+    ant0: '"RX1"'
     ant1: RX2
     ant10: RX2
     ant11: RX2
