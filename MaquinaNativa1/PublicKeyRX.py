@@ -6,6 +6,7 @@
 #
 # GNU Radio Python Flow Graph
 # Title: Not titled yet
+# Author: alex
 # GNU Radio version: 3.10.1.1
 
 from packaging.version import Version as StrictVersion
@@ -43,7 +44,7 @@ from PyQt5 import QtCore
 
 from gnuradio import qtgui
 
-class Receptor(gr.top_block, Qt.QWidget):
+class PublicKeyRX(gr.top_block, Qt.QWidget):
 
     def __init__(self):
         gr.top_block.__init__(self, "Not titled yet", catch_exceptions=True)
@@ -66,7 +67,7 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "Receptor")
+        self.settings = Qt.QSettings("GNU Radio", "PublicKeyRX")
 
         try:
             if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
@@ -86,12 +87,12 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.th = th = 1.7
         self.symbol_rate = symbol_rate = samp_rate_2/sps
         self.h = h = 1
-        self.amplificador = amplificador = 500
+        self.amplificador = amplificador = 40
 
         ##################################################
         # Blocks
         ##################################################
-        self._amplificador_range = Range(0, 1000, 10, 500, 200)
+        self._amplificador_range = Range(0, 1000, 10, 40, 200)
         self._amplificador_win = RangeWidget(self._amplificador_range, self.set_amplificador, "'amplificador'", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._amplificador_win)
         self.Widget = Qt.QTabWidget()
@@ -396,7 +397,7 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.blocks_keep_m_in_n_0 = blocks.keep_m_in_n(gr.sizeof_float, 1, sps, 0)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
         self.blocks_float_to_char_0 = blocks.float_to_char(1, 1)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/proyecto/Documents/ProgrammingProject/MaquinaNativa2/encrypted_data.bin', False)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/alex/Documents/ProgrammingProject/MaquinaNativa1/rsa_key_c.bin', False)
         self.blocks_file_sink_0.set_unbuffered(False)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, samp_rate)
         self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
@@ -437,7 +438,7 @@ class Receptor(gr.top_block, Qt.QWidget):
 
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "Receptor")
+        self.settings = Qt.QSettings("GNU Radio", "PublicKeyRX")
         self.settings.setValue("geometry", self.saveGeometry())
         self.stop()
         self.wait()
@@ -449,22 +450,22 @@ class Receptor(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.set_samp_rate_2(self.samp_rate/self.decimation)
-        self.band_pass_filter_0.set_taps(firdes.band_pass(1, self.samp_rate/self.decimation, 500, 50000, 50000, window.WIN_HAMMING, 6.76))
-        self.blocks_delay_0.set_dly(self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_0_0.set_samp_rate(self.samp_rate)
-        self.qtgui_time_sink_x_1.set_samp_rate(self.samp_rate)
-        self.qtgui_time_sink_x_1_0.set_samp_rate(self.samp_rate)
         self.uhd_usrp_source_0.set_samp_rate(self.samp_rate)
+        self.qtgui_time_sink_x_1_0.set_samp_rate(self.samp_rate)
+        self.qtgui_time_sink_x_1.set_samp_rate(self.samp_rate)
+        self.band_pass_filter_0.set_taps(firdes.band_pass(1, self.samp_rate/self.decimation, 500, 50000, 50000, window.WIN_HAMMING, 6.76))
+        self.blocks_delay_0.set_dly(self.samp_rate)
+        self.set_samp_rate_2(self.samp_rate/self.decimation)
 
     def get_decimation(self):
         return self.decimation
 
     def set_decimation(self, decimation):
         self.decimation = decimation
-        self.set_samp_rate_2(self.samp_rate/self.decimation)
         self.band_pass_filter_0.set_taps(firdes.band_pass(1, self.samp_rate/self.decimation, 500, 50000, 50000, window.WIN_HAMMING, 6.76))
+        self.set_samp_rate_2(self.samp_rate/self.decimation)
 
     def get_sps(self):
         return self.sps
@@ -511,7 +512,7 @@ class Receptor(gr.top_block, Qt.QWidget):
 
 
 
-def main(top_block_cls=Receptor, options=None):
+def main(top_block_cls=PublicKeyRX, options=None):
 
     if StrictVersion("4.5.0") <= StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
         style = gr.prefs().get_string('qtgui', 'style', 'raster')

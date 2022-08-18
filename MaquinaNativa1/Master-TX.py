@@ -5,6 +5,8 @@ exec(open("main.py").read())
 
 start = time.process_time()
 
+exec(open("PrivateKEY.py").read())
+
 exec(open("RSA_ENC_TX.py").read()) #Cifrado RSA
 
 exec(open("concatenador.py").read()) #Acondiciona el archivo para GNU Radio

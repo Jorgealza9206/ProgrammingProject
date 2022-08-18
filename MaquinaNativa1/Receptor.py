@@ -25,6 +25,7 @@ from gnuradio import qtgui
 from gnuradio.filter import firdes
 import sip
 from gnuradio import blocks
+from gnuradio import digital
 from gnuradio import filter
 from gnuradio import gr
 from gnuradio.fft import window
@@ -85,12 +86,12 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.th = th = 1.7
         self.symbol_rate = symbol_rate = samp_rate_2/sps
         self.h = h = 1
-        self.amplificador = amplificador = 500
+        self.amplificador = amplificador = 40
 
         ##################################################
         # Blocks
         ##################################################
-        self._amplificador_range = Range(0, 1000, 10, 500, 200)
+        self._amplificador_range = Range(0, 1000, 10, 40, 200)
         self._amplificador_win = RangeWidget(self._amplificador_range, self.set_amplificador, "'amplificador'", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._amplificador_win)
         self.Widget = Qt.QTabWidget()
@@ -142,7 +143,7 @@ class Receptor(gr.top_block, Qt.QWidget):
         # No synchronization enforced.
 
         self.uhd_usrp_source_0.set_center_freq(830e6, 0)
-        self.uhd_usrp_source_0.set_antenna("RX1", 0)
+        self.uhd_usrp_source_0.set_antenna("RX2", 0)
         self.uhd_usrp_source_0.set_bandwidth(200e3, 0)
         self.uhd_usrp_source_0.set_gain(0, 0)
         self.rational_resampler_xxx_0 = filter.rational_resampler_ccc(
@@ -386,10 +387,17 @@ class Receptor(gr.top_block, Qt.QWidget):
 
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.qwidget(), Qt.QWidget)
         self.Widget_layout_2.addWidget(self._qtgui_const_sink_x_0_win)
+        self.digital_correlate_access_code_xx_ts_0 = digital.correlate_access_code_bb_ts('11001100101001010100110111110101',
+          0, 'packet_len')
         self.blocks_threshold_ff_0 = blocks.threshold_ff(th, th, 0)
+        self.blocks_tagged_stream_align_0 = blocks.tagged_stream_align(gr.sizeof_char*1, 'packet_len')
+        self.blocks_pack_k_bits_bb_0 = blocks.pack_k_bits_bb(8)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(amplificador)
         self.blocks_keep_m_in_n_0 = blocks.keep_m_in_n(gr.sizeof_float, 1, sps, 0)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
+        self.blocks_float_to_char_0 = blocks.float_to_char(1, 1)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/alex/Documents/ProgrammingProject/MaquinaNativa1/rsa_key_c.bin', False)
+        self.blocks_file_sink_0.set_unbuffered(False)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, samp_rate)
         self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
         self.band_pass_filter_0 = filter.fir_filter_ccf(
@@ -412,13 +420,18 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_complex_to_mag_0, 0), (self.blocks_threshold_ff_0, 0))
         self.connect((self.blocks_complex_to_mag_0, 0), (self.qtgui_time_sink_x_1, 0))
         self.connect((self.blocks_delay_0, 0), (self.rational_resampler_xxx_0, 0))
+        self.connect((self.blocks_float_to_char_0, 0), (self.digital_correlate_access_code_xx_ts_0, 0))
         self.connect((self.blocks_float_to_complex_0, 0), (self.qtgui_const_sink_x_0, 0))
+        self.connect((self.blocks_keep_m_in_n_0, 0), (self.blocks_float_to_char_0, 0))
         self.connect((self.blocks_keep_m_in_n_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.band_pass_filter_0, 0))
+        self.connect((self.blocks_pack_k_bits_bb_0, 0), (self.blocks_file_sink_0, 0))
+        self.connect((self.blocks_tagged_stream_align_0, 0), (self.blocks_pack_k_bits_bb_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.blocks_float_to_complex_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.blocks_keep_m_in_n_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.qtgui_time_sink_x_0_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.qtgui_time_sink_x_1, 1))
+        self.connect((self.digital_correlate_access_code_xx_ts_0, 0), (self.blocks_tagged_stream_align_0, 0))
         self.connect((self.rational_resampler_xxx_0, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.uhd_usrp_source_0, 0), (self.blocks_delay_0, 0))
 

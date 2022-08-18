@@ -11,9 +11,9 @@ fileSizeConcat = math.ceil(file_size / 256) * 256
 sizeConcat = fileSizeConcat - file_size
 #print(sizeConcat)
 
-random_number = secrets.randbelow(255)
+random_number = secrets.randbelow(127)
 print(random_number)
-concat = chr(random_number)*sizeConcat
+concat = (chr(random_number))*(sizeConcat+1)
 #print(concat)
 concat2 = bytes(concat, encoding='utf-8')
 #print(concat2)

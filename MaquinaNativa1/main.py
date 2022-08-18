@@ -59,8 +59,8 @@ def createGUI():
 def send():
     with open("authen.txt","w",encoding= "utf-8") as f:
         f.write(passUser.get()) #Contraseña
-        f.write("\n")           #Retorno de carro
-        f.write(fileLabel.cget("text")) #Nombre del Archivo
+        # f.write("\n")           #Retorno de carro
+        # f.write(fileLabel.cget("text")) #Nombre del Archivo
     root.destroy()
      
 def openFile():

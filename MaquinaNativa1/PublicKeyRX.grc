@@ -1,6 +1,6 @@
 options:
   parameters:
-    author: ''
+    author: alex
     catch_exceptions: 'True'
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
@@ -11,7 +11,7 @@ options:
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: Receptor
+    id: PublicKeyRX
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -23,12 +23,12 @@ options:
     sizing_mode: fixed
     thread_safe_setters: ''
     title: Not titled yet
-    window_size: ''
+    window_size: (1000,1000)
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [9, 9]
+    coordinate: [8, 8]
     rotation: 0
     state: enabled
 
@@ -45,13 +45,13 @@ blocks:
     start: '0'
     step: '10'
     stop: '1000'
-    value: '500'
+    value: '40'
     widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [272, 8.0]
+    coordinate: [288, 20.0]
     rotation: 0
     state: true
 - name: decimation
@@ -63,7 +63,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [488, 96.0]
+    coordinate: [504, 108.0]
     rotation: 0
     state: true
 - name: h
@@ -75,7 +75,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [672, 21]
+    coordinate: [688, 44.0]
     rotation: 0
     state: true
 - name: samp_rate
@@ -87,7 +87,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [168, 8.0]
+    coordinate: [184, 28.0]
     rotation: 0
     state: enabled
 - name: samp_rate_2
@@ -99,7 +99,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [472, 28.0]
+    coordinate: [488, 44.0]
     rotation: 0
     state: enabled
 - name: sps
@@ -111,7 +111,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [576, 96.0]
+    coordinate: [592, 108.0]
     rotation: 0
     state: true
 - name: symbol_rate
@@ -123,7 +123,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [576, 24.0]
+    coordinate: [592, 44.0]
     rotation: 0
     state: enabled
 - name: th
@@ -135,7 +135,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [400, 16.0]
+    coordinate: [416, 28.0]
     rotation: 0
     state: true
 - name: Widget
@@ -169,7 +169,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [752, 4.0]
+    coordinate: [768, 20.0]
     rotation: 0
     state: enabled
 - name: band_pass_filter_0
@@ -194,7 +194,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [648, 192.0]
+    coordinate: [664, 204.0]
     rotation: 0
     state: enabled
 - name: blocks_complex_to_mag_0
@@ -210,7 +210,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [664, 376.0]
+    coordinate: [680, 392.0]
     rotation: 0
     state: true
 - name: blocks_delay_0
@@ -229,7 +229,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [232, 328.0]
+    coordinate: [248, 344.0]
     rotation: 0
     state: true
 - name: blocks_file_sink_0
@@ -239,7 +239,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: /home/proyecto/Documents/ProgrammingProject/MaquinaNativa2/encrypted_data.bin
+    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/rsa_key_c.bin
     type: byte
     unbuffered: 'False'
     vlen: '1'
@@ -247,9 +247,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1304, 588.0]
+    coordinate: [1320, 612.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_float_to_char_0
   id: blocks_float_to_char
   parameters:
@@ -264,9 +264,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1048, 444.0]
+    coordinate: [1064, 468.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_float_to_complex_0
   id: blocks_float_to_complex
   parameters:
@@ -280,7 +280,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [688, 464.0]
+    coordinate: [704, 480.0]
     rotation: 0
     state: enabled
 - name: blocks_keep_m_in_n_0
@@ -299,7 +299,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1032, 348.0]
+    coordinate: [1048, 372.0]
     rotation: 0
     state: enabled
 - name: blocks_multiply_const_vxx_0
@@ -317,7 +317,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [488, 208.0]
+    coordinate: [504, 228.0]
     rotation: 0
     state: true
 - name: blocks_pack_k_bits_bb_0
@@ -333,9 +333,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1160, 588.0]
+    coordinate: [1176, 612.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_tagged_stream_align_0
   id: blocks_tagged_stream_align
   parameters:
@@ -351,9 +351,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1184, 524.0]
+    coordinate: [1200, 548.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_threshold_ff_0
   id: blocks_threshold_ff
   parameters:
@@ -369,7 +369,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [864, 348.0]
+    coordinate: [880, 372.0]
     rotation: 0
     state: enabled
 - name: blocks_uchar_to_float_0
@@ -384,7 +384,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [872, 488.0]
+    coordinate: [888, 504.0]
     rotation: 0
     state: disabled
 - name: digital_correlate_access_code_xx_ts_0
@@ -403,9 +403,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1208, 428.0]
+    coordinate: [1224, 452.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: qtgui_const_sink_x_0
   id: qtgui_const_sink_x
   parameters:
@@ -495,7 +495,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [688, 544.0]
+    coordinate: [704, 556.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0
@@ -592,7 +592,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1336, 292.0]
+    coordinate: [1352, 300.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0_0
@@ -689,7 +689,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1296, 196.0]
+    coordinate: [1312, 204.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_1
@@ -786,7 +786,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1264, 84.0]
+    coordinate: [1280, 92.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_1_0
@@ -883,7 +883,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [824, 192.0]
+    coordinate: [840, 204.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_2
@@ -980,7 +980,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [872, 540.0]
+    coordinate: [888, 556.0]
     rotation: 0
     state: disabled
 - name: rational_resampler_xxx_0
@@ -1000,7 +1000,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [288, 184.0]
+    coordinate: [304, 204.0]
     rotation: 0
     state: enabled
 - name: uhd_usrp_source_0
@@ -1008,7 +1008,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    ant0: '"RX1"'
+    ant0: '"RX2"'
     ant1: RX2
     ant10: RX2
     ant11: RX2
@@ -1436,7 +1436,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [40, 136.0]
+    coordinate: [56, 148.0]
     rotation: 0
     state: true
 

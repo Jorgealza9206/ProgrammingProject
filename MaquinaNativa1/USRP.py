@@ -85,7 +85,7 @@ class USRP(gr.top_block, Qt.QWidget):
         self.module = module = constellation_2
         self.M = M = len(module)
         self.bps = bps = int(math.log(M,2))
-        self.Rb = Rb = 48828.125
+        self.Rb = Rb = 195312.5
         self.Sps = Sps = 8
         self.Rs = Rs = Rb/bps
         self.samp_rate = samp_rate = Rs*Sps
