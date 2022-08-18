@@ -45,7 +45,7 @@ blocks:
     start: '0'
     step: '10'
     stop: '1000'
-    value: '500'
+    value: '180'
     widget: counter_slider
   states:
     bus_sink: false
@@ -130,7 +130,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '1.7'
+    value: '1.9'
   states:
     bus_sink: false
     bus_source: false
@@ -194,7 +194,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [648, 192.0]
+    coordinate: [640, 180.0]
     rotation: 0
     state: enabled
 - name: blocks_complex_to_mag_0
@@ -239,7 +239,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: /home/proyecto/Documents/ProgrammingProject/MaquinaNativa2/encrypted_data.bin
+    file: /home/proyecto/Documents/ProgrammingProject/MaquinaNativa2/encrypted_data_r.bin
     type: byte
     unbuffered: 'False'
     vlen: '1'
@@ -1002,13 +1002,13 @@ blocks:
     bus_structure: null
     coordinate: [288, 184.0]
     rotation: 0
-    state: enabled
+    state: bypassed
 - name: uhd_usrp_source_0
   id: uhd_usrp_source
   parameters:
     affinity: ''
     alias: ''
-    ant0: '"RX2"'
+    ant0: '"TX/RX"'
     ant1: RX2
     ant10: RX2
     ant11: RX2

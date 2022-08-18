@@ -5,7 +5,8 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # GNU Radio Python Flow Graph
-# Title: Not titled yet
+# Title: USRP_4 M-PSK
+# Description: https://www.youtube.com/watch?v=2rsu-c26Tqo
 # GNU Radio version: 3.10.1.1
 
 from packaging.version import Version as StrictVersion
@@ -44,12 +45,12 @@ import numpy
 
 from gnuradio import qtgui
 
-class PublicKeyTX(gr.top_block, Qt.QWidget):
+class USRP(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Not titled yet", catch_exceptions=True)
+        gr.top_block.__init__(self, "USRP_4 M-PSK", catch_exceptions=True)
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Not titled yet")
+        self.setWindowTitle("USRP_4 M-PSK")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -67,7 +68,7 @@ class PublicKeyTX(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "PublicKeyTX")
+        self.settings = Qt.QSettings("GNU Radio", "USRP")
 
         try:
             if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
@@ -87,7 +88,6 @@ class PublicKeyTX(gr.top_block, Qt.QWidget):
         self.Rb = Rb = 48828.125
         self.Sps = Sps = 8
         self.Rs = Rs = Rb/bps
-        self.samp_rate_0 = samp_rate_0 = Rs*Sps
         self.samp_rate = samp_rate = Rs*Sps
         self.h = h = [1]*Sps
         self.TrueBoardConstellation = TrueBoardConstellation = (0.77+0.77j,-0.77+0.77j,-0.77-0.77j,0.77-0.77j)
@@ -324,7 +324,7 @@ class PublicKeyTX(gr.top_block, Qt.QWidget):
 
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "PublicKeyTX")
+        self.settings = Qt.QSettings("GNU Radio", "USRP")
         self.settings.setValue("geometry", self.saveGeometry())
         self.stop()
         self.wait()
@@ -372,33 +372,25 @@ class PublicKeyTX(gr.top_block, Qt.QWidget):
 
     def set_Sps(self, Sps):
         self.Sps = Sps
-        self.set_h([1]*self.Sps)
-        self.blocks_repeat_0.set_interpolation(self.Sps)
         self.set_Sps_0(int(self.Sps/2))
-        self.set_samp_rate_0(self.Rs*self.Sps)
+        self.set_h([1]*self.Sps)
         self.set_samp_rate(self.Rs*self.Sps)
+        self.blocks_repeat_0.set_interpolation(self.Sps)
 
     def get_Rs(self):
         return self.Rs
 
     def set_Rs(self, Rs):
         self.Rs = Rs
-        self.set_samp_rate_0(self.Rs*self.Sps)
         self.set_samp_rate(self.Rs*self.Sps)
-
-    def get_samp_rate_0(self):
-        return self.samp_rate_0
-
-    def set_samp_rate_0(self, samp_rate_0):
-        self.samp_rate_0 = samp_rate_0
 
     def get_samp_rate(self):
         return self.samp_rate
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.qtgui_time_sink_x_0_0_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
+        self.qtgui_time_sink_x_0_0_0.set_samp_rate(self.samp_rate)
         self.uhd_usrp_sink_0.set_samp_rate(self.samp_rate)
 
     def get_h(self):
@@ -428,7 +420,7 @@ class PublicKeyTX(gr.top_block, Qt.QWidget):
 
 
 
-def main(top_block_cls=PublicKeyTX, options=None):
+def main(top_block_cls=USRP, options=None):
 
     if StrictVersion("4.5.0") <= StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
         style = gr.prefs().get_string('qtgui', 'style', 'raster')

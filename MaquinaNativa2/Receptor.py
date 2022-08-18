@@ -83,15 +83,15 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.decimation = decimation = 4
         self.sps = sps = 8
         self.samp_rate_2 = samp_rate_2 = samp_rate/decimation
-        self.th = th = 1.7
+        self.th = th = 1.9
         self.symbol_rate = symbol_rate = samp_rate_2/sps
         self.h = h = 1
-        self.amplificador = amplificador = 500
+        self.amplificador = amplificador = 180
 
         ##################################################
         # Blocks
         ##################################################
-        self._amplificador_range = Range(0, 1000, 10, 500, 200)
+        self._amplificador_range = Range(0, 1000, 10, 180, 200)
         self._amplificador_win = RangeWidget(self._amplificador_range, self.set_amplificador, "'amplificador'", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._amplificador_win)
         self.Widget = Qt.QTabWidget()
@@ -143,14 +143,9 @@ class Receptor(gr.top_block, Qt.QWidget):
         # No synchronization enforced.
 
         self.uhd_usrp_source_0.set_center_freq(830e6, 0)
-        self.uhd_usrp_source_0.set_antenna("RX2", 0)
+        self.uhd_usrp_source_0.set_antenna("TX/RX", 0)
         self.uhd_usrp_source_0.set_bandwidth(200e3, 0)
         self.uhd_usrp_source_0.set_gain(0, 0)
-        self.rational_resampler_xxx_0 = filter.rational_resampler_ccc(
-                interpolation=1,
-                decimation=decimation,
-                taps=[],
-                fractional_bw=0)
         self.qtgui_time_sink_x_1_0 = qtgui.time_sink_c(
             1024, #size
             samp_rate, #samp_rate
@@ -396,7 +391,7 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.blocks_keep_m_in_n_0 = blocks.keep_m_in_n(gr.sizeof_float, 1, sps, 0)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
         self.blocks_float_to_char_0 = blocks.float_to_char(1, 1)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/proyecto/Documents/ProgrammingProject/MaquinaNativa2/encrypted_data.bin', False)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/proyecto/Documents/ProgrammingProject/MaquinaNativa2/encrypted_data_r.bin', False)
         self.blocks_file_sink_0.set_unbuffered(False)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, samp_rate)
         self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
@@ -419,7 +414,7 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.connect((self.band_pass_filter_0, 0), (self.qtgui_time_sink_x_1_0, 0))
         self.connect((self.blocks_complex_to_mag_0, 0), (self.blocks_threshold_ff_0, 0))
         self.connect((self.blocks_complex_to_mag_0, 0), (self.qtgui_time_sink_x_1, 0))
-        self.connect((self.blocks_delay_0, 0), (self.rational_resampler_xxx_0, 0))
+        self.connect((self.blocks_delay_0, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.blocks_float_to_char_0, 0), (self.digital_correlate_access_code_xx_ts_0, 0))
         self.connect((self.blocks_float_to_complex_0, 0), (self.qtgui_const_sink_x_0, 0))
         self.connect((self.blocks_keep_m_in_n_0, 0), (self.blocks_float_to_char_0, 0))
@@ -432,7 +427,6 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_threshold_ff_0, 0), (self.qtgui_time_sink_x_0_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.qtgui_time_sink_x_1, 1))
         self.connect((self.digital_correlate_access_code_xx_ts_0, 0), (self.blocks_tagged_stream_align_0, 0))
-        self.connect((self.rational_resampler_xxx_0, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.uhd_usrp_source_0, 0), (self.blocks_delay_0, 0))
 
 
