@@ -2,7 +2,6 @@ from encodings.utf_8 import decode
 
 index = 0
 data = ""
-data2 = "felix"
 
 with open("Cindy_c.bin","rb") as f2:
     data = f2.read()

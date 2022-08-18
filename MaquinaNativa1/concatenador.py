@@ -1,5 +1,6 @@
 import os
 import math
+import secrets
 
 file_size = os.path.getsize(r'encrypted_data.bin') 
 #print('File Size:', file_size, 'bytes')
@@ -10,7 +11,9 @@ fileSizeConcat = math.ceil(file_size / 256) * 256
 sizeConcat = fileSizeConcat - file_size
 #print(sizeConcat)
 
-concat = " "*sizeConcat
+random_number = secrets.randbelow(255)
+print(random_number)
+concat = chr(random_number)*sizeConcat
 #print(concat)
 concat2 = bytes(concat, encoding='utf-8')
 #print(concat2)
