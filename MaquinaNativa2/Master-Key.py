@@ -2,9 +2,9 @@ import time
 
 start = time.time()
 
-exec(open("RSA_KEYS.py").read())
-exec(open("filler2.py").read())
-exec(open("PublicKeyTX.py").read())
+exec(open("Gen_RSA_Keys.py").read())#Genera llave pública y privada
+exec(open("filler2.py").read())#Hace el relleno para GNU Radio
+exec(open("PublicKeyTX.py").read())#Envia la llave
 
 end = time.time()
 

@@ -63,7 +63,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '48828.125'
+    value: '195312.5'
   states:
     bus_sink: false
     bus_source: false
@@ -262,7 +262,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [144, 340.0]
+    coordinate: [128, 340.0]
     rotation: 0
     state: enabled
 - name: blocks_float_to_complex_0

@@ -57,10 +57,12 @@ def createGUI():
     root.mainloop() #Mantiene la ventana abierta
 
 def send():
-    with open("authen.txt","w",encoding= "utf-8") as f:
+    with open("password.txt","w",encoding= "utf-8") as f:
         f.write(passUser.get()) #Contraseña
-        # f.write("\n")           #Retorno de carro
-        # f.write(fileLabel.cget("text")) #Nombre del Archivo
+
+    with open("nameFile.txt","w",encoding= "utf-8") as f:
+        f.write(fileLabel.cget("text")) #Nombre del Archivo
+
     root.destroy()
      
 def openFile():
@@ -73,11 +75,5 @@ def openFile():
     
 
 
-start = time.process_time()
-
 if __name__ == '__main__':
     createGUI()
-
-end = time.process_time()
-
-print(end - start)

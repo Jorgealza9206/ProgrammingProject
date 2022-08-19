@@ -250,7 +250,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [48, 324.0]
+    coordinate: [32, 340.0]
     rotation: 0
     state: enabled
 - name: blocks_float_to_complex_0
@@ -303,7 +303,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [24, 252.0]
+    coordinate: [64, 252.0]
     rotation: 0
     state: true
 - name: blocks_tagged_stream_mux_0
@@ -323,7 +323,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [288, 336.0]
+    coordinate: [304, 360.0]
     rotation: 0
     state: true
 - name: blocks_uchar_to_float_0
@@ -338,7 +338,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [504, 296.0]
+    coordinate: [520, 320.0]
     rotation: 0
     state: enabled
 - name: blocks_uchar_to_float_0_0
@@ -384,7 +384,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [352, 268.0]
+    coordinate: [368, 292.0]
     rotation: 0
     state: enabled
 - name: digital_protocol_formatter_bb_0
@@ -401,7 +401,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [184, 180.0]
+    coordinate: [192, 180.0]
     rotation: 0
     state: true
 - name: import_0
@@ -713,7 +713,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [656, 324.0]
+    coordinate: [672, 340.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0_0_0_0

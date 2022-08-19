@@ -1,13 +1,13 @@
 import time
 import os
 
-exec(open("main.py").read()) 
+exec(open("GUI.py").read()) 
 
 start = time.process_time()
 
-exec(open("PrivateKEY.py").read())
+exec(open("Des_Public_Key.py").read())
 
-exec(open("RSA_ENC_TX.py").read()) #Cifrado RSA
+exec(open("Encryption.py").read()) #Cifrado RSA
 
 exec(open("filler.py").read()) #Acondiciona el archivo para GNU Radio
 
