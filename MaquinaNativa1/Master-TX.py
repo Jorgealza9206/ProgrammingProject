@@ -9,7 +9,7 @@ exec(open("PrivateKEY.py").read())
 
 exec(open("RSA_ENC_TX.py").read()) #Cifrado RSA
 
-exec(open("concatenador.py").read()) #Acondiciona el archivo para GNU Radio
+exec(open("filler.py").read()) #Acondiciona el archivo para GNU Radio
 
 exec(open("USRP.py").read()) #Ejecuta la comunicación
 
