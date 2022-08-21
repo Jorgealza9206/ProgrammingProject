@@ -60,9 +60,6 @@ def send():
     with open("password.txt","w",encoding= "utf-8") as f:
         f.write(passUser.get()) #Contraseña
 
-    with open("nameFile.txt","w",encoding= "utf-8") as f:
-        f.write(fileLabel.cget("text")) #Nombre del Archivo
-
     root.destroy()
      
 def openFile():
@@ -70,6 +67,7 @@ def openFile():
     with open(file,"rb") as f1:
         data = f1.read() # Lo lee
     with open("data.bin","wb") as f2:
+        f2.write(file[-30:].encode("utf-8")) #Nombre del Archivo
         f2.write(data)  #Lo guarda con un nombre único
     fileLabel.config(text=file[-30:]) #Escribe el nombre del archivo recortado
     

@@ -7,10 +7,11 @@ file_in = open("encrypted_data.bin", "rb")
 # Importa la llave privada
 private_key = RSA.import_key(open("private.pem").read())
 
-#Importa la llave de sesión encriptada, el nonce, el tag, el nombre de archivo cifrado y el texto cifrado
-enc_session_key, nonce, tag, enc_NameFile, nonce2, tag2, ciphertext = \
+#Importa la llave de sesión encriptada, el nonce, el tag,
+# el nombre de archivo cifrado y el texto cifrado
+enc_session_key, nonce, tag, ciphertext = \
     [file_in.read(x) for x in (private_key.size_in_bytes(
-    ), 16, 16, 30, 16, 16, -1)] 
+    ), 16, 16, -1)] 
 
 # Decrypt the session key with the private RSA key
 # Crea un objeto con el cual descifra la llave de sesión con la llave privada
@@ -20,13 +21,13 @@ session_key = cipher_rsa.decrypt(enc_session_key)
 
 # Decrypt the data with the AES session key
 # Crea un objeto para descifrar con el nonce traído del archivo encriptado
+#cipher_aes = AES.new(session_key, AES.MODE_EAX, nonce)
 cipher_aes = AES.new(session_key, AES.MODE_EAX, nonce)
-cipher_aes2 = AES.new(session_key, AES.MODE_EAX, nonce2)
 # Descifra la información
-nameFile = cipher_aes.decrypt_and_verify(enc_NameFile, tag)
-data = cipher_aes2.decrypt_and_verify(ciphertext, tag2)
+#nameFile = cipher_aes.decrypt_and_verify(enc_NameFile, tag)
+data = cipher_aes.decrypt_and_verify(ciphertext, tag)
 
-# print(data.decode("utf-8")) #Imprime texto descifrado
+nameFile, data = data[:30],data[30:-1]
 
 #Decodifica el nombre de archivo
 nameFile = nameFile.decode("utf-8")
@@ -42,8 +43,6 @@ for i in nameFile[::-1]:
 file_out = open(nameFile[index:], "wb")
 file_out.write(data)
 file_out.close()
-
-print(nameFile[-3:])
 
 #Reproduce el archivo
 if nameFile[-3:] == "jpg" or nameFile[-3:] == "peg":
