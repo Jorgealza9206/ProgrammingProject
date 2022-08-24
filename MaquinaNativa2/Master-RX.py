@@ -2,9 +2,10 @@ import time
 
 start = time.time()
 
+#exec(open("USRP_RX.py").read())#Recibe la información
 exec(open("Receptor.py").read())#Recibe la información
 exec(open("slicer.py").read())#Quita el relleno de acondicionamiento
-exec(open("RSA_DES_RX.py").read())#Desencripta la información
+exec(open("Desencryption.py").read())#Desencripta la información
 
 end = time.time()
 

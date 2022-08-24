@@ -78,16 +78,40 @@ blocks:
     coordinate: [672, 21]
     rotation: 0
     state: true
-- name: samp_rate
+- name: high
   id: variable
   parameters:
     comment: ''
-    value: '1562500'
+    value: '0.001'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [168, 8.0]
+    coordinate: [928, 12.0]
+    rotation: 0
+    state: true
+- name: low
+  id: variable
+  parameters:
+    comment: ''
+    value: '0.0006'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [392, 28.0]
+    rotation: 0
+    state: true
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '3125000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [176, 12.0]
     rotation: 0
     state: enabled
 - name: samp_rate_2
@@ -130,12 +154,12 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '1.9'
+    value: '0.000725'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [400, 16.0]
+    coordinate: [1016, 12.0]
     rotation: 0
     state: true
 - name: Widget
@@ -181,24 +205,24 @@ blocks:
     comment: ''
     decim: '1'
     gain: '1'
-    high_cutoff_freq: '50000'
+    high_cutoff_freq: samp_rate/4
     interp: '1'
     low_cutoff_freq: '500'
     maxoutbuf: '0'
     minoutbuf: '0'
-    samp_rate: samp_rate/decimation
-    type: fir_filter_ccf
-    width: '50000'
+    samp_rate: samp_rate
+    type: fir_filter_fff
+    width: samp_rate/4
     win: window.WIN_HAMMING
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [488, 180.0]
+    coordinate: [520, 196.0]
     rotation: 0
     state: enabled
-- name: blocks_complex_to_mag_0
-  id: blocks_complex_to_mag
+- name: blocks_complex_to_float_0
+  id: blocks_complex_to_float
   parameters:
     affinity: ''
     alias: ''
@@ -210,26 +234,23 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [720, 320.0]
+    coordinate: [280, 152.0]
     rotation: 0
     state: true
-- name: blocks_delay_0
-  id: blocks_delay
+- name: blocks_complex_to_mag_squared_0
+  id: blocks_complex_to_mag_squared
   parameters:
     affinity: ''
     alias: ''
     comment: ''
-    delay: samp_rate
     maxoutbuf: '0'
     minoutbuf: '0'
-    num_ports: '1'
-    type: complex
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [104, 320.0]
+    coordinate: [272, 256.0]
     rotation: 0
     state: true
 - name: blocks_file_sink_0
@@ -247,7 +268,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [928, 548.0]
+    coordinate: [928, 556.0]
     rotation: 180
     state: enabled
 - name: blocks_float_to_char_0
@@ -280,46 +301,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [736, 432.0]
+    coordinate: [728, 440.0]
     rotation: 180
     state: enabled
-- name: blocks_keep_m_in_n_0
-  id: blocks_keep_m_in_n
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    m: '1'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    n: sps
-    offset: '0'
-    type: float
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1056, 324.0]
-    rotation: 0
-    state: enabled
-- name: blocks_multiply_const_vxx_0
-  id: blocks_multiply_const_vxx
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    const: amplificador
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [312, 188.0]
-    rotation: 0
-    state: true
 - name: blocks_pack_k_bits_bb_0
   id: blocks_pack_k_bits_bb
   parameters:
@@ -333,7 +317,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1144, 564.0]
+    coordinate: [1144, 572.0]
     rotation: 180
     state: enabled
 - name: blocks_tagged_stream_align_0
@@ -369,9 +353,30 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [872, 348.0]
+    coordinate: [752, 332.0]
     rotation: 0
     state: enabled
+- name: digital_clock_recovery_mm_xx_0
+  id: digital_clock_recovery_mm_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    gain_mu: '0.175'
+    gain_omega: 0.25*0.175*0.175
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mu: '0.5'
+    omega: sps*(1+0.0)
+    omega_relative_limit: '0.005'
+    type: float
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [960, 300.0]
+    rotation: 0
+    state: true
 - name: digital_correlate_access_code_xx_ts_0
   id: digital_correlate_access_code_xx_ts
   parameters:
@@ -388,7 +393,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [904, 468.0]
+    coordinate: [904, 476.0]
     rotation: 0
     state: enabled
 - name: qtgui_const_sink_x_0
@@ -480,7 +485,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [512, 436.0]
+    coordinate: [504, 444.0]
     rotation: 180
     state: enabled
 - name: qtgui_time_sink_x_0
@@ -577,7 +582,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1232, 292.0]
+    coordinate: [1224, 300.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0_0
@@ -637,7 +642,7 @@ blocks:
     nconnections: '1'
     size: '1024'
     srate: samp_rate
-    stemplot: 'True'
+    stemplot: 'False'
     style1: '1'
     style10: '1'
     style2: '1'
@@ -674,7 +679,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1168, 188.0]
+    coordinate: [1160, 204.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_1
@@ -731,7 +736,7 @@ blocks:
     marker8: '-1'
     marker9: '-1'
     name: "Se\xF1al Recibida Absoluta"
-    nconnections: '2'
+    nconnections: '1'
     size: '1024'
     srate: samp_rate
     stemplot: 'True'
@@ -771,7 +776,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [944, 156.0]
+    coordinate: [776, 212.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_1_0
@@ -848,7 +853,7 @@ blocks:
     tr_mode: qtgui.TRIG_MODE_FREE
     tr_slope: qtgui.TRIG_SLOPE_POS
     tr_tag: '""'
-    type: complex
+    type: float
     update_time: '0.10'
     width1: '1'
     width10: '1'
@@ -868,29 +873,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [704, 212.0]
+    coordinate: [1088, 108.0]
     rotation: 0
     state: enabled
-- name: rational_resampler_xxx_0
-  id: rational_resampler_xxx
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    decim: decimation
-    fbw: '0'
-    interp: '1'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    taps: ''
-    type: ccc
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [280, 308.0]
-    rotation: 0
-    state: bypassed
 - name: uhd_usrp_source_0
   id: uhd_usrp_source
   parameters:
@@ -1310,7 +1295,7 @@ blocks:
     start_time: '-1.0'
     stream_args: ''
     stream_chans: '[]'
-    sync: none
+    sync: pc_clock
     time_source0: ''
     time_source1: ''
     time_source2: ''
@@ -1324,30 +1309,27 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [40, 136.0]
+    coordinate: [32, 148.0]
     rotation: 0
     state: true
 
 connections:
-- [band_pass_filter_0, '0', blocks_complex_to_mag_0, '0']
-- [band_pass_filter_0, '0', qtgui_time_sink_x_1_0, '0']
-- [blocks_complex_to_mag_0, '0', blocks_threshold_ff_0, '0']
-- [blocks_complex_to_mag_0, '0', qtgui_time_sink_x_1, '0']
-- [blocks_delay_0, '0', rational_resampler_xxx_0, '0']
+- [band_pass_filter_0, '0', blocks_threshold_ff_0, '0']
+- [band_pass_filter_0, '0', qtgui_time_sink_x_1, '0']
+- [blocks_complex_to_float_0, '0', qtgui_time_sink_x_1_0, '0']
+- [blocks_complex_to_mag_squared_0, '0', band_pass_filter_0, '0']
 - [blocks_float_to_char_0, '0', digital_correlate_access_code_xx_ts_0, '0']
 - [blocks_float_to_complex_0, '0', qtgui_const_sink_x_0, '0']
-- [blocks_keep_m_in_n_0, '0', blocks_float_to_char_0, '0']
-- [blocks_keep_m_in_n_0, '0', qtgui_time_sink_x_0, '0']
-- [blocks_multiply_const_vxx_0, '0', band_pass_filter_0, '0']
 - [blocks_pack_k_bits_bb_0, '0', blocks_file_sink_0, '0']
 - [blocks_tagged_stream_align_0, '0', blocks_pack_k_bits_bb_0, '0']
 - [blocks_threshold_ff_0, '0', blocks_float_to_complex_0, '0']
-- [blocks_threshold_ff_0, '0', blocks_keep_m_in_n_0, '0']
+- [blocks_threshold_ff_0, '0', digital_clock_recovery_mm_xx_0, '0']
 - [blocks_threshold_ff_0, '0', qtgui_time_sink_x_0_0, '0']
-- [blocks_threshold_ff_0, '0', qtgui_time_sink_x_1, '1']
+- [digital_clock_recovery_mm_xx_0, '0', blocks_float_to_char_0, '0']
+- [digital_clock_recovery_mm_xx_0, '0', qtgui_time_sink_x_0, '0']
 - [digital_correlate_access_code_xx_ts_0, '0', blocks_tagged_stream_align_0, '0']
-- [rational_resampler_xxx_0, '0', blocks_multiply_const_vxx_0, '0']
-- [uhd_usrp_source_0, '0', blocks_delay_0, '0']
+- [uhd_usrp_source_0, '0', blocks_complex_to_float_0, '0']
+- [uhd_usrp_source_0, '0', blocks_complex_to_mag_squared_0, '0']
 
 metadata:
   file_format: 1
