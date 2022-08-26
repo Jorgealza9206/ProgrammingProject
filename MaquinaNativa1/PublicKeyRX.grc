@@ -54,18 +54,6 @@ blocks:
     coordinate: [280, 20.0]
     rotation: 0
     state: true
-- name: decimation
-  id: variable
-  parameters:
-    comment: ''
-    value: '4'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [504, 108.0]
-    rotation: 0
-    state: true
 - name: h
   id: variable
   parameters:
@@ -90,18 +78,6 @@ blocks:
     coordinate: [184, 28.0]
     rotation: 0
     state: enabled
-- name: samp_rate_2
-  id: variable
-  parameters:
-    comment: ''
-    value: samp_rate/decimation
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [488, 44.0]
-    rotation: 0
-    state: enabled
 - name: sps
   id: variable
   parameters:
@@ -111,19 +87,19 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [592, 108.0]
+    coordinate: [600, 44.0]
     rotation: 0
     state: true
 - name: symbol_rate
   id: variable
   parameters:
     comment: ''
-    value: samp_rate_2/sps
+    value: samp_rate/(sps*2)
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [592, 44.0]
+    coordinate: [496, 44.0]
     rotation: 0
     state: enabled
 - name: th
@@ -261,7 +237,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [616, 492.0]
+    coordinate: [616, 516.0]
     rotation: 180
     state: enabled
 - name: blocks_float_to_complex_0
@@ -311,7 +287,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [872, 468.0]
+    coordinate: [872, 508.0]
     rotation: 0
     state: enabled
 - name: blocks_threshold_ff_0
@@ -344,15 +320,15 @@ blocks:
     minoutbuf: '0'
     mu: '0.5'
     omega: sps*(1+0.0)
-    omega_relative_limit: '0.005'
+    omega_relative_limit: '0.125'
     type: float
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [576, 364.0]
+    coordinate: [568, 364.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: digital_correlate_access_code_xx_ts_0
   id: digital_correlate_access_code_xx_ts
   parameters:
@@ -369,7 +345,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [600, 540.0]
+    coordinate: [600, 572.0]
     rotation: 0
     state: enabled
 - name: qtgui_const_sink_x_0
@@ -558,7 +534,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [872, 372.0]
+    coordinate: [856, 356.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0_0
