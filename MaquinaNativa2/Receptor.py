@@ -79,12 +79,10 @@ class Receptor(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.samp_rate = samp_rate = 3125000
-        self.decimation = decimation = 4
         self.sps = sps = 8
-        self.samp_rate_2 = samp_rate_2 = samp_rate/decimation
+        self.samp_rate = samp_rate = 3125000
         self.th = th = 0.000725
-        self.symbol_rate = symbol_rate = samp_rate_2/sps
+        self.symbol_rate = symbol_rate = samp_rate/(sps*2)
         self.low = low = 0.0006
         self.high = high = 0.001
         self.h = h = 1
@@ -370,7 +368,7 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.Widget_layout_2.addWidget(self._qtgui_const_sink_x_0_win)
         self.digital_correlate_access_code_xx_ts_0 = digital.correlate_access_code_bb_ts('11001100101001010100110111110101',
           0, 'packet_len')
-        self.digital_clock_recovery_mm_xx_0 = digital.clock_recovery_mm_ff(sps*(1+0.0), 0.25*0.175*0.175, 0.5, 0.175, 0.005)
+        self.digital_clock_recovery_mm_xx_0 = digital.clock_recovery_mm_ff(sps*(1+0.0), 0.25*0.175*0.175, 0.5, 0.175, 0.125)
         self.blocks_threshold_ff_0 = blocks.threshold_ff(th, th, 0)
         self.blocks_tagged_stream_align_0 = blocks.tagged_stream_align(gr.sizeof_char*1, 'packet_len')
         self.blocks_pack_k_bits_bb_0 = blocks.pack_k_bits_bb(8)
@@ -424,40 +422,26 @@ class Receptor(gr.top_block, Qt.QWidget):
 
         event.accept()
 
+    def get_sps(self):
+        return self.sps
+
+    def set_sps(self, sps):
+        self.sps = sps
+        self.set_symbol_rate(self.samp_rate/(self.sps*2))
+        self.digital_clock_recovery_mm_xx_0.set_omega(self.sps*(1+0.0))
+
     def get_samp_rate(self):
         return self.samp_rate
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.set_samp_rate_2(self.samp_rate/self.decimation)
+        self.set_symbol_rate(self.samp_rate/(self.sps*2))
         self.band_pass_filter_0.set_taps(firdes.band_pass(1, self.samp_rate, 500, self.samp_rate/4, self.samp_rate/4, window.WIN_HAMMING, 6.76))
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_0_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_1.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_1_0.set_samp_rate(self.samp_rate)
         self.uhd_usrp_source_0.set_samp_rate(self.samp_rate)
-
-    def get_decimation(self):
-        return self.decimation
-
-    def set_decimation(self, decimation):
-        self.decimation = decimation
-        self.set_samp_rate_2(self.samp_rate/self.decimation)
-
-    def get_sps(self):
-        return self.sps
-
-    def set_sps(self, sps):
-        self.sps = sps
-        self.set_symbol_rate(self.samp_rate_2/self.sps)
-        self.digital_clock_recovery_mm_xx_0.set_omega(self.sps*(1+0.0))
-
-    def get_samp_rate_2(self):
-        return self.samp_rate_2
-
-    def set_samp_rate_2(self, samp_rate_2):
-        self.samp_rate_2 = samp_rate_2
-        self.set_symbol_rate(self.samp_rate_2/self.sps)
 
     def get_th(self):
         return self.th

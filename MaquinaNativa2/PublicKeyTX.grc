@@ -529,7 +529,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [968, 308.0]
+    coordinate: [1128, 316.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0
@@ -626,7 +626,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [984, 220.0]
+    coordinate: [1104, 212.0]
     rotation: 0
     state: true
 - name: uhd_usrp_sink_0
@@ -903,7 +903,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [984, 388.0]
+    coordinate: [1112, 388.0]
     rotation: 0
     state: enabled
 
