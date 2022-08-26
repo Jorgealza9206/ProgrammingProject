@@ -140,7 +140,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [112, 188.0]
+    coordinate: [112, 116.0]
     rotation: 0
     state: true
 - name: h
@@ -189,24 +189,12 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: Rs*Sps
+    value: Rs*Sps*2
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
     coordinate: [16, 28.0]
-    rotation: 0
-    state: true
-- name: samp_rate_0
-  id: variable
-  parameters:
-    comment: ''
-    value: Rs*Sps
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [120, 124.0]
     rotation: 0
     state: true
 - name: Widget
@@ -272,7 +260,7 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/encrypted_data_r.bin
+    file: /home/proyecto/Documents/ProgrammingProject/MaquinaNativa2/rsa_key_c.bin
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
