@@ -84,7 +84,7 @@ class PublicKeyRX(gr.top_block, Qt.QWidget):
         self.decimation = decimation = 4
         self.sps = sps = 8
         self.samp_rate_2 = samp_rate_2 = samp_rate/decimation
-        self.th = th = 0.02
+        self.th = th = 0.018
         self.symbol_rate = symbol_rate = samp_rate_2/sps
         self.h = h = 1
         self.amplificador = amplificador = 40
