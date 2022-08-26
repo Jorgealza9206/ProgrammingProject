@@ -80,11 +80,11 @@ class PublicKeyRX(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.samp_rate = samp_rate = 1562500
+        self.samp_rate = samp_rate = 3125000
         self.decimation = decimation = 4
         self.sps = sps = 8
         self.samp_rate_2 = samp_rate_2 = samp_rate/decimation
-        self.th = th = 1.7
+        self.th = th = 0.02
         self.symbol_rate = symbol_rate = samp_rate_2/sps
         self.h = h = 1
         self.amplificador = amplificador = 40
@@ -92,9 +92,6 @@ class PublicKeyRX(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self._amplificador_range = Range(0, 1000, 10, 40, 200)
-        self._amplificador_win = RangeWidget(self._amplificador_range, self.set_amplificador, "'amplificador'", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_layout.addWidget(self._amplificador_win)
         self.Widget = Qt.QTabWidget()
         self.Widget_widget_0 = Qt.QWidget()
         self.Widget_layout_0 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_0)
@@ -121,16 +118,6 @@ class PublicKeyRX(gr.top_block, Qt.QWidget):
         self.Widget_grid_layout_4 = Qt.QGridLayout()
         self.Widget_layout_4.addLayout(self.Widget_grid_layout_4)
         self.Widget.addTab(self.Widget_widget_4, 'Señal Recibida')
-        self.Widget_widget_5 = Qt.QWidget()
-        self.Widget_layout_5 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_5)
-        self.Widget_grid_layout_5 = Qt.QGridLayout()
-        self.Widget_layout_5.addLayout(self.Widget_grid_layout_5)
-        self.Widget.addTab(self.Widget_widget_5, 'Antes de desempaquetar')
-        self.Widget_widget_6 = Qt.QWidget()
-        self.Widget_layout_6 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_6)
-        self.Widget_grid_layout_6 = Qt.QGridLayout()
-        self.Widget_layout_6.addLayout(self.Widget_grid_layout_6)
-        self.Widget.addTab(self.Widget_widget_6, 'Symbol Sync')
         self.top_layout.addWidget(self.Widget)
         self.uhd_usrp_source_0 = uhd.usrp_source(
             ",".join(("", "")),
@@ -141,18 +128,13 @@ class PublicKeyRX(gr.top_block, Qt.QWidget):
             ),
         )
         self.uhd_usrp_source_0.set_samp_rate(samp_rate)
-        # No synchronization enforced.
+        self.uhd_usrp_source_0.set_time_now(uhd.time_spec(time.time()), uhd.ALL_MBOARDS)
 
         self.uhd_usrp_source_0.set_center_freq(830e6, 0)
-        self.uhd_usrp_source_0.set_antenna("RX2", 0)
+        self.uhd_usrp_source_0.set_antenna("TX/RX", 0)
         self.uhd_usrp_source_0.set_bandwidth(200e3, 0)
         self.uhd_usrp_source_0.set_gain(0, 0)
-        self.rational_resampler_xxx_0 = filter.rational_resampler_ccc(
-                interpolation=1,
-                decimation=decimation,
-                taps=[],
-                fractional_bw=0)
-        self.qtgui_time_sink_x_1_0 = qtgui.time_sink_c(
+        self.qtgui_time_sink_x_1_0 = qtgui.time_sink_f(
             1024, #size
             samp_rate, #samp_rate
             'Señal Recibida', #name
@@ -187,12 +169,9 @@ class PublicKeyRX(gr.top_block, Qt.QWidget):
             -1, -1, -1, -1, -1]
 
 
-        for i in range(2):
+        for i in range(1):
             if len(labels[i]) == 0:
-                if (i % 2 == 0):
-                    self.qtgui_time_sink_x_1_0.set_line_label(i, "Re{{Data {0}}}".format(i/2))
-                else:
-                    self.qtgui_time_sink_x_1_0.set_line_label(i, "Im{{Data {0}}}".format(i/2))
+                self.qtgui_time_sink_x_1_0.set_line_label(i, "Data {0}".format(i))
             else:
                 self.qtgui_time_sink_x_1_0.set_line_label(i, labels[i])
             self.qtgui_time_sink_x_1_0.set_line_width(i, widths[i])
@@ -207,7 +186,7 @@ class PublicKeyRX(gr.top_block, Qt.QWidget):
             1024, #size
             samp_rate, #samp_rate
             'Señal Recibida Absoluta', #name
-            2, #number of inputs
+            1, #number of inputs
             None # parent
         )
         self.qtgui_time_sink_x_1.set_update_time(0.10)
@@ -238,7 +217,7 @@ class PublicKeyRX(gr.top_block, Qt.QWidget):
             -1, -1, -1, -1, -1]
 
 
-        for i in range(2):
+        for i in range(1):
             if len(labels[i]) == 0:
                 self.qtgui_time_sink_x_1.set_line_label(i, "Data {0}".format(i))
             else:
@@ -269,7 +248,7 @@ class PublicKeyRX(gr.top_block, Qt.QWidget):
         self.qtgui_time_sink_x_0_0.enable_grid(True)
         self.qtgui_time_sink_x_0_0.enable_axis_labels(True)
         self.qtgui_time_sink_x_0_0.enable_control_panel(True)
-        self.qtgui_time_sink_x_0_0.enable_stem_plot(True)
+        self.qtgui_time_sink_x_0_0.enable_stem_plot(False)
 
 
         labels = ['Señal cuadrada', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
@@ -390,51 +369,50 @@ class PublicKeyRX(gr.top_block, Qt.QWidget):
         self.Widget_layout_2.addWidget(self._qtgui_const_sink_x_0_win)
         self.digital_correlate_access_code_xx_ts_0 = digital.correlate_access_code_bb_ts('11001100101001010100110111110101',
           0, 'packet_len')
+        self.digital_clock_recovery_mm_xx_0 = digital.clock_recovery_mm_ff(sps*(1+0.0), 0.25*0.175*0.175, 0.5, 0.175, 0.005)
         self.blocks_threshold_ff_0 = blocks.threshold_ff(th, th, 0)
         self.blocks_tagged_stream_align_0 = blocks.tagged_stream_align(gr.sizeof_char*1, 'packet_len')
         self.blocks_pack_k_bits_bb_0 = blocks.pack_k_bits_bb(8)
-        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(amplificador)
-        self.blocks_keep_m_in_n_0 = blocks.keep_m_in_n(gr.sizeof_float, 1, sps, 0)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
         self.blocks_float_to_char_0 = blocks.float_to_char(1, 1)
         self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/alex/Documents/ProgrammingProject/MaquinaNativa1/rsa_key_c.bin', False)
         self.blocks_file_sink_0.set_unbuffered(False)
-        self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, samp_rate)
-        self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
-        self.band_pass_filter_0 = filter.fir_filter_ccf(
+        self.blocks_complex_to_mag_squared_0 = blocks.complex_to_mag_squared(1)
+        self.blocks_complex_to_float_0 = blocks.complex_to_float(1)
+        self.band_pass_filter_0 = filter.fir_filter_fff(
             1,
             firdes.band_pass(
                 1,
-                samp_rate/decimation,
+                samp_rate,
                 500,
-                50000,
-                50000,
+                samp_rate/4,
+                samp_rate/4,
                 window.WIN_HAMMING,
                 6.76))
+        self._amplificador_range = Range(0, 1000, 10, 40, 200)
+        self._amplificador_win = RangeWidget(self._amplificador_range, self.set_amplificador, "'amplificador'", "counter_slider", float, QtCore.Qt.Horizontal)
+        self.top_layout.addWidget(self._amplificador_win)
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.band_pass_filter_0, 0), (self.blocks_complex_to_mag_0, 0))
-        self.connect((self.band_pass_filter_0, 0), (self.qtgui_time_sink_x_1_0, 0))
-        self.connect((self.blocks_complex_to_mag_0, 0), (self.blocks_threshold_ff_0, 0))
-        self.connect((self.blocks_complex_to_mag_0, 0), (self.qtgui_time_sink_x_1, 0))
-        self.connect((self.blocks_delay_0, 0), (self.rational_resampler_xxx_0, 0))
+        self.connect((self.band_pass_filter_0, 0), (self.blocks_threshold_ff_0, 0))
+        self.connect((self.band_pass_filter_0, 0), (self.qtgui_time_sink_x_1, 0))
+        self.connect((self.blocks_complex_to_float_0, 0), (self.qtgui_time_sink_x_1_0, 0))
+        self.connect((self.blocks_complex_to_mag_squared_0, 0), (self.band_pass_filter_0, 0))
         self.connect((self.blocks_float_to_char_0, 0), (self.digital_correlate_access_code_xx_ts_0, 0))
         self.connect((self.blocks_float_to_complex_0, 0), (self.qtgui_const_sink_x_0, 0))
-        self.connect((self.blocks_keep_m_in_n_0, 0), (self.blocks_float_to_char_0, 0))
-        self.connect((self.blocks_keep_m_in_n_0, 0), (self.qtgui_time_sink_x_0, 0))
-        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.band_pass_filter_0, 0))
         self.connect((self.blocks_pack_k_bits_bb_0, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.blocks_tagged_stream_align_0, 0), (self.blocks_pack_k_bits_bb_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.blocks_float_to_complex_0, 0))
-        self.connect((self.blocks_threshold_ff_0, 0), (self.blocks_keep_m_in_n_0, 0))
+        self.connect((self.blocks_threshold_ff_0, 0), (self.digital_clock_recovery_mm_xx_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.qtgui_time_sink_x_0_0, 0))
-        self.connect((self.blocks_threshold_ff_0, 0), (self.qtgui_time_sink_x_1, 1))
+        self.connect((self.digital_clock_recovery_mm_xx_0, 0), (self.blocks_float_to_char_0, 0))
+        self.connect((self.digital_clock_recovery_mm_xx_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.digital_correlate_access_code_xx_ts_0, 0), (self.blocks_tagged_stream_align_0, 0))
-        self.connect((self.rational_resampler_xxx_0, 0), (self.blocks_multiply_const_vxx_0, 0))
-        self.connect((self.uhd_usrp_source_0, 0), (self.blocks_delay_0, 0))
+        self.connect((self.uhd_usrp_source_0, 0), (self.blocks_complex_to_float_0, 0))
+        self.connect((self.uhd_usrp_source_0, 0), (self.blocks_complex_to_mag_squared_0, 0))
 
 
     def closeEvent(self, event):
@@ -450,21 +428,19 @@ class PublicKeyRX(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
+        self.set_samp_rate_2(self.samp_rate/self.decimation)
+        self.band_pass_filter_0.set_taps(firdes.band_pass(1, self.samp_rate, 500, self.samp_rate/4, self.samp_rate/4, window.WIN_HAMMING, 6.76))
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_0_0.set_samp_rate(self.samp_rate)
-        self.uhd_usrp_source_0.set_samp_rate(self.samp_rate)
-        self.qtgui_time_sink_x_1_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_1.set_samp_rate(self.samp_rate)
-        self.band_pass_filter_0.set_taps(firdes.band_pass(1, self.samp_rate/self.decimation, 500, 50000, 50000, window.WIN_HAMMING, 6.76))
-        self.blocks_delay_0.set_dly(self.samp_rate)
-        self.set_samp_rate_2(self.samp_rate/self.decimation)
+        self.qtgui_time_sink_x_1_0.set_samp_rate(self.samp_rate)
+        self.uhd_usrp_source_0.set_samp_rate(self.samp_rate)
 
     def get_decimation(self):
         return self.decimation
 
     def set_decimation(self, decimation):
         self.decimation = decimation
-        self.band_pass_filter_0.set_taps(firdes.band_pass(1, self.samp_rate/self.decimation, 500, 50000, 50000, window.WIN_HAMMING, 6.76))
         self.set_samp_rate_2(self.samp_rate/self.decimation)
 
     def get_sps(self):
@@ -473,7 +449,7 @@ class PublicKeyRX(gr.top_block, Qt.QWidget):
     def set_sps(self, sps):
         self.sps = sps
         self.set_symbol_rate(self.samp_rate_2/self.sps)
-        self.blocks_keep_m_in_n_0.set_n(self.sps)
+        self.digital_clock_recovery_mm_xx_0.set_omega(self.sps*(1+0.0))
 
     def get_samp_rate_2(self):
         return self.samp_rate_2
@@ -507,7 +483,6 @@ class PublicKeyRX(gr.top_block, Qt.QWidget):
 
     def set_amplificador(self, amplificador):
         self.amplificador = amplificador
-        self.blocks_multiply_const_vxx_0.set_k(self.amplificador)
 
 
 
