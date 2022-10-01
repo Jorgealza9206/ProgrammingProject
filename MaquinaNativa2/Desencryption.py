@@ -45,7 +45,7 @@ file_out.write(data)
 file_out.close()
 
 #Reproduce el archivo
-if nameFile[-3:] == "jpg" or nameFile[-3:] == "peg":
+if nameFile[-3:] == "jpg" or nameFile[-3:] == "peg" or nameFile[-3:] == "png":
     print(subprocess.run("eog " + nameFile[index:], shell=True))
 elif nameFile[-3:] == "mp3" or nameFile[-3:] == "wav":
     print(subprocess.run("totem " + nameFile[index:], shell=True)) 

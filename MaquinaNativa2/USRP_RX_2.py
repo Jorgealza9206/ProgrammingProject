@@ -5,7 +5,8 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # GNU Radio Python Flow Graph
-# Title: Not titled yet
+# Title: USRP_RX_2
+# Author: proyecto
 # GNU Radio version: 3.10.1.1
 
 from packaging.version import Version as StrictVersion
@@ -43,12 +44,12 @@ from PyQt5 import QtCore
 
 from gnuradio import qtgui
 
-class Receptor(gr.top_block, Qt.QWidget):
+class USRP_RX_2(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Not titled yet", catch_exceptions=True)
+        gr.top_block.__init__(self, "USRP_RX_2", catch_exceptions=True)
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Not titled yet")
+        self.setWindowTitle("USRP_RX_2")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -66,7 +67,7 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "Receptor")
+        self.settings = Qt.QSettings("GNU Radio", "USRP_RX_2")
 
         try:
             if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
@@ -277,6 +278,7 @@ class Receptor(gr.top_block, Qt.QWidget):
 
         self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.qwidget(), Qt.QWidget)
         self.Widget_layout_1.addWidget(self._qtgui_time_sink_x_0_win)
+        self.digital_crc32_bb_0 = digital.crc32_bb(False, "packet_len", True)
         self.digital_correlate_access_code_xx_ts_0 = digital.correlate_access_code_bb_ts('11001100101001010100110111110101',
           0, 'packet_len')
         self.digital_clock_recovery_mm_xx_0 = digital.clock_recovery_mm_ff(sps*(1+0.0), 0.25*0.175*0.175, 0.5, 0.175, 0.125)
@@ -309,18 +311,19 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.connect((self.band_pass_filter_0, 0), (self.qtgui_time_sink_x_1, 0))
         self.connect((self.blocks_complex_to_mag_squared_0, 0), (self.band_pass_filter_0, 0))
         self.connect((self.blocks_float_to_char_0, 0), (self.digital_correlate_access_code_xx_ts_0, 0))
-        self.connect((self.blocks_pack_k_bits_bb_0, 0), (self.blocks_file_sink_0, 0))
+        self.connect((self.blocks_pack_k_bits_bb_0, 0), (self.digital_crc32_bb_0, 0))
         self.connect((self.blocks_tagged_stream_align_0, 0), (self.blocks_pack_k_bits_bb_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.digital_clock_recovery_mm_xx_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.qtgui_time_sink_x_0_0, 0))
         self.connect((self.digital_clock_recovery_mm_xx_0, 0), (self.blocks_float_to_char_0, 0))
         self.connect((self.digital_clock_recovery_mm_xx_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.digital_correlate_access_code_xx_ts_0, 0), (self.blocks_tagged_stream_align_0, 0))
+        self.connect((self.digital_crc32_bb_0, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.uhd_usrp_source_0, 0), (self.blocks_complex_to_mag_squared_0, 0))
 
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "Receptor")
+        self.settings = Qt.QSettings("GNU Radio", "USRP_RX_2")
         self.settings.setValue("geometry", self.saveGeometry())
         self.stop()
         self.wait()
@@ -388,7 +391,7 @@ class Receptor(gr.top_block, Qt.QWidget):
 
 
 
-def main(top_block_cls=Receptor, options=None):
+def main(top_block_cls=USRP_RX_2, options=None):
 
     if StrictVersion("4.5.0") <= StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
         style = gr.prefs().get_string('qtgui', 'style', 'raster')

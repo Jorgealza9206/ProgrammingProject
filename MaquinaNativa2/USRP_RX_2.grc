@@ -1,6 +1,6 @@
 options:
   parameters:
-    author: ''
+    author: proyecto
     catch_exceptions: 'True'
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
@@ -11,7 +11,7 @@ options:
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: Receptor
+    id: USRP_RX_2
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -22,13 +22,13 @@ options:
     run_options: prompt
     sizing_mode: fixed
     thread_safe_setters: ''
-    title: Not titled yet
-    window_size: ''
+    title: USRP_RX_2
+    window_size: (1000,1000)
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [9, 9]
+    coordinate: [8, 8]
     rotation: 0
     state: enabled
 
@@ -63,7 +63,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [648, 20.0]
+    coordinate: [648, 16.0]
     rotation: 0
     state: true
 - name: high
@@ -75,7 +75,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [432, 92.0]
+    coordinate: [440, 92.0]
     rotation: 0
     state: true
 - name: low
@@ -87,7 +87,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [400, 28.0]
+    coordinate: [400, 32.0]
     rotation: 0
     state: true
 - name: samp_rate
@@ -99,7 +99,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [176, 12.0]
+    coordinate: [176, 16.0]
     rotation: 0
     state: enabled
 - name: sps
@@ -123,7 +123,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [520, 28.0]
+    coordinate: [520, 32.0]
     rotation: 0
     state: enabled
 - name: th
@@ -135,7 +135,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1016, 12.0]
+    coordinate: [1016, 16.0]
     rotation: 0
     state: true
 - name: Widget
@@ -169,7 +169,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [752, 4.0]
+    coordinate: [752, 0.0]
     rotation: 0
     state: enabled
 - name: band_pass_filter_0
@@ -194,7 +194,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [520, 196.0]
+    coordinate: [520, 192.0]
     rotation: 0
     state: enabled
 - name: blocks_complex_to_float_0
@@ -244,7 +244,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [792, 556.0]
+    coordinate: [712, 556.0]
     rotation: 180
     state: enabled
 - name: blocks_float_to_char_0
@@ -261,7 +261,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [808, 420.0]
+    coordinate: [808, 416.0]
     rotation: 180
     state: enabled
 - name: blocks_float_to_complex_0
@@ -293,7 +293,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1136, 508.0]
+    coordinate: [1136, 512.0]
     rotation: 180
     state: enabled
 - name: blocks_tagged_stream_align_0
@@ -311,7 +311,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1024, 452.0]
+    coordinate: [1024, 448.0]
     rotation: 0
     state: enabled
 - name: blocks_threshold_ff_0
@@ -329,7 +329,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [528, 356.0]
+    coordinate: [528, 352.0]
     rotation: 0
     state: enabled
 - name: digital_clock_recovery_mm_xx_0
@@ -350,7 +350,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [720, 300.0]
+    coordinate: [720, 304.0]
     rotation: 0
     state: enabled
 - name: digital_correlate_access_code_xx_ts_0
@@ -369,9 +369,27 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [752, 468.0]
+    coordinate: [752, 464.0]
     rotation: 0
     state: enabled
+- name: digital_crc32_bb_0
+  id: digital_crc32_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    check: 'False'
+    comment: ''
+    lengthtagname: '"packet_len"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    packed: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [920, 556.0]
+    rotation: 180
+    state: true
 - name: qtgui_const_sink_x_0
   id: qtgui_const_sink_x
   parameters:
@@ -461,7 +479,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [304, 444.0]
+    coordinate: [304, 448.0]
     rotation: 180
     state: disabled
 - name: qtgui_time_sink_x_0
@@ -558,7 +576,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1000, 292.0]
+    coordinate: [1000, 288.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0_0
@@ -655,7 +673,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [992, 172.0]
+    coordinate: [992, 176.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_1
@@ -752,7 +770,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [736, 140.0]
+    coordinate: [736, 144.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_1_0
@@ -849,7 +867,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1008, 76.0]
+    coordinate: [1008, 80.0]
     rotation: 0
     state: disabled
 - name: uhd_usrp_source_0
@@ -1285,7 +1303,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [32, 148.0]
+    coordinate: [32, 144.0]
     rotation: 0
     state: true
 
@@ -1296,7 +1314,7 @@ connections:
 - [blocks_complex_to_mag_squared_0, '0', band_pass_filter_0, '0']
 - [blocks_float_to_char_0, '0', digital_correlate_access_code_xx_ts_0, '0']
 - [blocks_float_to_complex_0, '0', qtgui_const_sink_x_0, '0']
-- [blocks_pack_k_bits_bb_0, '0', blocks_file_sink_0, '0']
+- [blocks_pack_k_bits_bb_0, '0', digital_crc32_bb_0, '0']
 - [blocks_tagged_stream_align_0, '0', blocks_pack_k_bits_bb_0, '0']
 - [blocks_threshold_ff_0, '0', blocks_float_to_complex_0, '0']
 - [blocks_threshold_ff_0, '0', digital_clock_recovery_mm_xx_0, '0']
@@ -1304,6 +1322,7 @@ connections:
 - [digital_clock_recovery_mm_xx_0, '0', blocks_float_to_char_0, '0']
 - [digital_clock_recovery_mm_xx_0, '0', qtgui_time_sink_x_0, '0']
 - [digital_correlate_access_code_xx_ts_0, '0', blocks_tagged_stream_align_0, '0']
+- [digital_crc32_bb_0, '0', blocks_file_sink_0, '0']
 - [uhd_usrp_source_0, '0', blocks_complex_to_float_0, '0']
 - [uhd_usrp_source_0, '0', blocks_complex_to_mag_squared_0, '0']
 
