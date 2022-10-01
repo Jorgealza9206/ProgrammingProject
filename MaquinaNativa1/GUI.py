@@ -1,14 +1,9 @@
 from tkinter import *
-import time
 from tkinter import filedialog #Librería para seleccionar archivo
-from tkinter import ttk as ttk #Tkinter
-from usuarios import Usuario
-from tkinter import messagebox as messagebox
+from tkinter import ttk as ttk#Tkinter
 
 root = Tk() #Crea un objeto Tkinter
-usuarios = []
 passUser = StringVar()
-nameUsuario = StringVar()
 mainFrame = Frame(root) #Crea un frame contenedor
 fileLabel = Label(mainFrame,text = "") #Crea una etiqueta para mostar el archivo subido
 fileLabel.grid(column=0,row=2) #Lo coloca en la columna 0 y fila 2 de 'mainFrame'
@@ -38,7 +33,7 @@ def createGUI():
 
     #entradas de textos
 
-    passUser.set("")
+    passUser.set(open("password.txt","r",encoding= "utf-8").read())
     passEntry = Entry(mainFrame,textvariable=passUser, show="*")
     passEntry.grid(column=1,row=3)
 
@@ -53,6 +48,11 @@ def createGUI():
     sendButton = ttk.Button(
     mainFrame, text = "Enviar", command=send)
     sendButton.grid(column=1,row=5,ipadx=5,ipady=5,pady= 10,padx= 10)
+    
+    #Botón Limpiar Contraseña
+    
+    resetPass = ttk.Button(mainFrame, text = "Limpiar", command=cleanPass)
+    resetPass.grid(column=0,row=5,ipadx=5,ipady=5,pady= 10,padx= 10)
     
     root.mainloop() #Mantiene la ventana abierta
 
@@ -71,6 +71,11 @@ def openFile():
         f2.write(data)  #Lo guarda con un nombre único
     fileLabel.config(text=file[-30:]) #Escribe el nombre del archivo recortado
     
+def cleanPass():
+    passUser.set("")
+    passEntry = Entry(mainFrame,textvariable=passUser, show="*")
+    with open("password.txt","w",encoding= "utf-8") as f:
+        f.write(passUser.get()) #Contraseña
 
 
 if __name__ == '__main__':

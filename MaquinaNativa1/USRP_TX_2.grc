@@ -1,17 +1,17 @@
 options:
   parameters:
-    author: ''
+    author: alex
     catch_exceptions: 'True'
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
     comment: ''
     copyright: ''
-    description: https://www.youtube.com/watch?v=2rsu-c26Tqo
+    description: ''
     gen_cmake: 'On'
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: USRP
+    id: USRP_TX_2
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -22,13 +22,13 @@ options:
     run_options: prompt
     sizing_mode: fixed
     thread_safe_setters: ''
-    title: USRP_4 M-PSK
-    window_size: ''
+    title: USRP_TX_2
+    window_size: (1000,1000)
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [23, 13]
+    coordinate: [8, 8]
     rotation: 0
     state: enabled
 
@@ -42,7 +42,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [392, 12.0]
+    coordinate: [392, 16.0]
     rotation: 0
     state: true
 - name: PHG
@@ -56,7 +56,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [376, 76.0]
+    coordinate: [376, 80.0]
     rotation: 0
     state: true
 - name: Rb
@@ -68,7 +68,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [744, 12.0]
+    coordinate: [744, 16.0]
     rotation: 0
     state: true
 - name: Rs
@@ -80,7 +80,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [128, 108.0]
+    coordinate: [128, 112.0]
     rotation: 0
     state: enabled
 - name: Sps
@@ -92,7 +92,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [834, 11]
+    coordinate: [832, 8.0]
     rotation: 0
     state: true
 - name: Sps_0
@@ -104,7 +104,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [742, 74]
+    coordinate: [744, 72.0]
     rotation: 0
     state: true
 - name: TrueBoardConstellation
@@ -116,7 +116,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [192, 12.0]
+    coordinate: [192, 16.0]
     rotation: 0
     state: true
 - name: bps
@@ -128,7 +128,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [464, 12.0]
+    coordinate: [464, 16.0]
     rotation: 0
     state: true
 - name: constellation_2
@@ -140,7 +140,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 172.0]
+    coordinate: [16, 176.0]
     rotation: 0
     state: true
 - name: h
@@ -152,7 +152,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [232, 76.0]
+    coordinate: [232, 80.0]
     rotation: 0
     state: true
 - name: module
@@ -182,7 +182,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [910, 6]
+    coordinate: [912, 8.0]
     rotation: 0
     state: true
 - name: samp_rate
@@ -194,7 +194,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [24, 108.0]
+    coordinate: [24, 112.0]
     rotation: 0
     state: true
 - name: Widget
@@ -228,7 +228,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [560, 60.0]
+    coordinate: [560, 64.0]
     rotation: 0
     state: true
 - name: analog_sig_source_x_0
@@ -250,7 +250,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [576, 340.0]
+    coordinate: [576, 336.0]
     rotation: 0
     state: true
 - name: blocks_file_source_0
@@ -272,7 +272,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [24, 372.0]
+    coordinate: [24, 368.0]
     rotation: 0
     state: enabled
 - name: blocks_float_to_complex_0
@@ -324,7 +324,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [504, 236.0]
+    coordinate: [504, 240.0]
     rotation: 0
     state: true
 - name: blocks_stream_to_tagged_stream_0
@@ -343,7 +343,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [64, 252.0]
+    coordinate: [32, 308.0]
     rotation: 0
     state: true
 - name: blocks_tagged_stream_mux_0
@@ -366,21 +366,6 @@ blocks:
     coordinate: [288, 360.0]
     rotation: 0
     state: true
-- name: blocks_uchar_to_float_0_0
-  id: blocks_uchar_to_float
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [760, 656.0]
-    rotation: 0
-    state: disabled
 - name: blocks_uchar_to_float_1
   id: blocks_uchar_to_float
   parameters:
@@ -424,9 +409,27 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [368, 292.0]
+    coordinate: [368, 288.0]
     rotation: 0
     state: enabled
+- name: digital_crc32_bb_0
+  id: digital_crc32_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    check: 'False'
+    comment: ''
+    lengthtagname: '"packet_len"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    packed: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [40, 228.0]
+    rotation: 0
+    state: true
 - name: digital_protocol_formatter_bb_0
   id: digital_protocol_formatter_bb
   parameters:
@@ -441,7 +444,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [192, 180.0]
+    coordinate: [192, 176.0]
     rotation: 0
     state: true
 - name: import_0
@@ -454,7 +457,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [528, 12.0]
+    coordinate: [528, 16.0]
     rotation: 0
     state: true
 - name: import_1
@@ -467,7 +470,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [624, 12.0]
+    coordinate: [624, 16.0]
     rotation: 0
     state: true
 - name: qtgui_const_sink_x_0
@@ -559,7 +562,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [896, 268.0]
+    coordinate: [896, 272.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0
@@ -656,106 +659,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [912, 172.0]
+    coordinate: [912, 176.0]
     rotation: 0
     state: true
-- name: qtgui_time_sink_x_0_0_0_0
-  id: qtgui_time_sink_x
-  parameters:
-    affinity: ''
-    alias: ''
-    alpha1: '1.0'
-    alpha10: '1.0'
-    alpha2: '1.0'
-    alpha3: '1.0'
-    alpha4: '1.0'
-    alpha5: '1.0'
-    alpha6: '1.0'
-    alpha7: '1.0'
-    alpha8: '1.0'
-    alpha9: '1.0'
-    autoscale: 'True'
-    axislabels: 'True'
-    color1: blue
-    color10: dark blue
-    color2: red
-    color3: green
-    color4: black
-    color5: cyan
-    color6: magenta
-    color7: yellow
-    color8: dark red
-    color9: dark green
-    comment: ''
-    ctrlpanel: 'True'
-    entags: 'True'
-    grid: 'True'
-    gui_hint: Widget@4
-    label1: Signal 1
-    label10: Signal 10
-    label2: Signal 2
-    label3: Signal 3
-    label4: Signal 4
-    label5: Signal 5
-    label6: Signal 6
-    label7: Signal 7
-    label8: Signal 8
-    label9: Signal 9
-    legend: 'True'
-    marker1: '-1'
-    marker10: '-1'
-    marker2: '-1'
-    marker3: '-1'
-    marker4: '-1'
-    marker5: '-1'
-    marker6: '-1'
-    marker7: '-1'
-    marker8: '-1'
-    marker9: '-1'
-    name: Antes de Desempaquetar
-    nconnections: '1'
-    size: '1024'
-    srate: samp_rate
-    stemplot: 'True'
-    style1: '1'
-    style10: '1'
-    style2: '1'
-    style3: '1'
-    style4: '1'
-    style5: '1'
-    style6: '1'
-    style7: '1'
-    style8: '1'
-    style9: '1'
-    tr_chan: '0'
-    tr_delay: '0'
-    tr_level: '0.0'
-    tr_mode: qtgui.TRIG_MODE_FREE
-    tr_slope: qtgui.TRIG_SLOPE_POS
-    tr_tag: '""'
-    type: float
-    update_time: '0.1'
-    width1: '1'
-    width10: '1'
-    width2: '1'
-    width3: '1'
-    width4: '1'
-    width5: '1'
-    width6: '1'
-    width7: '1'
-    width8: '1'
-    width9: '1'
-    ylabel: Amplitude
-    ymax: '1'
-    ymin: '-1'
-    yunit: '""'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [912, 652.0]
-    rotation: 0
-    state: disabled
 - name: qtgui_time_sink_x_1
   id: qtgui_time_sink_x
   parameters:
@@ -850,7 +756,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [424, 436.0]
+    coordinate: [424, 432.0]
     rotation: 0
     state: true
 - name: uhd_usrp_sink_0
@@ -1127,7 +1033,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [912, 340.0]
+    coordinate: [912, 336.0]
     rotation: 0
     state: enabled
 
@@ -1140,13 +1046,13 @@ connections:
 - [blocks_multiply_xx_0, '0', qtgui_time_sink_x_0, '0']
 - [blocks_multiply_xx_0, '0', uhd_usrp_sink_0, '0']
 - [blocks_repeat_0, '0', blocks_uchar_to_float_1, '0']
-- [blocks_stream_to_tagged_stream_0, '0', blocks_tagged_stream_mux_0, '1']
-- [blocks_stream_to_tagged_stream_0, '0', digital_protocol_formatter_bb_0, '0']
+- [blocks_stream_to_tagged_stream_0, '0', digital_crc32_bb_0, '0']
 - [blocks_tagged_stream_mux_0, '0', blocks_unpack_k_bits_bb_0, '0']
-- [blocks_uchar_to_float_0_0, '0', qtgui_time_sink_x_0_0_0_0, '0']
 - [blocks_uchar_to_float_1, '0', blocks_float_to_complex_0, '0']
 - [blocks_uchar_to_float_1_0, '0', qtgui_time_sink_x_1, '0']
 - [blocks_unpack_k_bits_bb_0, '0', blocks_repeat_0, '0']
+- [digital_crc32_bb_0, '0', blocks_tagged_stream_mux_0, '1']
+- [digital_crc32_bb_0, '0', digital_protocol_formatter_bb_0, '0']
 - [digital_protocol_formatter_bb_0, '0', blocks_tagged_stream_mux_0, '0']
 - [digital_protocol_formatter_bb_0, '0', blocks_uchar_to_float_1_0, '0']
 

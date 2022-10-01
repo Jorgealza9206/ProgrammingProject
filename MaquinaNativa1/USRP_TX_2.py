@@ -5,8 +5,8 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # GNU Radio Python Flow Graph
-# Title: USRP_4 M-PSK
-# Description: https://www.youtube.com/watch?v=2rsu-c26Tqo
+# Title: USRP_TX_2
+# Author: alex
 # GNU Radio version: 3.10.1.1
 
 from packaging.version import Version as StrictVersion
@@ -46,12 +46,12 @@ import numpy
 
 from gnuradio import qtgui
 
-class USRP(gr.top_block, Qt.QWidget):
+class USRP_TX_2(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "USRP_4 M-PSK", catch_exceptions=True)
+        gr.top_block.__init__(self, "USRP_TX_2", catch_exceptions=True)
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("USRP_4 M-PSK")
+        self.setWindowTitle("USRP_TX_2")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -69,7 +69,7 @@ class USRP(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "USRP")
+        self.settings = Qt.QSettings("GNU Radio", "USRP_TX_2")
 
         try:
             if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
@@ -295,6 +295,7 @@ class USRP(gr.top_block, Qt.QWidget):
         for c in range(7, 8):
             self.top_grid_layout.setColumnStretch(c, 1)
         self.digital_protocol_formatter_bb_0 = digital.protocol_formatter_bb(PHG, "packet_len")
+        self.digital_crc32_bb_0 = digital.crc32_bb(False, "packet_len", True)
         self.blocks_unpack_k_bits_bb_0 = blocks.unpack_k_bits_bb(8)
         self.blocks_uchar_to_float_1_0 = blocks.uchar_to_float()
         self.blocks_uchar_to_float_1 = blocks.uchar_to_float()
@@ -319,18 +320,19 @@ class USRP(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_multiply_xx_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.blocks_multiply_xx_0, 0), (self.uhd_usrp_sink_0, 0))
         self.connect((self.blocks_repeat_0, 0), (self.blocks_uchar_to_float_1, 0))
-        self.connect((self.blocks_stream_to_tagged_stream_0, 0), (self.blocks_tagged_stream_mux_0, 1))
-        self.connect((self.blocks_stream_to_tagged_stream_0, 0), (self.digital_protocol_formatter_bb_0, 0))
+        self.connect((self.blocks_stream_to_tagged_stream_0, 0), (self.digital_crc32_bb_0, 0))
         self.connect((self.blocks_tagged_stream_mux_0, 0), (self.blocks_unpack_k_bits_bb_0, 0))
         self.connect((self.blocks_uchar_to_float_1, 0), (self.blocks_float_to_complex_0, 0))
         self.connect((self.blocks_uchar_to_float_1_0, 0), (self.qtgui_time_sink_x_1, 0))
         self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.blocks_repeat_0, 0))
+        self.connect((self.digital_crc32_bb_0, 0), (self.blocks_tagged_stream_mux_0, 1))
+        self.connect((self.digital_crc32_bb_0, 0), (self.digital_protocol_formatter_bb_0, 0))
         self.connect((self.digital_protocol_formatter_bb_0, 0), (self.blocks_tagged_stream_mux_0, 0))
         self.connect((self.digital_protocol_formatter_bb_0, 0), (self.blocks_uchar_to_float_1_0, 0))
 
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "USRP")
+        self.settings = Qt.QSettings("GNU Radio", "USRP_TX_2")
         self.settings.setValue("geometry", self.saveGeometry())
         self.stop()
         self.wait()
@@ -428,7 +430,7 @@ class USRP(gr.top_block, Qt.QWidget):
 
 
 
-def main(top_block_cls=USRP, options=None):
+def main(top_block_cls=USRP_TX_2, options=None):
 
     if StrictVersion("4.5.0") <= StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
         style = gr.prefs().get_string('qtgui', 'style', 'raster')
