@@ -83,8 +83,8 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate = 3125000
         self.th = th = 0.00075
         self.symbol_rate = symbol_rate = samp_rate/(sps*2)
-        self.low = low = 0.0002
-        self.high = high = 0.0006
+        self.low = low = 0.0005
+        self.high = high = 0.001
         self.h = h = 1
         self.amplificador = amplificador = 180
 

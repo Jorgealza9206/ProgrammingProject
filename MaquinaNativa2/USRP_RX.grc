@@ -70,7 +70,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '0.0006'
+    value: '0.001'
   states:
     bus_sink: false
     bus_source: false
@@ -82,7 +82,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '0.0002'
+    value: '0.0005'
   states:
     bus_sink: false
     bus_source: false
