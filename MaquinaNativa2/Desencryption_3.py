@@ -2,22 +2,12 @@ from Crypto.PublicKey import RSA
 from Crypto.Cipher import AES, PKCS1_OAEP
 
 file_in = open("encrypted_data.bin", "rb")
+file_key_aes = open("AES_KEY.bin","rb")
 data = b''
 
-# Importa la llave privada
-private_key = RSA.import_key(open("private.pem").read())
-
 #Importa la llave de sesión encriptada y el texto cifrado
-enc_session_key, encrypted_data = \
-    [file_in.read(x) for x in (private_key.size_in_bytes(
-    ),-1)] 
-
-# Decrypt the session key with the private RSA key
-# Crea un objeto con el cual descifra la llave de sesión con la llave privada
-cipher_rsa = PKCS1_OAEP.new(private_key)
-# Descifra la llave de sesión
-
-session_key = cipher_rsa.decrypt(enc_session_key) 
+encrypted_data = file_in.read()
+session_key = file_key_aes.read()
 print(session_key)
 
 lon = len(encrypted_data)
@@ -32,7 +22,7 @@ for i in range(0,lon,256):
         # Descifra la información de manera cíclica
         data = data + cipher_aes.decrypt_and_verify(ciphertext, tag)
     except:
-        print(f'Error Iteración # {hex(i+256)}')
+        pprint(f'Error Iteración # {hex(i+256)}')
     
 #Lo escribe y lo exporta a data_r.bin
 file_out = open("data_r.bin","wb")

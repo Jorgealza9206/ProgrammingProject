@@ -27,27 +27,32 @@ cipher_aes = AES.new(session_key, AES.MODE_EAX, nonce)
 #nameFile = cipher_aes.decrypt_and_verify(enc_NameFile, tag)
 data = cipher_aes.decrypt_and_verify(ciphertext, tag)
 
-nameFile, data = data[:30],data[30:-1]
-
-#Decodifica el nombre de archivo
-nameFile = nameFile.decode("utf-8")
-
-#Busca y recorta el nombre de archivo
-index = 0
-for i in nameFile[::-1]:
-    if(i == "/"):
-        break
-    index = index - 1
-
-#Sobreescribe y cierra el archivo
-file_out = open(nameFile[index:], "wb")
+#Lo escribe y lo exporta a data_r.bin
+file_out = open("data_r.bin","wb")
 file_out.write(data)
 file_out.close()
 
-#Reproduce el archivo
-if nameFile[-3:] == "jpg" or nameFile[-3:] == "peg" or nameFile[-3:] == "png":
-    print(subprocess.run("eog " + nameFile[index:], shell=True))
-elif nameFile[-3:] == "mp3" or nameFile[-3:] == "wav":
-    print(subprocess.run("totem " + nameFile[index:], shell=True)) 
+# nameFile, data = data[:30],data[30:-1]
+
+# #Decodifica el nombre de archivo
+# nameFile = nameFile.decode("utf-8")
+
+# #Busca y recorta el nombre de archivo
+# index = 0
+# for i in nameFile[::-1]:
+#     if(i == "/"):
+#         break
+#     index = index - 1
+
+# #Sobreescribe y cierra el archivo
+# file_out = open(nameFile[index:], "wb")
+# file_out.write(data)
+# file_out.close()
+
+# #Reproduce el archivo
+# if nameFile[-3:] == "jpg" or nameFile[-3:] == "peg" or nameFile[-3:] == "png":
+#     print(subprocess.run("eog " + nameFile[index:], shell=True))
+# elif nameFile[-3:] == "mp3" or nameFile[-3:] == "wav":
+#     print(subprocess.run("totem " + nameFile[index:], shell=True)) 
 
 print("Archivo descifrado exitosamente")

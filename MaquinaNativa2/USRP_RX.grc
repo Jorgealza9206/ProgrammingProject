@@ -41,7 +41,9 @@ blocks:
     label: ''
     min_len: '200'
     orient: QtCore.Qt.Horizontal
+    outputmsgname: value
     rangeType: float
+    showports: 'False'
     start: '0'
     step: '10'
     stop: '1000'
@@ -70,7 +72,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '0.0003'
+    value: '0.0006'
   states:
     bus_sink: false
     bus_source: false
@@ -82,7 +84,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '0.0001'
+    value: '0.0002'
   states:
     bus_sink: false
     bus_source: false
@@ -130,7 +132,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '0.00075'
+    value: '0.0004'
   states:
     bus_sink: false
     bus_source: false
@@ -236,7 +238,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: /home/proyecto2/Documentos/ProgrammingProject/MaquinaNativa2/encrypted_data_r.bin
+    file: /home/proyecto2/Documentos/ProgrammingProject/MaquinaNativa2/encrypted_data.bin
     type: byte
     unbuffered: 'False'
     vlen: '1'
@@ -244,9 +246,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [792, 508.0]
+    coordinate: [608, 516.0]
     rotation: 180
-    state: disabled
+    state: enabled
 - name: blocks_float_to_char_0
   id: blocks_float_to_char
   parameters:
@@ -263,7 +265,7 @@ blocks:
     bus_structure: null
     coordinate: [808, 372.0]
     rotation: 180
-    state: disabled
+    state: enabled
 - name: blocks_float_to_complex_0
   id: blocks_float_to_complex
   parameters:
@@ -293,9 +295,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1136, 460.0]
+    coordinate: [1088, 532.0]
     rotation: 180
-    state: disabled
+    state: enabled
 - name: blocks_tagged_stream_align_0
   id: blocks_tagged_stream_align
   parameters:
@@ -311,9 +313,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1024, 404.0]
+    coordinate: [1088, 444.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_threshold_ff_0
   id: blocks_threshold_ff
   parameters:
@@ -369,9 +371,27 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [752, 420.0]
+    coordinate: [776, 428.0]
     rotation: 0
-    state: disabled
+    state: enabled
+- name: digital_crc32_bb_0
+  id: digital_crc32_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    check: 'False'
+    comment: ''
+    lengthtagname: '"packet_len"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    packed: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [832, 516.0]
+    rotation: 180
+    state: true
 - name: qtgui_const_sink_x_0
   id: qtgui_const_sink_x
   parameters:
@@ -713,7 +733,7 @@ blocks:
     marker9: '-1'
     name: "Se\xF1al Recibida Absoluta"
     nconnections: '1'
-    size: '1024'
+    size: '64'
     srate: samp_rate
     stemplot: 'True'
     style1: '1'
@@ -1296,7 +1316,7 @@ connections:
 - [blocks_complex_to_mag_squared_0, '0', band_pass_filter_0, '0']
 - [blocks_float_to_char_0, '0', digital_correlate_access_code_xx_ts_0, '0']
 - [blocks_float_to_complex_0, '0', qtgui_const_sink_x_0, '0']
-- [blocks_pack_k_bits_bb_0, '0', blocks_file_sink_0, '0']
+- [blocks_pack_k_bits_bb_0, '0', digital_crc32_bb_0, '0']
 - [blocks_tagged_stream_align_0, '0', blocks_pack_k_bits_bb_0, '0']
 - [blocks_threshold_ff_0, '0', blocks_float_to_complex_0, '0']
 - [blocks_threshold_ff_0, '0', digital_clock_recovery_mm_xx_0, '0']
@@ -1304,8 +1324,10 @@ connections:
 - [digital_clock_recovery_mm_xx_0, '0', blocks_float_to_char_0, '0']
 - [digital_clock_recovery_mm_xx_0, '0', qtgui_time_sink_x_0, '0']
 - [digital_correlate_access_code_xx_ts_0, '0', blocks_tagged_stream_align_0, '0']
+- [digital_crc32_bb_0, '0', blocks_file_sink_0, '0']
 - [uhd_usrp_source_0, '0', blocks_complex_to_float_0, '0']
 - [uhd_usrp_source_0, '0', blocks_complex_to_mag_squared_0, '0']
 
 metadata:
   file_format: 1
+  grc_version: 3.10.4.0
