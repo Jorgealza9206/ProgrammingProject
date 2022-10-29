@@ -7,10 +7,10 @@ exec(open("USRP_RX.py").read())#Recibe la información
 #exec(open("USRP_RX_2.py").read())#Recibe la información
 start2 = time.process_time()
 #exec(open("Receptor.py").read())#Recibe la información
-exec(open("slicer.py").read())#Quita el relleno de acondicionamiento
 
 try:
     exec(open("Desencryption.py").read())#Desencripta la información
+    exec(open("slicer.py").read())#Quita el relleno de acondicionamiento
 except:
     print("No se pudo desencriptar")
 

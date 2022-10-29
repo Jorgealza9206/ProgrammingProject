@@ -83,8 +83,8 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate = 3125000
         self.th = th = 0.00075
         self.symbol_rate = symbol_rate = samp_rate/(sps*2)
-        self.low = low = 0.0005
-        self.high = high = 0.001
+        self.low = low = 0.0001
+        self.high = high = 0.0003
         self.h = h = 1
         self.amplificador = amplificador = 180
 
@@ -284,7 +284,7 @@ class Receptor(gr.top_block, Qt.QWidget):
         self.blocks_tagged_stream_align_0 = blocks.tagged_stream_align(gr.sizeof_char*1, 'packet_len')
         self.blocks_pack_k_bits_bb_0 = blocks.pack_k_bits_bb(8)
         self.blocks_float_to_char_0 = blocks.float_to_char(1, 1)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/proyecto/Documents/ProgrammingProject/MaquinaNativa2/encrypted_data_r.bin', False)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/proyecto2/Documentos/ProgrammingProject/MaquinaNativa2/encrypted_data_r.bin', False)
         self.blocks_file_sink_0.set_unbuffered(False)
         self.blocks_complex_to_mag_squared_0 = blocks.complex_to_mag_squared(1)
         self.band_pass_filter_0 = filter.fir_filter_fff(

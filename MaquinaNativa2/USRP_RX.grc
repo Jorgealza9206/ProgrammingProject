@@ -11,7 +11,7 @@ options:
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: Receptor
+    id: USRP_RX
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -70,19 +70,19 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '0.001'
+    value: '0.0003'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [432, 92.0]
+    coordinate: [432, 100.0]
     rotation: 0
     state: true
 - name: low
   id: variable
   parameters:
     comment: ''
-    value: '0.0005'
+    value: '0.0001'
   states:
     bus_sink: false
     bus_source: false
@@ -236,7 +236,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: /home/proyecto/Documents/ProgrammingProject/MaquinaNativa2/encrypted_data_r.bin
+    file: /home/proyecto2/Documentos/ProgrammingProject/MaquinaNativa2/encrypted_data_r.bin
     type: byte
     unbuffered: 'False'
     vlen: '1'
@@ -244,9 +244,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [792, 556.0]
+    coordinate: [792, 508.0]
     rotation: 180
-    state: enabled
+    state: disabled
 - name: blocks_float_to_char_0
   id: blocks_float_to_char
   parameters:
@@ -261,9 +261,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [808, 420.0]
+    coordinate: [808, 372.0]
     rotation: 180
-    state: enabled
+    state: disabled
 - name: blocks_float_to_complex_0
   id: blocks_float_to_complex
   parameters:
@@ -293,9 +293,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1136, 508.0]
+    coordinate: [1136, 460.0]
     rotation: 180
-    state: enabled
+    state: disabled
 - name: blocks_tagged_stream_align_0
   id: blocks_tagged_stream_align
   parameters:
@@ -311,9 +311,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1024, 452.0]
+    coordinate: [1024, 404.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_threshold_ff_0
   id: blocks_threshold_ff
   parameters:
@@ -350,7 +350,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [720, 300.0]
+    coordinate: [728, 252.0]
     rotation: 0
     state: enabled
 - name: digital_correlate_access_code_xx_ts_0
@@ -369,9 +369,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [752, 468.0]
+    coordinate: [752, 420.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: qtgui_const_sink_x_0
   id: qtgui_const_sink_x
   parameters:

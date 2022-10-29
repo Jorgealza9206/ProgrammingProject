@@ -6,7 +6,7 @@ with open("encrypted_data_r.bin","rb") as f2:
     data = f2.read()
 
 #Aplica un for para saber en qué índice debe quitar el relleno
-for i in range(len(data)-2,-1,-1):
+for i in range(len(data)-1,-1,-1):
     index = index + 1
     if data[i] != data[i-1]:
         break
