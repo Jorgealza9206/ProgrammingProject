@@ -1,8 +1,10 @@
+import subprocess
+
 index = 0
 data = ""
 
 #Lee el archivo rellenado
-with open("encrypted_data_r.bin","rb") as f2:
+with open("data2_r.bin","rb") as f2:
     data = f2.read()
 
 #Aplica un for para saber en qué índice debe quitar el relleno
@@ -11,15 +13,29 @@ for i in range(len(data)-1,-1,-1):
     if data[i] != data[i-1]:
         break
 
-# for i in data[::-1]:
-#     index = index + 1
-#     if i != 32:
-#         break
+print(f'Tamaño a quitar:{index}')
 
-print(f'Tamaño a quitar:{index+1}')
+data = data[:-index+1]
 
-#Sobrescribe el archivo original
-with open("encrypted_data.bin","wb") as f2:
-    #f2.write(data[:len(data)-(index-1)])
-    f2.write(data[:len(data)-(index+1)])
+nameFile, data = data[:30],data[30:-1]
 
+#Decodifica el nombre de archivo
+nameFile = nameFile.decode("utf-8")
+
+#Busca y recorta el nombre de archivo
+index = 0
+for i in nameFile[::-1]:
+    if(i == "/"):
+        break
+    index = index - 1
+
+#Sobreescribe y cierra el archivo
+file_out = open(nameFile[index:], "wb")
+file_out.write(data)
+file_out.close()
+
+#Reproduce el archivo
+if nameFile[-3:] == "jpg" or nameFile[-3:] == "peg" or nameFile[-3:] == "png":
+    print(subprocess.run("eog " + nameFile[index:], shell=True))
+elif nameFile[-3:] == "mp3" or nameFile[-3:] == "wav":
+    print(subprocess.run("totem " + nameFile[index:], shell=True)) 
