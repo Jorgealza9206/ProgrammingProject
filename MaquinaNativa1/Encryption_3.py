@@ -6,23 +6,13 @@ from Crypto.Cipher import AES, PKCS1_OAEP
 data = open("data_r.bin", "rb")
 datos = data.read()
 
+file_key_aes = open("AES_KEY.bin","rb")
 # Crea el archivo en donde se va a guardar el texto cifrado
 file_out = open("encrypted_data.bin", "wb") 
-
-# Importa la llave pública del archivo receiver.pem
-recipient_key = RSA.import_key(open("receiver.pem").read())
-# Genera una llave de sesión AES
-session_key = get_random_bytes(16)
+session_key = file_key_aes.read()
 print(session_key)
 
-# Encrypt the session key with the public RSA key
-# Crea un objeto para cifrar la llave de sesión con la llave pública
-cipher_rsa = PKCS1_OAEP.new(recipient_key)
-#Encripta la llave de sesión
-enc_session_key = cipher_rsa.encrypt(session_key)
-
 #Escribe en el archivo la llave de sesión
-file_out.write(enc_session_key)
 lon = len(datos)
 
 # Encrypt the data with the AES session key

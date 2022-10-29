@@ -7,6 +7,8 @@ passUser = StringVar()
 mainFrame = Frame(root) #Crea un frame contenedor
 fileLabel = Label(mainFrame,text = "") #Crea una etiqueta para mostar el archivo subido
 fileLabel.grid(column=0,row=2) #Lo coloca en la columna 0 y fila 2 de 'mainFrame'
+with open("data.bin","wb") as f2:
+    f2.write(b'')
 
 def createGUI():
     # ventana principal
@@ -59,8 +61,10 @@ def createGUI():
 def send():
     with open("password.txt","w",encoding= "utf-8") as f:
         f.write(passUser.get()) #Contraseña
-
+    
     root.destroy()
+
+    #exec(open("Master-TX.py").read())
      
 def openFile():
     file = filedialog.askopenfilename(title="Abrir") #Abre la ventana para examinar archivo

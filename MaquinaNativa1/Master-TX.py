@@ -1,5 +1,4 @@
 import time
-import os
 
 exec(open("GUI.py").read()) 
 

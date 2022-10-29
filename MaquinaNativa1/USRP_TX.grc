@@ -265,7 +265,7 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     offset: '0'
-    repeat: 'True'
+    repeat: 'False'
     type: byte
     vlen: '1'
   states:
@@ -324,7 +324,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [504, 236.0]
+    coordinate: [504, 276.0]
     rotation: 0
     state: true
 - name: blocks_stream_to_tagged_stream_0
@@ -343,7 +343,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [64, 252.0]
+    coordinate: [24, 260.0]
     rotation: 0
     state: true
 - name: blocks_tagged_stream_mux_0
@@ -363,9 +363,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [288, 360.0]
+    coordinate: [232, 336.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: blocks_uchar_to_float_0_0
   id: blocks_uchar_to_float
   parameters:
@@ -408,7 +408,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [264, 456.0]
+    coordinate: [256, 440.0]
     rotation: 0
     state: true
 - name: blocks_unpack_k_bits_bb_0
@@ -424,9 +424,27 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [368, 292.0]
+    coordinate: [488, 204.0]
     rotation: 0
     state: enabled
+- name: digital_crc32_bb_0
+  id: digital_crc32_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    check: 'False'
+    comment: ''
+    lengthtagname: '"packet_len"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    packed: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [248, 252.0]
+    rotation: 0
+    state: true
 - name: digital_protocol_formatter_bb_0
   id: digital_protocol_formatter_bb
   parameters:
@@ -441,9 +459,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [192, 180.0]
+    coordinate: [240, 180.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: import_0
   id: import
   parameters:
@@ -771,7 +789,7 @@ blocks:
     alpha7: '1.0'
     alpha8: '1.0'
     alpha9: '1.0'
-    autoscale: 'False'
+    autoscale: 'True'
     axislabels: 'True'
     color1: blue
     color10: dark blue
@@ -811,7 +829,7 @@ blocks:
     marker9: '-1'
     name: '""'
     nconnections: '1'
-    size: '1024'
+    size: '128'
     srate: samp_rate
     stemplot: 'True'
     style1: '1'
@@ -1140,15 +1158,17 @@ connections:
 - [blocks_multiply_xx_0, '0', qtgui_time_sink_x_0, '0']
 - [blocks_multiply_xx_0, '0', uhd_usrp_sink_0, '0']
 - [blocks_repeat_0, '0', blocks_uchar_to_float_1, '0']
-- [blocks_stream_to_tagged_stream_0, '0', blocks_tagged_stream_mux_0, '1']
-- [blocks_stream_to_tagged_stream_0, '0', digital_protocol_formatter_bb_0, '0']
+- [blocks_stream_to_tagged_stream_0, '0', digital_crc32_bb_0, '0']
+- [blocks_tagged_stream_mux_0, '0', blocks_uchar_to_float_1_0, '0']
 - [blocks_tagged_stream_mux_0, '0', blocks_unpack_k_bits_bb_0, '0']
 - [blocks_uchar_to_float_0_0, '0', qtgui_time_sink_x_0_0_0_0, '0']
 - [blocks_uchar_to_float_1, '0', blocks_float_to_complex_0, '0']
 - [blocks_uchar_to_float_1_0, '0', qtgui_time_sink_x_1, '0']
 - [blocks_unpack_k_bits_bb_0, '0', blocks_repeat_0, '0']
+- [digital_crc32_bb_0, '0', blocks_tagged_stream_mux_0, '1']
+- [digital_crc32_bb_0, '0', digital_protocol_formatter_bb_0, '0']
 - [digital_protocol_formatter_bb_0, '0', blocks_tagged_stream_mux_0, '0']
-- [digital_protocol_formatter_bb_0, '0', blocks_uchar_to_float_1_0, '0']
 
 metadata:
   file_format: 1
+  grc_version: 3.10.4.0

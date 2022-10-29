@@ -3,7 +3,7 @@ from Crypto.Random import get_random_bytes
 from Crypto.Cipher import AES, PKCS1_OAEP
 
 #Importa el archivo a cifrar
-data = open("data.bin", "rb")
+data = open("data_r.bin", "rb")
 datos = data.read()
 
 # Crea el archivo en donde se va a guardar el texto cifrado
