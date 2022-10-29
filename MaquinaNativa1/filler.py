@@ -3,9 +3,9 @@ import math
 import secrets #Librería que emplea números aleatorios para criptografía
 
 #Consulta el tamaño del archivo
-file_size = os.path.getsize(r'encrypted_data.bin') 
+file_size = os.path.getsize(r'data.bin') 
 
-fileSizeConcat = math.ceil(file_size / 256) * 256
+fileSizeConcat = math.ceil(file_size / 224) * 224
 #print(fileSizeConcat)
 
 #Determina el tamaño de relleno
@@ -20,7 +20,7 @@ print(f'Numero aleatorio: {random_number}')
 print(f'Caracter aleatorio: {chr(random_number)}')
 
 #Genera un número de carácteres del tamaño de relleno
-concat = (chr(random_number))*(sizeConcat+1)
+concat = (chr(random_number))*(sizeConcat)
 #print(concat)
 
 #Convierte el relleno en bytes
@@ -28,12 +28,12 @@ concat2 = bytes(concat, encoding='utf-8')
 #print(concat2)
 
 #Lee el archivo sin relleno
-with open("encrypted_data.bin","rb") as f1:
+with open("data.bin","rb") as f1:
     data = f1.read()
 
 #Concatena el contenido del archivo y el relleno
 data = data + concat2
 
 #Sobrescribe el archivo con el relleno
-with open("encrypted_data_r.bin","wb") as f1:
+with open("data_r.bin","wb") as f1:
     data = f1.write(data)
