@@ -246,7 +246,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [608, 516.0]
+    coordinate: [696, 524.0]
     rotation: 180
     state: enabled
 - name: blocks_float_to_char_0
@@ -295,25 +295,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1088, 532.0]
-    rotation: 180
-    state: enabled
-- name: blocks_tagged_stream_align_0
-  id: blocks_tagged_stream_align
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    lengthtagname: packet_len
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    type: byte
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1088, 444.0]
+    coordinate: [1072, 444.0]
     rotation: 0
     state: enabled
 - name: blocks_threshold_ff_0
@@ -334,6 +316,21 @@ blocks:
     coordinate: [528, 356.0]
     rotation: 0
     state: enabled
+- name: blocks_uchar_to_float_0
+  id: blocks_uchar_to_float
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1048, 392.0]
+    rotation: 180
+    state: true
 - name: digital_clock_recovery_mm_xx_0
   id: digital_clock_recovery_mm_xx
   parameters:
@@ -355,6 +352,25 @@ blocks:
     coordinate: [728, 252.0]
     rotation: 0
     state: enabled
+- name: digital_correlate_access_code_tag_xx_0
+  id: digital_correlate_access_code_tag_xx
+  parameters:
+    access_code: '11001100101001010100110111110101'
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    tagname: packet_len
+    threshold: '0'
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [800, 464.0]
+    rotation: 0
+    state: true
 - name: digital_correlate_access_code_xx_ts_0
   id: digital_correlate_access_code_xx_ts
   parameters:
@@ -371,15 +387,15 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [776, 428.0]
+    coordinate: [760, 412.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: digital_crc32_bb_0
   id: digital_crc32_bb
   parameters:
     affinity: ''
     alias: ''
-    check: 'False'
+    check: 'True'
     comment: ''
     lengthtagname: '"packet_len"'
     maxoutbuf: '0'
@@ -389,9 +405,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [832, 516.0]
+    coordinate: [944, 524.0]
     rotation: 180
-    state: true
+    state: bypassed
 - name: qtgui_const_sink_x_0
   id: qtgui_const_sink_x
   parameters:
@@ -539,7 +555,7 @@ blocks:
     marker9: '-1'
     name: "Se\xF1al decimada filtrada"
     nconnections: '1'
-    size: '1024'
+    size: '128'
     srate: samp_rate
     stemplot: 'True'
     style1: '1'
@@ -1314,16 +1330,18 @@ connections:
 - [band_pass_filter_0, '0', qtgui_time_sink_x_1, '0']
 - [blocks_complex_to_float_0, '0', qtgui_time_sink_x_1_0, '0']
 - [blocks_complex_to_mag_squared_0, '0', band_pass_filter_0, '0']
+- [blocks_float_to_char_0, '0', digital_correlate_access_code_tag_xx_0, '0']
 - [blocks_float_to_char_0, '0', digital_correlate_access_code_xx_ts_0, '0']
 - [blocks_float_to_complex_0, '0', qtgui_const_sink_x_0, '0']
+- [blocks_pack_k_bits_bb_0, '0', blocks_uchar_to_float_0, '0']
 - [blocks_pack_k_bits_bb_0, '0', digital_crc32_bb_0, '0']
-- [blocks_tagged_stream_align_0, '0', blocks_pack_k_bits_bb_0, '0']
 - [blocks_threshold_ff_0, '0', blocks_float_to_complex_0, '0']
 - [blocks_threshold_ff_0, '0', digital_clock_recovery_mm_xx_0, '0']
 - [blocks_threshold_ff_0, '0', qtgui_time_sink_x_0_0, '0']
+- [blocks_uchar_to_float_0, '0', qtgui_time_sink_x_0, '0']
 - [digital_clock_recovery_mm_xx_0, '0', blocks_float_to_char_0, '0']
-- [digital_clock_recovery_mm_xx_0, '0', qtgui_time_sink_x_0, '0']
-- [digital_correlate_access_code_xx_ts_0, '0', blocks_tagged_stream_align_0, '0']
+- [digital_correlate_access_code_tag_xx_0, '0', blocks_pack_k_bits_bb_0, '0']
+- [digital_correlate_access_code_xx_ts_0, '0', blocks_pack_k_bits_bb_0, '0']
 - [digital_crc32_bb_0, '0', blocks_file_sink_0, '0']
 - [uhd_usrp_source_0, '0', blocks_complex_to_float_0, '0']
 - [uhd_usrp_source_0, '0', blocks_complex_to_mag_squared_0, '0']
