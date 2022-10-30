@@ -7,7 +7,7 @@
 # GNU Radio Python Flow Graph
 # Title: USRP_TX_2
 # Author: alex
-# GNU Radio version: 3.10.1.1
+# GNU Radio version: 3.10.4.0
 
 from packaging.version import Version as StrictVersion
 
@@ -240,8 +240,8 @@ class USRP_TX_2(gr.top_block, Qt.QWidget):
             None # parent
         )
         self.qtgui_const_sink_x_0.set_update_time(0.10)
-        self.qtgui_const_sink_x_0.set_y_axis(-2, 2)
-        self.qtgui_const_sink_x_0.set_x_axis(-2, 2)
+        self.qtgui_const_sink_x_0.set_y_axis((-2), 2)
+        self.qtgui_const_sink_x_0.set_x_axis((-2), 2)
         self.qtgui_const_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
         self.qtgui_const_sink_x_0.enable_autoscale(True)
         self.qtgui_const_sink_x_0.enable_grid(True)
@@ -306,7 +306,7 @@ class USRP_TX_2(gr.top_block, Qt.QWidget):
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
         self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/alex/Documents/ProgrammingProject/MaquinaNativa1/encrypted_data_r.bin', False, 0, 0)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
-        self.analog_sig_source_x_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, Rs*4, 1, 0, 0)
+        self.analog_sig_source_x_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, (Rs*4), 1, 0, 0)
 
 
         ##################################################
@@ -391,7 +391,7 @@ class USRP_TX_2(gr.top_block, Qt.QWidget):
     def set_Rs(self, Rs):
         self.Rs = Rs
         self.set_samp_rate(self.Rs*self.Sps*2)
-        self.analog_sig_source_x_0.set_frequency(self.Rs*4)
+        self.analog_sig_source_x_0.set_frequency((self.Rs*4))
 
     def get_samp_rate(self):
         return self.samp_rate
