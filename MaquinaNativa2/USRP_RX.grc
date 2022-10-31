@@ -41,7 +41,9 @@ blocks:
     label: ''
     min_len: '200'
     orient: QtCore.Qt.Horizontal
+    outputmsgname: value
     rangeType: float
+    showports: 'False'
     start: '0'
     step: '10'
     stop: '1000'
@@ -194,7 +196,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [384, 172.0]
+    coordinate: [384, 212.0]
     rotation: 0
     state: enabled
 - name: blocks_complex_to_float_0
@@ -210,7 +212,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [280, 136.0]
+    coordinate: [392, 144.0]
     rotation: 0
     state: disabled
 - name: blocks_complex_to_mag_squared_0
@@ -226,7 +228,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [208, 304.0]
+    coordinate: [184, 296.0]
     rotation: 0
     state: true
 - name: blocks_file_sink_0
@@ -244,7 +246,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [184, 356.0]
+    coordinate: [176, 372.0]
     rotation: 180
     state: enabled
 - name: blocks_float_to_char_0
@@ -261,7 +263,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [792, 372.0]
+    coordinate: [792, 388.0]
     rotation: 180
     state: enabled
 - name: blocks_float_to_complex_0
@@ -293,7 +295,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [400, 372.0]
+    coordinate: [400, 388.0]
     rotation: 180
     state: enabled
 - name: blocks_threshold_ff_0
@@ -311,7 +313,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [560, 260.0]
+    coordinate: [592, 252.0]
     rotation: 0
     state: enabled
 - name: digital_clock_recovery_mm_xx_0
@@ -332,7 +334,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [728, 244.0]
+    coordinate: [752, 236.0]
     rotation: 0
     state: enabled
 - name: digital_correlate_access_code_tag_xx_0
@@ -351,7 +353,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [544, 356.0]
+    coordinate: [544, 372.0]
     rotation: 180
     state: true
 - name: digital_correlate_access_code_xx_ts_0
@@ -559,7 +561,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [952, 204.0]
+    coordinate: [992, 220.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0_0
@@ -619,7 +621,7 @@ blocks:
     nconnections: '1'
     size: '1024'
     srate: samp_rate
-    stemplot: 'False'
+    stemplot: 'True'
     style1: '1'
     style10: '1'
     style2: '1'
@@ -656,7 +658,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [768, 148.0]
+    coordinate: [912, 68.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_1
@@ -716,7 +718,7 @@ blocks:
     nconnections: '1'
     size: '64'
     srate: samp_rate
-    stemplot: 'True'
+    stemplot: 'False'
     style1: '1'
     style10: '1'
     style2: '1'
@@ -753,7 +755,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [576, 148.0]
+    coordinate: [744, 140.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_1_0
@@ -850,7 +852,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1008, 76.0]
+    coordinate: [1088, 100.0]
     rotation: 0
     state: disabled
 - name: uhd_usrp_source_0
@@ -1311,4 +1313,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.3.0
+  grc_version: 3.10.4.0

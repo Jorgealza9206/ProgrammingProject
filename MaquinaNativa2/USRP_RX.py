@@ -151,7 +151,7 @@ class USRP_RX(gr.top_block, Qt.QWidget):
         self.qtgui_time_sink_x_1.enable_grid(True)
         self.qtgui_time_sink_x_1.enable_axis_labels(True)
         self.qtgui_time_sink_x_1.enable_control_panel(True)
-        self.qtgui_time_sink_x_1.enable_stem_plot(True)
+        self.qtgui_time_sink_x_1.enable_stem_plot(False)
 
 
         labels = ['Señal Recibida', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
@@ -199,7 +199,7 @@ class USRP_RX(gr.top_block, Qt.QWidget):
         self.qtgui_time_sink_x_0_0.enable_grid(True)
         self.qtgui_time_sink_x_0_0.enable_axis_labels(True)
         self.qtgui_time_sink_x_0_0.enable_control_panel(True)
-        self.qtgui_time_sink_x_0_0.enable_stem_plot(False)
+        self.qtgui_time_sink_x_0_0.enable_stem_plot(True)
 
 
         labels = ['Señal cuadrada', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
@@ -279,7 +279,6 @@ class USRP_RX(gr.top_block, Qt.QWidget):
         self.Widget_layout_1.addWidget(self._qtgui_time_sink_x_0_win)
         self.digital_correlate_access_code_tag_xx_0 = digital.correlate_access_code_tag_bb('11001100101001010100110111110101', 0, 'packet_len')
         self.digital_clock_recovery_mm_xx_0 = digital.clock_recovery_mm_ff((sps*(1+0.0)), (0.25*0.175*0.175), 0.5, 0.175, 0.125)
-        self.blocks_uchar_to_float_0 = blocks.uchar_to_float()
         self.blocks_threshold_ff_0 = blocks.threshold_ff(low, high, 0)
         self.blocks_pack_k_bits_bb_0 = blocks.pack_k_bits_bb(8)
         self.blocks_float_to_char_0 = blocks.float_to_char(1, 1)
@@ -310,11 +309,10 @@ class USRP_RX(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_complex_to_mag_squared_0, 0), (self.band_pass_filter_0, 0))
         self.connect((self.blocks_float_to_char_0, 0), (self.digital_correlate_access_code_tag_xx_0, 0))
         self.connect((self.blocks_pack_k_bits_bb_0, 0), (self.blocks_file_sink_0, 0))
-        self.connect((self.blocks_pack_k_bits_bb_0, 0), (self.blocks_uchar_to_float_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.digital_clock_recovery_mm_xx_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.qtgui_time_sink_x_0_0, 0))
-        self.connect((self.blocks_uchar_to_float_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.digital_clock_recovery_mm_xx_0, 0), (self.blocks_float_to_char_0, 0))
+        self.connect((self.digital_clock_recovery_mm_xx_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.digital_correlate_access_code_tag_xx_0, 0), (self.blocks_pack_k_bits_bb_0, 0))
         self.connect((self.uhd_usrp_source_0, 0), (self.blocks_complex_to_mag_squared_0, 0))
 
