@@ -7,7 +7,7 @@
 # GNU Radio Python Flow Graph
 # Title: USRP_4 M-PSK
 # Description: https://www.youtube.com/watch?v=2rsu-c26Tqo
-# GNU Radio version: 3.10.4.0
+# GNU Radio version: 3.10.3.0
 
 from packaging.version import Version as StrictVersion
 
@@ -112,6 +112,11 @@ class USRP(gr.top_block, Qt.QWidget):
         self.Widget_grid_layout_2 = Qt.QGridLayout()
         self.Widget_layout_2.addLayout(self.Widget_grid_layout_2)
         self.Widget.addTab(self.Widget_widget_2, 'Diagrama de constelaciones')
+        self.Widget_widget_3 = Qt.QWidget()
+        self.Widget_layout_3 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Widget_widget_3)
+        self.Widget_grid_layout_3 = Qt.QGridLayout()
+        self.Widget_layout_3.addLayout(self.Widget_grid_layout_3)
+        self.Widget.addTab(self.Widget_widget_3, 'Después de Repeat')
         self.top_grid_layout.addWidget(self.Widget, 0, 0, 1, 7)
         for r in range(0, 1):
             self.top_grid_layout.setRowStretch(r, 1)
@@ -216,47 +221,6 @@ class USRP(gr.top_block, Qt.QWidget):
 
         self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.qwidget(), Qt.QWidget)
         self.Widget_layout_0.addWidget(self._qtgui_time_sink_x_0_win)
-        self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
-            1024, #size
-            "Diagrama de constelaciones", #name
-            1, #number of inputs
-            None # parent
-        )
-        self.qtgui_const_sink_x_0.set_update_time(0.10)
-        self.qtgui_const_sink_x_0.set_y_axis((-2), 2)
-        self.qtgui_const_sink_x_0.set_x_axis((-2), 2)
-        self.qtgui_const_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
-        self.qtgui_const_sink_x_0.enable_autoscale(True)
-        self.qtgui_const_sink_x_0.enable_grid(True)
-        self.qtgui_const_sink_x_0.enable_axis_labels(True)
-
-
-        labels = ['', '', '', '', '',
-            '', '', '', '', '']
-        widths = [1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1]
-        colors = ["blue", "red", "red", "red", "red",
-            "red", "red", "red", "red", "red"]
-        styles = [0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0]
-        markers = [0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0]
-        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
-            1.0, 1.0, 1.0, 1.0, 1.0]
-
-        for i in range(1):
-            if len(labels[i]) == 0:
-                self.qtgui_const_sink_x_0.set_line_label(i, "Data {0}".format(i))
-            else:
-                self.qtgui_const_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_const_sink_x_0.set_line_width(i, widths[i])
-            self.qtgui_const_sink_x_0.set_line_color(i, colors[i])
-            self.qtgui_const_sink_x_0.set_line_style(i, styles[i])
-            self.qtgui_const_sink_x_0.set_line_marker(i, markers[i])
-            self.qtgui_const_sink_x_0.set_line_alpha(i, alphas[i])
-
-        self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.qwidget(), Qt.QWidget)
-        self.Widget_layout_2.addWidget(self._qtgui_const_sink_x_0_win)
         # Create the options list
         self._module_options = [((0.77+0.77j), (-0.77+0.77j), (-0.77-0.77j), (0.77-0.77j)), (0, 1)]
         # Create the labels list
@@ -278,21 +242,16 @@ class USRP(gr.top_block, Qt.QWidget):
         for c in range(7, 8):
             self.top_grid_layout.setColumnStretch(c, 1)
         self.digital_protocol_formatter_bb_0 = digital.protocol_formatter_bb(PHG, "packet_len")
-        self.digital_correlate_access_code_xx_ts_0 = digital.correlate_access_code_bb_ts('11001100101001010100110111110101',
-          0, 'packet_len')
         self.blocks_unpack_k_bits_bb_0 = blocks.unpack_k_bits_bb(8)
         self.blocks_uchar_to_float_1_0 = blocks.uchar_to_float()
         self.blocks_uchar_to_float_1 = blocks.uchar_to_float()
         self.blocks_tagged_stream_mux_0 = blocks.tagged_stream_mux(gr.sizeof_char*1, 'packet_len', 0)
         self.blocks_stream_to_tagged_stream_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, 256, "packet_len")
         self.blocks_repeat_0 = blocks.repeat(gr.sizeof_char*1, Sps)
-        self.blocks_pack_k_bits_bb_0 = blocks.pack_k_bits_bb(8)
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/alex/Documents/ProgrammingProject/MaquinaNativa1/encrypted_data.bin', False, 0, 0)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, 'G:\\My Drive\\ProgrammingProject\\MaquinaNativa1\\encrypted_data.bin', True, 0, 0)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/alex/Documents/ProgrammingProject/MaquinaNativa1/encrypted_data_rr.bin', False)
-        self.blocks_file_sink_0.set_unbuffered(False)
         self.analog_sig_source_x_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, (Rs*4), 1, 0, 0)
 
 
@@ -302,20 +261,16 @@ class USRP(gr.top_block, Qt.QWidget):
         self.connect((self.analog_sig_source_x_0, 0), (self.blocks_multiply_xx_0, 1))
         self.connect((self.blocks_file_source_0, 0), (self.blocks_stream_to_tagged_stream_0, 0))
         self.connect((self.blocks_float_to_complex_0, 0), (self.blocks_multiply_xx_0, 0))
-        self.connect((self.blocks_float_to_complex_0, 0), (self.qtgui_const_sink_x_0, 0))
         self.connect((self.blocks_float_to_complex_0, 0), (self.qtgui_time_sink_x_0, 1))
         self.connect((self.blocks_multiply_xx_0, 0), (self.qtgui_time_sink_x_0, 0))
-        self.connect((self.blocks_pack_k_bits_bb_0, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.blocks_repeat_0, 0), (self.blocks_uchar_to_float_1, 0))
         self.connect((self.blocks_stream_to_tagged_stream_0, 0), (self.blocks_tagged_stream_mux_0, 1))
         self.connect((self.blocks_stream_to_tagged_stream_0, 0), (self.digital_protocol_formatter_bb_0, 0))
-        self.connect((self.blocks_tagged_stream_mux_0, 0), (self.blocks_uchar_to_float_1_0, 0))
         self.connect((self.blocks_tagged_stream_mux_0, 0), (self.blocks_unpack_k_bits_bb_0, 0))
         self.connect((self.blocks_uchar_to_float_1, 0), (self.blocks_float_to_complex_0, 0))
         self.connect((self.blocks_uchar_to_float_1_0, 0), (self.qtgui_time_sink_x_1, 0))
         self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.blocks_repeat_0, 0))
-        self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.digital_correlate_access_code_xx_ts_0, 0))
-        self.connect((self.digital_correlate_access_code_xx_ts_0, 0), (self.blocks_pack_k_bits_bb_0, 0))
+        self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.blocks_uchar_to_float_1_0, 0))
         self.connect((self.digital_protocol_formatter_bb_0, 0), (self.blocks_tagged_stream_mux_0, 0))
 
 

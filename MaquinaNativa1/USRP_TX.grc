@@ -56,7 +56,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [376, 76.0]
+    coordinate: [384, 100.0]
     rotation: 0
     state: true
 - name: Rb
@@ -216,19 +216,19 @@ blocks:
     label18: Tab 18
     label19: Tab 19
     label2: Diagrama de constelaciones
-    label3: Antes de Chunks
+    label3: "Despu\xE9s de Repeat"
     label4: Antes de Desempaquetar
     label5: Tab 5
     label6: Tab 6
     label7: Tab 7
     label8: Tab 8
     label9: Tab 9
-    num_tabs: '3'
+    num_tabs: '4'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [560, 60.0]
+    coordinate: [568, 60.0]
     rotation: 0
     state: true
 - name: analog_sig_source_x_0
@@ -250,7 +250,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [576, 340.0]
+    coordinate: [584, 388.0]
     rotation: 0
     state: true
 - name: blocks_file_source_0
@@ -260,19 +260,19 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/encrypted_data.bin
+    file: G:\My Drive\ProgrammingProject\MaquinaNativa1\encrypted_data.bin
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
     offset: '0'
-    repeat: 'False'
+    repeat: 'True'
     type: byte
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [24, 372.0]
+    coordinate: [24, 380.0]
     rotation: 0
     state: enabled
 - name: blocks_float_to_complex_0
@@ -288,7 +288,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [672, 184.0]
+    coordinate: [720, 272.0]
     rotation: 0
     state: true
 - name: blocks_multiply_xx_0
@@ -306,9 +306,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [776, 312.0]
+    coordinate: [800, 400.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: blocks_repeat_0
   id: blocks_repeat
   parameters:
@@ -324,7 +324,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [512, 268.0]
+    coordinate: [560, 324.0]
     rotation: 0
     state: true
 - name: blocks_stream_to_tagged_stream_0
@@ -343,7 +343,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [40, 268.0]
+    coordinate: [48, 300.0]
     rotation: 0
     state: true
 - name: blocks_tagged_stream_mux_0
@@ -363,7 +363,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [240, 328.0]
+    coordinate: [288, 296.0]
     rotation: 0
     state: true
 - name: blocks_uchar_to_float_1
@@ -378,7 +378,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [672, 272.0]
+    coordinate: [560, 272.0]
     rotation: 0
     state: true
 - name: blocks_uchar_to_float_1_0
@@ -393,7 +393,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [312, 416.0]
+    coordinate: [248, 432.0]
     rotation: 0
     state: true
 - name: blocks_unpack_k_bits_bb_0
@@ -409,7 +409,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [336, 268.0]
+    coordinate: [360, 244.0]
     rotation: 0
     state: enabled
 - name: digital_protocol_formatter_bb_0
@@ -426,7 +426,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [176, 196.0]
+    coordinate: [112, 236.0]
     rotation: 0
     state: true
 - name: import_0
@@ -544,9 +544,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [896, 268.0]
+    coordinate: [928, 268.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: qtgui_time_sink_x_0
   id: qtgui_time_sink_x
   parameters:
@@ -641,9 +641,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [912, 172.0]
+    coordinate: [936, 172.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: qtgui_time_sink_x_1
   id: qtgui_time_sink_x
   parameters:
@@ -738,7 +738,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [424, 436.0]
+    coordinate: [408, 412.0]
     rotation: 0
     state: true
 - name: uhd_usrp_sink_0
@@ -1015,7 +1015,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [912, 340.0]
+    coordinate: [952, 364.0]
     rotation: 0
     state: disabled
 
@@ -1030,13 +1030,13 @@ connections:
 - [blocks_repeat_0, '0', blocks_uchar_to_float_1, '0']
 - [blocks_stream_to_tagged_stream_0, '0', blocks_tagged_stream_mux_0, '1']
 - [blocks_stream_to_tagged_stream_0, '0', digital_protocol_formatter_bb_0, '0']
-- [blocks_tagged_stream_mux_0, '0', blocks_uchar_to_float_1_0, '0']
 - [blocks_tagged_stream_mux_0, '0', blocks_unpack_k_bits_bb_0, '0']
 - [blocks_uchar_to_float_1, '0', blocks_float_to_complex_0, '0']
 - [blocks_uchar_to_float_1_0, '0', qtgui_time_sink_x_1, '0']
 - [blocks_unpack_k_bits_bb_0, '0', blocks_repeat_0, '0']
+- [blocks_unpack_k_bits_bb_0, '0', blocks_uchar_to_float_1_0, '0']
 - [digital_protocol_formatter_bb_0, '0', blocks_tagged_stream_mux_0, '0']
 
 metadata:
   file_format: 1
-  grc_version: 3.10.4.0
+  grc_version: 3.10.3.0
