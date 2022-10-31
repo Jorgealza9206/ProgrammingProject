@@ -37,6 +37,8 @@ import signal
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
+from gnuradio import uhd
+import time
 import math
 import numpy
 
@@ -122,6 +124,21 @@ class USRP(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(0, 7):
             self.top_grid_layout.setColumnStretch(c, 1)
+        self.uhd_usrp_sink_0 = uhd.usrp_sink(
+            ",".join(("", '')),
+            uhd.stream_args(
+                cpu_format="fc32",
+                args='',
+                channels=list(range(0,1)),
+            ),
+            '',
+        )
+        self.uhd_usrp_sink_0.set_samp_rate(samp_rate)
+        self.uhd_usrp_sink_0.set_time_now(uhd.time_spec(time.time()), uhd.ALL_MBOARDS)
+
+        self.uhd_usrp_sink_0.set_center_freq(830e6, 0)
+        self.uhd_usrp_sink_0.set_antenna("TX/RX", 0)
+        self.uhd_usrp_sink_0.set_gain(0, 0)
         self.qtgui_time_sink_x_1 = qtgui.time_sink_f(
             128, #size
             samp_rate, #samp_rate
@@ -263,6 +280,7 @@ class USRP(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_float_to_complex_0, 0), (self.blocks_multiply_xx_0, 0))
         self.connect((self.blocks_float_to_complex_0, 0), (self.qtgui_time_sink_x_0, 1))
         self.connect((self.blocks_multiply_xx_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.blocks_multiply_xx_0, 0), (self.uhd_usrp_sink_0, 0))
         self.connect((self.blocks_repeat_0, 0), (self.blocks_uchar_to_float_1, 0))
         self.connect((self.blocks_stream_to_tagged_stream_0, 0), (self.blocks_tagged_stream_mux_0, 1))
         self.connect((self.blocks_stream_to_tagged_stream_0, 0), (self.digital_protocol_formatter_bb_0, 0))
@@ -344,6 +362,7 @@ class USRP(gr.top_block, Qt.QWidget):
         self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_1.set_samp_rate(self.samp_rate)
+        self.uhd_usrp_sink_0.set_samp_rate(self.samp_rate)
 
     def get_h(self):
         return self.h

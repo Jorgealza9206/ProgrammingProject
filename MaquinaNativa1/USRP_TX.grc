@@ -1017,7 +1017,7 @@ blocks:
     bus_structure: null
     coordinate: [952, 364.0]
     rotation: 0
-    state: disabled
+    state: enabled
 
 connections:
 - [analog_sig_source_x_0, '0', blocks_multiply_xx_0, '1']
