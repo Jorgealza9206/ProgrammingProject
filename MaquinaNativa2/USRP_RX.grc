@@ -72,7 +72,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '0.004'
+    value: '0.002'
   states:
     bus_sink: false
     bus_source: false
@@ -171,7 +171,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [608, 4.0]
+    coordinate: [616, 4.0]
     rotation: 0
     state: enabled
 - name: band_pass_filter_0
@@ -238,7 +238,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: /home/proyecto2/Documentos/ProgrammingProject/MaquinaNativa2/encrypted_data_r.bin
+    file: /home/proyecto2/Documentos/ProgrammingProject/MaquinaNativa2/encrypted_data.bin
     type: byte
     unbuffered: 'False'
     vlen: '1'
@@ -355,7 +355,7 @@ blocks:
     bus_structure: null
     coordinate: [688, 364.0]
     rotation: 180
-    state: true
+    state: enabled
 - name: qtgui_const_sink_x_0
   id: qtgui_const_sink_x
   parameters:

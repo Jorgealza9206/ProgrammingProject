@@ -6,9 +6,9 @@ exec(open("USRP_RX.py").read())#Recibe la información
 
 start2 = time.process_time()
 
-exec(open("slicer2.py").read())#Quita el relleno de acondicionamiento
+exec(open("Desencryption_2.py").read())#Desencripta la información
 
-exec(open("Desencryption_4.py").read())#Desencripta la información
+exec(open("slicer.py").read())#Quita el relleno de acondicionamiento
 
 end = time.process_time()
 

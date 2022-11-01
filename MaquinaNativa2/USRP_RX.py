@@ -84,7 +84,7 @@ class USRP_RX(gr.top_block, Qt.QWidget):
         self.th = th = 0.0004
         self.symbol_rate = symbol_rate = samp_rate/(sps*2)
         self.low = low = 0.001
-        self.high = high = 0.004
+        self.high = high = 0.002
         self.h = h = 1
         self.amplificador = amplificador = 180
 
@@ -283,7 +283,7 @@ class USRP_RX(gr.top_block, Qt.QWidget):
         self.blocks_threshold_ff_0 = blocks.threshold_ff(low, high, 0)
         self.blocks_pack_k_bits_bb_0 = blocks.pack_k_bits_bb(8)
         self.blocks_float_to_char_0 = blocks.float_to_char(1, 1)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/proyecto2/Documentos/ProgrammingProject/MaquinaNativa2/encrypted_data_r.bin', False)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/proyecto2/Documentos/ProgrammingProject/MaquinaNativa2/encrypted_data.bin', False)
         self.blocks_file_sink_0.set_unbuffered(False)
         self.blocks_complex_to_mag_squared_0 = blocks.complex_to_mag_squared(1)
         self.band_pass_filter_0 = filter.fir_filter_fff(

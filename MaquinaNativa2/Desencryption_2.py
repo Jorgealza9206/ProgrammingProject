@@ -16,7 +16,6 @@ enc_session_key, encrypted_data = \
 # Crea un objeto con el cual descifra la llave de sesión con la llave privada
 cipher_rsa = PKCS1_OAEP.new(private_key)
 # Descifra la llave de sesión
-
 session_key = cipher_rsa.decrypt(enc_session_key) 
 print(session_key)
 
@@ -26,8 +25,7 @@ lon = len(encrypted_data)
 for i in range(0,lon,256):
     try:
         # Desempaqueta la info cada 256 bytes: el nonce, el tag y el texto cifrado
-        nonce, tag, ciphertext = encrypted_data[i:i+16],encrypted_data[i+16:i+32],
-        encrypted_data[i+32:i+256]
+        nonce, tag, ciphertext = encrypted_data[i:i+16],encrypted_data[i+16:i+32], encrypted_data[i+32:i+256]
         # Crea un objeto para descifrar con el nonce traído del archivo encriptado
         cipher_aes = AES.new(session_key, AES.MODE_EAX, nonce)
         # Descifra la información de manera cíclica

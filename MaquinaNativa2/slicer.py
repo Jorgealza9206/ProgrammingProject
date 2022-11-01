@@ -29,19 +29,15 @@ nameFile, data = data[:30],data[30:]
 #Decodifica el nombre de archivo
 nameFile = nameFile.decode("utf-8")
 
-#Busca y recorta el nombre de archivo
-Unnamed = true
 index = 0
 for i in nameFile[::-1]:
     if(i == "/"):
         break
     index = index - 1
-    if(index == -30):
-        Unnamed = false
-        index = -11
 
 #Sobreescribe y cierra el archivo
-if(Unnamed == false):
+if nameFile[-4]!= '.' and nameFile[-5]!= '.':
+    index = -11
     nameFile = "Unnamed.bin"
 file_out = open(nameFile[index:], "wb")
 file_out.write(data)
