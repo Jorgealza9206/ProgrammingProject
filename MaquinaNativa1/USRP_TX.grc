@@ -260,12 +260,12 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: G:\My Drive\ProgrammingProject\MaquinaNativa1\encrypted_data.bin
+    file: /home/alex/Documents/ProgrammingProject/MaquinaNativa1/encrypted_data_r.bin
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
     offset: '0'
-    repeat: 'True'
+    repeat: 'False'
     type: byte
     vlen: '1'
   states:
@@ -336,7 +336,7 @@ blocks:
     len_tag_key: '"packet_len"'
     maxoutbuf: '0'
     minoutbuf: '0'
-    packet_len: '256'
+    packet_len: '255'
     type: byte
     vlen: '1'
   states:
@@ -363,7 +363,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [288, 296.0]
+    coordinate: [288, 304.0]
     rotation: 0
     state: true
 - name: blocks_uchar_to_float_1
@@ -378,7 +378,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [560, 272.0]
+    coordinate: [576, 232.0]
     rotation: 0
     state: true
 - name: blocks_uchar_to_float_1_0
@@ -409,9 +409,27 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [360, 244.0]
+    coordinate: [424, 236.0]
     rotation: 0
     state: enabled
+- name: digital_crc32_bb_1
+  id: digital_crc32_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    check: 'False'
+    comment: ''
+    lengthtagname: '"packet_len"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    packed: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [232, 164.0]
+    rotation: 0
+    state: true
 - name: digital_protocol_formatter_bb_0
   id: digital_protocol_formatter_bb
   parameters:
@@ -1015,7 +1033,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [952, 364.0]
+    coordinate: [936, 420.0]
     rotation: 0
     state: enabled
 
@@ -1030,13 +1048,14 @@ connections:
 - [blocks_repeat_0, '0', blocks_uchar_to_float_1, '0']
 - [blocks_stream_to_tagged_stream_0, '0', blocks_tagged_stream_mux_0, '1']
 - [blocks_stream_to_tagged_stream_0, '0', digital_protocol_formatter_bb_0, '0']
-- [blocks_tagged_stream_mux_0, '0', blocks_unpack_k_bits_bb_0, '0']
+- [blocks_tagged_stream_mux_0, '0', digital_crc32_bb_1, '0']
 - [blocks_uchar_to_float_1, '0', blocks_float_to_complex_0, '0']
 - [blocks_uchar_to_float_1_0, '0', qtgui_time_sink_x_1, '0']
 - [blocks_unpack_k_bits_bb_0, '0', blocks_repeat_0, '0']
 - [blocks_unpack_k_bits_bb_0, '0', blocks_uchar_to_float_1_0, '0']
+- [digital_crc32_bb_1, '0', blocks_unpack_k_bits_bb_0, '0']
 - [digital_protocol_formatter_bb_0, '0', blocks_tagged_stream_mux_0, '0']
 
 metadata:
   file_format: 1
-  grc_version: 3.10.3.0
+  grc_version: 3.10.4.0
