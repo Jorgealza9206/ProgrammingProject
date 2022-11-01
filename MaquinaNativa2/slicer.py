@@ -1,7 +1,5 @@
 import subprocess
 
-from sympy import false, true
-
 index = 0
 data = ""
 
