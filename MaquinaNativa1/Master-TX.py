@@ -6,9 +6,9 @@ start = time.process_time()
 
 exec(open("Des_Public_Key.py").read())
 
-exec(open("Encryption_4.py").read()) #Cifrado híbrido por paquetes de 256 bytes
+exec(open("filler.py").read()) #Acondiciona el archivo para paquetizarlo
 
-exec(open("filler2.py").read()) #Acondiciona el archivo para paquetizarlo
+exec(open("Encryption_2.py").read()) #Cifrado híbrido por paquetes de 256 bytes
 
 end2 = time.process_time()
 
